@@ -32,20 +32,6 @@ function Refresh-Environment {
 }
 
 # Set a permanent Environment variable, and reload it into $env
-function Set-Environment {
-  param(
-    [Parameter(Mandatory = $true)]
-    [string]
-    $Variable,
-
-    [Parameter(Mandatory = $true)]
-    [string]
-    $Value,
-
-    [Parameter(Mandatory = $true)]
-    $Target
-  )
-
-  [Environment]::SetEnvironmentVariable($Variable, $Value, $Target)
-  Refresh-Environment
+function Set-Environment([String]$variable, [String]$value) {
+  [System.Environment]::SetEnvironmentVariable("$variable", "$value")
 }
