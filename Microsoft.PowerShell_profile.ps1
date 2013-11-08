@@ -1,4 +1,5 @@
-"functions","aliases","extras" | Where-Object {Test-Path "$_.ps1"} | ForEach-Object -process {. "./$_.ps1"}
+Push-Location (Split-Path -parent $profile)
+"functions","aliases" | Where-Object {Test-Path "$_.ps1"} | ForEach-Object -process {Invoke-Expression ". .\$_.ps1"}
 
 # Configure Git
 if (Test-Path (Resolve-Path "$env:LOCALAPPDATA\GitHub\")) {
@@ -65,5 +66,5 @@ if (Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7) {
     Set-Alias -name vsadmin -Value Start-VisualStudioAsAdmin
 } else { Write-Output "Visual Studio has not been installed" }
 
-
-
+if (Test-Path "extra.ps1") { & .\extra.ps1 }
+Pop-Location

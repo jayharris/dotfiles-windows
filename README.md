@@ -1,4 +1,4 @@
-# JayHarris's dotfiles for Windows
+﻿# JayHarris's dotfiles for Windows
 
 A collection of PowerShell Profile and dotfiles for Windows.
 
@@ -29,15 +29,15 @@ My `./extra.ps1` looks something like this:
 ```posh
 # Hg credentials
 # Not in the repository, to prevent people from accidentally committing under my name
-Set-Env("EMAIL", "Jay Harris <jay@aranasoft.com>", "User")
+Set-Environment("EMAIL", "Jay Harris <jay@aranasoft.com>", "User")
 
 # Git credentials
 # Not in the repository, to prevent people from accidentally committing under my name
-Set-Env("GIT_AUTHOR_NAME","Jay Harris","User"
-Set-Env("GIT_COMMITTER_NAME", $env:GIT_AUTHOR_NAME, "User")
+Set-Environment("GIT_AUTHOR_NAME","Jay Harris","User")
+Set-Environment("GIT_COMMITTER_NAME", $env:GIT_AUTHOR_NAME, "User")
 git config --global user.name $env:GIT_AUTHOR_NAME
-Set-Env("GIT_AUTHOR_EMAIL","jay@aranasoft.com", "User")
-Set-Env("GIT_COMMITTER_EMAIL",$env:GIT_AUTHOR_EMAIL, "User")
+Set-Environment("GIT_AUTHOR_EMAIL","jay@aranasoft.com", "User")
+Set-Environment("GIT_COMMITTER_EMAIL",$env:GIT_AUTHOR_EMAIL, "User")
 git config --global user.email $env:GIT_AUTHOR_EMAIL
 ```
 
