@@ -1,0 +1,7 @@
+[extensions]
+color =
+purge =
+rebase =
+
+[color]
+mode = win32
