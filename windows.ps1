@@ -20,12 +20,12 @@ Invoke-WebRequest "https://raw.github.com/mauricecruz/chrome-devtools-zerodarkma
 Invoke-WebRequest "https://raw.github.com/mauricecruz/chrome-devtools-zerodarkmatrix-theme/master/Custom-Stable.css" -OutFile "$env:Home\AppData\Local\Google\Chrome\User Data\Default\User StyleSheets\Custom.css"
 
 # Set DisplayName for my account
-$user = Get-WmiObject Win32_UserAccount | Where {$_.Caption -eq $myWindowsID.Name}
+$user = Get-WmiObject Win32_UserAccount | Where {$_.Caption -eq $myIdentity.Name}
 $user.FullName = "Jay Harris"
-$user.Put()
+$user.Put() | Out-Null
 
 # Set Computer Name
-(Get-WmiObject Win32_ComputerSystem).Rename("CHOZO")
+# (Get-WmiObject Win32_ComputerSystem).Rename("CHOZO")
 
 # Configure IIS
 & dism.exe /Online /Enable-Feature /All `
@@ -62,11 +62,40 @@ $user.Put()
     /FeatureName:NetFx4Extended-ASPNET45 | Out-Null
 
 # HKUsers drive for Registry
-New-PSDrive -Name HKUSERS -PSProvider Registry -Root Registry::HKEY_USERS | Out-Null
+if ((Get-PSDrive HKUsers -ErrorAction SilentlyContinue) -eq $null) { New-PSDrive -Name HKUSERS -PSProvider Registry -Root Registry::HKEY_USERS | Out-Null }
 
-# Set Windows Update to auto-download but not auto-install. Don't automatically reboot
-Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate", "AUOptions", 3
-Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate", "NoAutoRebootWithLoggedOnUsers", 1
+# Windows Update: Auto-download but not auto-install
+Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate" "AUOptions" 3
+
+# Windows Update: Don't automatically reboot after install
+Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate" "NoAutoRebootWithLoggedOnUsers" 1
+
+# Windows Update: Opt-In to Microsoft Update
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Services\7971f918-a847-4430-9279-4a52d1efe18d" "RegisterWithAU" 1
+
+# Sound: Disable Startup Sound
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" "DisableStartupSound" 1
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" "DisableStartupSound" 1
+
+# Power: Disable Hibernation
+powercfg /hibernate off
+
+# Explorer: Show hidden files by default (1: Show Files, 2: Hide Files)
+Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Hidden" 1
+
+# Explorer: show file extensions by default (0: Show Extensions, 1: Hide Extensions)
+Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "HideFileExt" 0
+
+# Explorer: show path in title bar
+Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" "FullPath" 1
+
+# Explorer: Avoid creating Thumbs.db files on network volumes
+Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "DisableThumbnailsOnNetworkFolders" 1
+
+# SysTray: hide the Action Center, Network, and Volume icons
+Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCAHealth" 1
+Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCANetwork" 1
+Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCAVolume" 1
 
 
-
+echo "Done. Note that some of these changes require a logout/restart to take effect."
