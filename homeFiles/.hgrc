@@ -1,6 +1,7 @@
 [extensions]
 color =
 purge =
+progress =
 rebase =
 
 [color]
