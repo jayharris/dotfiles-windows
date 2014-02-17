@@ -22,9 +22,10 @@ $user.FullName = $userFullName
 $user.Put() | Out-Null
 
 # Set Computer Name
-(Get-WmiObject Win32_ComputerSystem).Rename($machineName)
+(Get-WmiObject Win32_ComputerSystem).Rename($machineName) | Out-Null
 
 # Configure IIS
+Write-Output "Configuring IIS. This may take a while..."
 & dism.exe /Online /Enable-Feature /All `
     /FeatureName:NetFx3 `
     /FeatureName:IIS-WebServerRole `
@@ -61,14 +62,6 @@ $user.Put() | Out-Null
 # HKUsers drive for Registry
 if ((Get-PSDrive HKUsers -ErrorAction SilentlyContinue) -eq $null) { New-PSDrive -Name HKUSERS -PSProvider Registry -Root Registry::HKEY_USERS | Out-Null }
 
-# Windows Update: Auto-download but not auto-install
-Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate" "AUOptions" 3
-
-# Windows Update: Don't automatically reboot after install
-Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate" "NoAutoRebootWithLoggedOnUsers" 1
-
-# Windows Update: Opt-In to Microsoft Update
-Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Services\7971f918-a847-4430-9279-4a52d1efe18d" "RegisterWithAU" 1
 
 # Sound: Disable Startup Sound
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" "DisableStartupSound" 1
@@ -79,20 +72,48 @@ powercfg /hibernate off
 
 # Explorer: Show hidden files by default (1: Show Files, 2: Hide Files)
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Hidden" 1
-
 # Explorer: show file extensions by default (0: Show Extensions, 1: Hide Extensions)
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "HideFileExt" 0
-
 # Explorer: show path in title bar
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" "FullPath" 1
 
+if (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer -Type Folder | Out-Null}
 # Explorer: Avoid creating Thumbs.db files on network volumes
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "DisableThumbnailsOnNetworkFolders" 1
-
 # SysTray: hide the Action Center, Network, and Volume icons
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCAHealth" 1
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCANetwork" 1
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCAVolume" 1
+
+
+### Accessibility
+### --------------------------
+
+# Turn Off Windows Narrator
+if (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Narrator.exe")) {New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Narrator.exe" -Type Folder | Out-Null}
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Narrator.exe" "Debugger" "%1"
+
+
+### Windows Update
+### --------------------------
+
+$AUSettings = (New-Object -com "Microsoft.Update.AutoUpdate").Settings
+# Windows Update: Auto-Download but not Install. 0=NotConfigured, 1=Disabled, 2=NotifyBeforeDownload, 3=NotifyBeforeInstall, 4=ScheduledInstall
+$AUSettings.NotificationLevel = 3
+# Windows Update: Include Recommended Updates
+$AUSettings.IncludeRecommendedUpdates = $true
+$AUSettings.Save
+Remove-Variable AUSettings
+
+if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate")) {New-Item -Path HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate -Type Folder | Out-Null}
+# Windows Update: Don't automatically reboot after install
+Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate" "NoAutoRebootWithLoggedOnUsers" 1d
+
+# Windows Update: Opt-In to Microsoft Update
+$MU = New-Object -ComObject Microsoft.Update.ServiceManager -Strict 
+$MU.AddService2("7971f918-a847-4430-9279-4a52d1efe18d",7,"")
+Remove-Variable MU
+
 
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
