@@ -7,6 +7,7 @@ if (![System.IO.Directory]::Exists($dotfilesTempDir)) {[System.IO.Directory]::Cr
 $sourceFile = Join-Path $dotfilesTempDir "dotfiles.zip"
 $dotfilesInstallDir = Join-Path $dotfilesTempDir "$repo-$branch"
 
+
 function Download-File {
   param (
     [string]$url,
@@ -46,6 +47,7 @@ function Unzip-File {
 }
 
 Download-File "https://github.com/$account/$repo/archive/$branch.zip" $sourceFile
+if ([System.IO.Directory]::Exists($dotfilesInstallDir)) {[System.IO.Directory]::Delete($dotfilesTempDir, $true)}
 Unzip-File $sourceFile $dotfilesTempDir
 
 Push-Location $dotfilesInstallDir
