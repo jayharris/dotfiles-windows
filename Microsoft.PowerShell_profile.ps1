@@ -28,43 +28,5 @@ if (Test-Path (Resolve-Path "$env:LOCALAPPDATA\GitHub\")) {
     Pop-Location
 } else { Write-Output "GitHub for Windows has not been installed" }
 
-# Configure Visual Studio, using the most recent version installed
-if (Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7) {
-    $vsRegistry = Get-Item hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7
-    $vsinstall = $vsRegistry.property | Sort-Object -Descending | Select-Object -first 1 | ForEach-Object -process {$vsRegistry.GetValue($_)}
-
-    if ((Test-Path $vsinstall) -eq 0) {
-        Write-Error "Unable to find Visual Studio installation"
-    }
-
-    if (($env:Path).Split(";").Contains($vsinstall)) {
-        $env:Path += (";"+$vsinstall)
-    }
-
-    function Start-VisualStudio ([string] $solutionFile) {
-        $devenv = Resolve-Path "$vsInstall\Common7\IDE\devenv.exe"
-        if ($solutionFile) {
-            if (Test-Path ($solutionFile)) {
-                start-process $devenv -ArgumentList $solutionFile
-            }
-        } else {
-            start-process $devenv
-        }
-    }
-    Set-Alias -name vs -Value Start-VisualStudio
-
-    function Start-VisualStudioAsAdmin ([string] $solutionFile) {
-        $devenv = Resolve-Path "$vsInstall\Common7\IDE\devenv.exe"
-        if ($solutionFile) {
-            if (Test-Path ($solutionFile)) {
-                start-process $devenv -ArgumentList $solutionFile -verb "runAs"
-            }
-        } else {
-            start-process $devenv -verb "runAs"
-        }
-    }
-    Set-Alias -name vsadmin -Value Start-VisualStudioAsAdmin
-} else { Write-Output "Visual Studio has not been installed" }
-
 if (Test-Path "extra.ps1") { & .\extra.ps1 }
 Pop-Location
