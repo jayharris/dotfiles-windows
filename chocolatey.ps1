@@ -4,7 +4,9 @@ if ((which cinst) -eq $null) {
 }
 
 cinst curl
-cinst dropbox
+#cinst dropbox
+#cinst evernote
+#cinst filezilla
 cinst githubforwindows
 cinst googlechrome
 cinst googlechrome.Canary
@@ -13,12 +15,13 @@ cinst fiddler
 cinst firefox
 cinst nodejs.install
 cinst opera
-cinst sublimetext2
-# RSAT Package is not compatible w/ Win8.1 Enterprise, yet
-#cinst RSAT.FeaturePack
+#cinst putty
+#cinst ruby
+#cinst skype
+#cinst sublimetext2
+#cinst virtualclonedrive
+#cinst vlc
+#cinst wget
+#cinst wput
 cinst wincommandpaste
 cinst winmerge
-
-# Workaround for RSAT
-#Invoke-WebRequest "http://download.microsoft.com/download/1/8/E/18EA4843-C596-4542-9236-DE46F780806E/Windows8.1-KB2693643-x64.msu" -OutFile "$env:Temp\Windows8.1-KB2693643-x64.msu"
-#& wusa.exe "$env:Temp\Windows8.1-KB2693643-x64.msu" /quiet /norestart | Out-Null
