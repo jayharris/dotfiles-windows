@@ -102,7 +102,7 @@ $AUSettings = (New-Object -com "Microsoft.Update.AutoUpdate").Settings
 $AUSettings.NotificationLevel = 3
 # Windows Update: Include Recommended Updates
 $AUSettings.IncludeRecommendedUpdates = $true
-$AUSettings.Save
+$AUSettings.Save | Out-Null
 Remove-Variable AUSettings
 
 if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate")) {New-Item -Path HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate -Type Folder | Out-Null}
