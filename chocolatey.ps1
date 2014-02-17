@@ -1,7 +1,6 @@
 if ((which cinst) -eq $null) {
     iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
 }
-Refresh-Environment
 
 cinst curl
 cinst Dropbox
