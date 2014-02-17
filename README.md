@@ -8,17 +8,28 @@ Are you a Mac user? Check out my [dotfiles](https://github.com/jayharris/dotfile
 
 ### Using Git and the bootstrap script
 
-You can clone the repository wherever you want. (I like to keep it in `~\Projects\dotfiles-windows`.) The bootstrapper script will pull in the latest version and copy the files to your PSProfile folder.
+You can clone the repository wherever you want. (I like to keep it in `~\Projects\dotfiles-windows`.) The bootstrapper script will copy the files to your PowerShell Profile folder.
 
+From PowerShell:
 ```posh
 git clone https://github.com/jayharris/dotfiles-windows.git; cd dotfiles-windows; . .\bootstrap.ps1
 ```
 
-To update, `cd` into your local `dotfiles-windows` repository and then:
+To update your settings, `cd` into your local `dotfiles-windows` repository within PowerShell and then:
 
 ```posh
 . .\bootstrap.ps1
 ```
+
+### Git-free install
+
+To install these dotfiles from PowerShell without Git:
+
+```bash
+iex ((new-object net.webclient).DownloadString('https://github.com/jayharris/dotfiles-windows/blob/master/setup/install.ps1'))
+```
+
+To update later on, just run that command again.
 
 ### Add custom commands without creating a new fork
 
@@ -45,7 +56,7 @@ You could also use `./extra.ps1` to override settings, functions and aliases fro
 
 ### Configure Windows defaults
 
-When setting up a new Windows PC, you may want to set some Windows defaults:
+When setting up a new Windows PC, you may want to set some Windows defaults and features, such as showing hidden files in Windows Explorer and installing IIS. This will also set your machine name and full user name, so you may want to modify this file before executing.
 
 ```post
 . .\windows.ps1
@@ -53,7 +64,7 @@ When setting up a new Windows PC, you may want to set some Windows defaults:
 
 ### Install Chocolatey packages
 
-When setting up a new Windows box, you may want to install some common [Chocolatey](http://http://chocolatey.org/) packages (it will also install chocolatey, if it isn't already):
+When setting up a new Windows box, you may want to install some common [Chocolatey](http://http://chocolatey.org/) packages (it will also install chocolatey, if it isn't already).
 
 ```posh
 . .\chocolatey.ps1
