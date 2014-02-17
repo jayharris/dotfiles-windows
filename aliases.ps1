@@ -5,6 +5,7 @@ ${function:Set-ParentLocation} = { Set-Location .. }; Set-Alias ".." Set-ParentL
 ${function:...} = { Set-Location ..\.. }
 ${function:....} = { Set-Location ..\..\.. }
 ${function:.....} = { Set-Location ..\..\..\.. }
+${function:......} = { Set-Location ..\..\..\..\.. }
 
 # Navigation Shortcuts
 ${function:dt} = { Set-Location ~\Desktop }
