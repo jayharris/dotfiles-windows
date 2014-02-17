@@ -2,8 +2,8 @@ Push-Location (Split-Path -parent $profile)
 "functions","aliases" | Where-Object {Test-Path "$_.ps1"} | ForEach-Object -process {Invoke-Expression ". .\$_.ps1"}
 
 # Configure Git
-if (Test-Path (Resolve-Path "$env:LOCALAPPDATA\GitHub\")) {
-    Push-Location (Resolve-Path "$env:LOCALAPPDATA\GitHub\")
+if (Test-Path (Join-Path $env:LOCALAPPDATA "GitHub")) {
+    Push-Location (Join-Path $env:LOCALAPPDATA "GitHub"))
     . ".\shell.ps1"
     Push-Location $env:github_posh_git
     Import-Module .\posh-git
