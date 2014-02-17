@@ -26,7 +26,7 @@ To update your settings, `cd` into your local `dotfiles-windows` repository with
 To install these dotfiles from PowerShell without Git:
 
 ```bash
-iex ((new-object net.webclient).DownloadString('https://github.com/jayharris/dotfiles-windows/blob/master/setup/install.ps1'))
+iex ((new-object net.webclient).DownloadString('https://raw.github.com/jayharris/dotfiles-windows/master/setup/install.ps1'))
 ```
 
 To update later on, just run that command again.
