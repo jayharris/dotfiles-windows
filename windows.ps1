@@ -1,3 +1,7 @@
+$machineName    = "CHOZO"
+$userFullName   = "Jay Harris"
+
+
 # Get the ID and security principal of the current user account
 $myIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent()
 $myPrincipal=new-object System.Security.Principal.WindowsPrincipal($myIdentity)
@@ -12,20 +16,13 @@ if (!$myPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Admin
    exit
 }
 
-# Update Chrome & Canary's DevTools to a custom stylesheet
-# Uses: https://github.com/mauricecruz/chrome-devtools-zerodarkmatrix-theme
-# Canary
-Invoke-WebRequest "https://raw.github.com/mauricecruz/chrome-devtools-zerodarkmatrix-theme/master/Custom.css" -OutFile "$env:Home\AppData\Local\Google\Chrome SxS\User Data\Default\User StyleSheets\Custom.css"
-# Chrome
-Invoke-WebRequest "https://raw.github.com/mauricecruz/chrome-devtools-zerodarkmatrix-theme/master/Custom-Stable.css" -OutFile "$env:Home\AppData\Local\Google\Chrome\User Data\Default\User StyleSheets\Custom.css"
-
 # Set DisplayName for my account
 $user = Get-WmiObject Win32_UserAccount | Where {$_.Caption -eq $myIdentity.Name}
-$user.FullName = "Jay Harris"
+$user.FullName = $userFullName
 $user.Put() | Out-Null
 
 # Set Computer Name
-# (Get-WmiObject Win32_ComputerSystem).Rename("CHOZO")
+(Get-WmiObject Win32_ComputerSystem).Rename($machineName)
 
 # Configure IIS
 & dism.exe /Online /Enable-Feature /All `
