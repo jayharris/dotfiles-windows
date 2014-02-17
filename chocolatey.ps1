@@ -4,15 +4,16 @@ if ((which cinst) -eq $null) {
 }
 
 cinst curl
-cinst Dropbox
+cinst dropbox
 cinst githubforwindows
-cinst GoogleChrome
-cinst GoogleChrome.Canary
-cinst Hg
-cinst Fiddler
-cinst Firefox
-cinst Opera
-cinst SublimeText2
+cinst googlechrome
+cinst googlechrome.Canary
+cinst hg
+cinst fiddler
+cinst firefox
+cinst nodejs.install
+cinst opera
+cinst sublimetext2
 # RSAT Package is not compatible w/ Win8.1 Enterprise, yet
 #cinst RSAT.FeaturePack
 cinst wincommandpaste
