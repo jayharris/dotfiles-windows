@@ -26,7 +26,7 @@ if (Test-Path (Join-Path $env:LOCALAPPDATA "GitHub")) {
     Enable-GitColors
     Start-SshAgent -Quiet
     Pop-Location
-} else { Write-Output "GitHub for Windows has not been installed" }
+} else { Write-Verbose "GitHub for Windows has not been installed" }
 
 if (Test-Path "extra.ps1") { & .\extra.ps1 }
 Pop-Location

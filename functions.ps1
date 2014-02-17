@@ -145,4 +145,4 @@ if (Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7) {
         }
     }
     Set-Alias -name vsadmin -Value Start-VisualStudioAsAdmin
-} else { Write-Output "Visual Studio has not been installed" }
+} else { Write-Verbose "Visual Studio has not been installed" }
