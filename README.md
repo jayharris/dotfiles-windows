@@ -1,6 +1,6 @@
 ﻿# JayHarris's dotfiles for Windows
 
-A collection of PowerShell Profile and dotfiles for Windows.
+A collection of PowerShell files for Windows, including common application installation through `Chocolatey` and `npm`, and developer-minded Windows configuration defaults. 
 
 Are you a Mac user? Check out my [dotfiles](https://github.com/jayharris/dotfiles) repository.
 
@@ -56,9 +56,9 @@ Set-Environment("GIT_COMMITTER_EMAIL",$env:GIT_AUTHOR_EMAIL, "User")
 git config --global user.email $env:GIT_AUTHOR_EMAIL
 ```
 
-You could also use `./extra.ps1` to override settings, functions and aliases from my dotfiles repository. It’s probably better to [fork this repository](https://github.com/jayharris/dotfiles-windows/fork) instead, though.
+Extras is designed to augment the existing settings and configuration. You could also use `./extra.ps1` to override settings, functions and aliases from my dotfiles repository, but it is probably better to [fork this repository](#forking-your-own-version).
 
-### Configure Windows defaults
+### Sensible Windows defaults
 
 When setting up a new Windows PC, you may want to set some Windows defaults and features, such as showing hidden files in Windows Explorer and installing IIS. This will also set your machine name and full user name, so you may want to modify this file before executing.
 
@@ -68,16 +68,42 @@ When setting up a new Windows PC, you may want to set some Windows defaults and 
 
 ### Install Chocolatey packages
 
-When setting up a new Windows box, you may want to install some common [Chocolatey](http://http://chocolatey.org/) packages (it will also install chocolatey, if it isn't already).
+When setting up a new Windows box, you may want to install some common [Chocolatey](http://chocolatey.org/) packages (it will also install chocolatey, if it isn't already).
 
 ```posh
 . .\chocolatey.ps1
 ```
 
+### Install Node packages
+
+In addition to the applications provided by Chocolatey, you may also like some common applications that are provided by Node via [NPM](https://www.npmjs.org/). (Node is required, and can be installed via Chocolatey.)
+
+```posh
+. .\npm.ps1
+```
+
+## Forking your own version
+
+This repository is built around how I use Windows, which is predominantly in a VM hosted on OSX. As such, things like VNC or Ruby or FileZilla or Skype are not installed, as they are available to me on the OSX side, installed by my [OSX dotfiles](https://github.com/jayharris/dotfiles). If you are using Windows as your primary OS, you may want a different configuration that reflects that, and I recommend you [fork this repository](https://github.com/jayharris/dotfiles-windows/fork).
+
+If you do fork for your own custom configuration, you will need to touch a few files to reference your own repository, instead of mine.
+
+Within `/setup/install.ps1`, modify the Repository variables.
+```posh
+$account = "jayharris"
+$repo    = "dotfiles-windows"
+$branch  = "master"
+```
+
+Also, be sure to reference your own repository in the git-free installation command.
+```bash
+iex ((new-object net.webclient).DownloadString('https://raw.github.com/$account/$repo/$branch/setup/install.ps1'))
+```
+
 ## Feedback
 
-Suggestions/improvements
-[welcome](https://github.com/jayharris/dotfiles/issues)!
+Suggestions/improvements are
+[welcome and encouraged](https://github.com/jayharris/dotfiles-windows/issues)!
 
 ## Author
 
@@ -87,4 +113,4 @@ Suggestions/improvements
 
 ## Thanks to…
 
-* @[Mathias Bynens](http://mathiasbynens.be/) for his [dotfiles](http://mths.be/dotfiles), which this repository is modeled after.
+* @[Mathias Bynens](http://mathiasbynens.be/) for his [OSX dotfiles](http://mths.be/dotfiles), which this repository is modeled after.
