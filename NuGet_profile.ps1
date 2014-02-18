@@ -16,9 +16,7 @@ function Reinstall-Package {
     $Force
   )
 
-  if (-not $ProjectName) {
-    $ProjectName = (get-project).ProjectName
-  }
+  if (-not $ProjectName) { $ProjectName = (get-project).ProjectName }
 
   Uninstall-Package -ProjectName $ProjectName -Id $Id -Force:$Force
   Install-Package -ProjectName $ProjectName -Id $Id -Version $Version
@@ -28,6 +26,7 @@ function Reinstall-Package {
 if ((Get-Module -ListAvailable StudioShell) -ne $null) {
   Import-Module StudioShell
 
+  <#
   function Reset-MultiMonitor {
     invoke-item DTE:\WindowConfigurations\MultiMonitor
   }
@@ -42,5 +41,6 @@ if ((Get-Module -ListAvailable StudioShell) -ne $null) {
     reset-singlemonitor
   }
   Remove-Variable $localMonitors
+  #>
 }
 
