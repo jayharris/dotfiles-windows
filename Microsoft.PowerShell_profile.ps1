@@ -30,7 +30,7 @@ if (Test-Path (Join-Path $env:LOCALAPPDATA "GitHub")) {
 }
 
 # Configure Visual Studio
-if (Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7 -or Test-Path hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7) {
+if ((Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7) -or (Test-Path hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7)) {
     $vsRegistry = Get-Item hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7 -ErrorAction SilentlyContinue
     if ($vsRegistry -eq $null) { $vsRegistry = Get-Item hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7 }
     $vsVersion  = $vsRegistry.property | Sort-Object -Descending | Select-Object -first 1
@@ -58,15 +58,15 @@ if (Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7 -or Test-Path hklm:\
     Append-EnvPathIfExists (Join-Path ${env:ProgramFiles(x86)} "HTML Help Workshop")
 
 
-    if (Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VC7 -or Test-Path hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VC7) {
+    if ((Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VC7) -or (Test-Path hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VC7)) {
         $vcRegistry = Get-Item hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VC7 -ErrorAction SilentlyContinue
         if ($vcRegistry -eq $null) { $vcRegistry = Get-Item hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VC7 }
-        $env:VCINSTALLDIR   = $vsRegistry.GetValue($vsVersion)
-        $env:FrameworkDir32 = $vsRegistry.GetValue("FrameworkDir32")
-        $env:FrameworkDir64 = $vsRegistry.GetValue("FrameworkDir64")
+        $env:VCINSTALLDIR   = $vcRegistry.GetValue($vsVersion)
+        $env:FrameworkDir32 = $vcRegistry.GetValue("FrameworkDir32")
+        $env:FrameworkDir64 = $vcRegistry.GetValue("FrameworkDir64")
         $env:FrameworkDir   = $env:FrameworkDir32
-        $env:FrameworkVersion32 = $vsRegistry.GetValue("FrameworkVer32")
-        $env:FrameworkVersion64 = $vsRegistry.GetValue("FrameworkVer64")
+        $env:FrameworkVersion32 = $vcRegistry.GetValue("FrameworkVer32")
+        $env:FrameworkVersion64 = $vcRegistry.GetValue("FrameworkVer64")
         $env:FrameworkVersion   = $env:FrameworkVersion32
 
         Append-EnvPathIfExists (Join-Path $env:FrameworkDir $env:Framework40Version)
@@ -74,23 +74,23 @@ if (Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7 -or Test-Path hklm:\
         Append-EnvPathIfExists (Join-Path $env:VCINSTALLDIR "VCPackages")
         Append-EnvPathIfExists (Join-Path $env:VCINSTALLDIR "bin")
 
-        if (Test-Path (Join-Path $env:VCINSTALLDIR "ATLMFC\INCLUDE")) { $env:INCLUDE = $env:INCLUDE + ";" + Join-Path $env:VCINSTALLDIR "ATLMFC\LIB" }
-        if (Test-Path (Join-Path $env:VCINSTALLDIR "INCLUDE")) { $env:INCLUDE = $env:INCLUDE + ";" + Join-Path $env:VCINSTALLDIR "LIB" }
+        if (Test-Path (Join-Path $env:VCINSTALLDIR "ATLMFC\INCLUDE")) { $env:INCLUDE = $env:INCLUDE + ";" + $(Join-Path $env:VCINSTALLDIR "ATLMFC\LIB") }
+        if (Test-Path (Join-Path $env:VCINSTALLDIR "INCLUDE")) { $env:INCLUDE = $env:INCLUDE + ";" + $(Join-Path $env:VCINSTALLDIR "LIB") }
 
         if (Test-Path (Join-Path $env:VCINSTALLDIR "ATLMFC\LIB")) {
-            $env:LIB = $env:LIB + ";" + Join-Path $env:VCINSTALLDIR "ATLMFC\LIB"
-            $env:LIBPATH = $env:LIBPATH + ";" + Join-Path $env:VCINSTALLDIR "ATLMFC\LIB"
+            $env:LIB = $env:LIB + ";" + $(Join-Path $env:VCINSTALLDIR "ATLMFC\LIB")
+            $env:LIBPATH = $env:LIBPATH + ";" + $(Join-Path $env:VCINSTALLDIR "ATLMFC\LIB")
         }
         if (Test-Path (Join-Path $env:VCINSTALLDIR "LIB")) {
-            $env:LIB = $env:LIB + ";" + Join-Path $env:VCINSTALLDIR "LIB"
-            $env:LIBPATH = $env:LIBPATH + ";" + Join-Path $env:VCINSTALLDIR "LIB"
+            $env:LIB = $env:LIB + ";" + $(Join-Path $env:VCINSTALLDIR "LIB")
+            $env:LIBPATH = $env:LIBPATH + ";" + $(Join-Path $env:VCINSTALLDIR "LIB")
         }
 
-        if (Test-Path (Join-Path $env:FrameworkDir $env:Framework40Version)) { $env:LIBPATH = $env:LIBPATH + ";" + Join-Path $env:FrameworkDir $env:Framework40Version }
-        if (Test-Path (Join-Path $env:FrameworkDir $env:FrameworkVersion)) { $env:LIBPATH = $env:LIBPATH + ";" + Join-Path $env:FrameworkDir $env:FrameworkVersion }
+        if (Test-Path (Join-Path $env:FrameworkDir $env:Framework40Version)) { $env:LIBPATH = $env:LIBPATH + ";" + $(Join-Path $env:FrameworkDir $env:Framework40Version) }
+        if (Test-Path (Join-Path $env:FrameworkDir $env:FrameworkVersion)) { $env:LIBPATH = $env:LIBPATH + ";" + $(Join-Path $env:FrameworkDir $env:FrameworkVersion) }
     }
 
-    if (Test-Path "hklm:\SOFTWARE\Microsoft\VisualStudio\$vsVersion\Setup\F#" -or Test-Path "hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\$vsVersion\Setup\F#") {
+    if ((Test-Path "hklm:\SOFTWARE\Microsoft\VisualStudio\$vsVersion\Setup\F#") -or (Test-Path "hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\$vsVersion\Setup\F#")) {
         $fsRegistry = Get-Item "hklm:\SOFTWARE\Microsoft\VisualStudio\$vsVersion\Setup\F#" -ErrorAction SilentlyContinue
         if ($fsRegistry -eq $null) { $fsRegistry = Get-Item "hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\$vsVersion\Setup\F#" }
         $env:FSHARPINSTALLDIR = $fsRegistry.GetValue("ProductDir")

@@ -36,9 +36,9 @@ function Set-Environment([String]$variable, [String]$value) {
     [System.Environment]::SetEnvironmentVariable("$variable", "$value")
 }
 # Add a folder to $env:Path
-function Prepend-EnvPath([String]$path) { $env:PATH = $env:PATH ";$path" }
+function Prepend-EnvPath([String]$path) { $env:PATH = $env:PATH + ";$path" }
 function Prepend-EnvPathIfExists([String]$path) { if (Test-Path $path) { Prepend-EnvPath $path } }
-function Append-EnvPath([String]$path) { $env:PATH = $env:PATH ";$path" }
+function Append-EnvPath([String]$path) { $env:PATH = $env:PATH + ";$path" }
 function Append-EnvPathIfExists([String]$path) { if (Test-Path $path) { Append-EnvPath $path } }
 
 function Unzip-File {
@@ -115,7 +115,7 @@ function Unzip-File {
 }
 
 # Configure Visual Studio functions if it has been installed
-if ($env:VSINSTALLDIR -ne $null -and Test-Path $env:VSINSTALLDIR) {
+if (($env:VSINSTALLDIR -ne $null) -and (Test-Path $env:VSINSTALLDIR)) {
     $vsInstall = $env:VSINSTALLDIR
     function Start-VisualStudio ([string] $solutionFile) {
         $devenv = Resolve-Path "$vsInstall\Common7\IDE\devenv.exe"
