@@ -33,8 +33,13 @@ function Refresh-Environment {
 
 # Set a permanent Environment variable, and reload it into $env
 function Set-Environment([String]$variable, [String]$value) {
-  [System.Environment]::SetEnvironmentVariable("$variable", "$value")
+    [System.Environment]::SetEnvironmentVariable("$variable", "$value")
 }
+# Add a folder to $env:Path
+function Prepend-EnvPath([String]$path) { $env:PATH = $env:PATH ";$path" }
+function Prepend-EnvPathIfExists([String]$path) { if (Test-Path $path) { Prepend-EnvPath $path } }
+function Append-EnvPath([String]$path) { $env:PATH = $env:PATH ";$path" }
+function Append-EnvPathIfExists([String]$path) { if (Test-Path $path) { Append-EnvPath $path } }
 
 function Unzip-File {
     <#
@@ -109,25 +114,13 @@ function Unzip-File {
     }
 }
 
-# Configure Visual Studio, using the most recent version installed
-if (Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7) {
-    $vsRegistry = Get-Item hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7
-    $vsinstall = $vsRegistry.property | Sort-Object -Descending | Select-Object -first 1 | ForEach-Object -process {$vsRegistry.GetValue($_)}
-
-    if ((Test-Path $vsinstall) -eq 0) {
-        Write-Error "Unable to find Visual Studio installation"
-    }
-
-    if (($env:Path).Split(";").Contains($vsinstall)) {
-        $env:Path += (";"+$vsinstall)
-    }
-
+# Configure Visual Studio functions if it has been installed
+if ($env:VSINSTALLDIR -ne $null -and Test-Path $env:VSINSTALLDIR) {
+    $vsInstall = $env:VSINSTALLDIR
     function Start-VisualStudio ([string] $solutionFile) {
         $devenv = Resolve-Path "$vsInstall\Common7\IDE\devenv.exe"
-        if ($solutionFile) {
-            if (Test-Path ($solutionFile)) {
-                start-process $devenv -ArgumentList $solutionFile
-            }
+        if ($solutionFile -ne $null -and Test-Path $solutionFile) {
+            start-process $devenv -ArgumentList $solutionFile
         } else {
             start-process $devenv
         }
@@ -136,13 +129,11 @@ if (Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7) {
 
     function Start-VisualStudioAsAdmin ([string] $solutionFile) {
         $devenv = Resolve-Path "$vsInstall\Common7\IDE\devenv.exe"
-        if ($solutionFile) {
-            if (Test-Path ($solutionFile)) {
-                start-process $devenv -ArgumentList $solutionFile -verb "runAs"
-            }
+        if ($solutionFile -ne $null -and Test-Path $solutionFile) {
+            start-process $devenv -ArgumentList $solutionFile -verb "runAs"
         } else {
             start-process $devenv -verb "runAs"
         }
     }
     Set-Alias -name vsadmin -Value Start-VisualStudioAsAdmin
-} else { Write-Verbose "Visual Studio has not been installed" }
+}
