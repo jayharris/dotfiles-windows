@@ -16,6 +16,43 @@ function sudo() {
     }
 }
 
+# Reload the Shell
+function Reload-Powershell {
+    $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
+    [System.Diagnostics.Process]::Start($newProcess);
+    exit
+}
+
+# Empty the Recycle Bin on all drives
+function Empty-RecycleBin {
+    $RecBin = (New-Object -ComObject Shell.Application).Namespace(0xA)
+    $RecBin.Items() | %{Remove-Item $_.Path -Recurse -Confirm:$false}
+}
+
+# Sound Volume
+function Get-SoundVolume { [Audio]::Volume }
+function Set-SoundVolume([Int32] $volume) { [Audio]::Volume = ($volume / 100)}
+function Set-SoundMute { [Audio]::Mute = $true }
+function Set-SoundUnmute { [Audio]::Mute = $false }
+
+### File System functions
+### ----------------------------
+# Create a new directory and enter it
+function CreateAndSet-Directory([String] $path) { New-Item $path -ItemType Directory -ErrorAction SilentlyContinue; Set-Location $path}
+
+# Determine size of a file or total size of a directory
+function Get-DiskUsage([string] $path=(Get-Location).Path) {
+    Convert-ToDiskSize `
+        ( `
+            Get-ChildItem .\ -recurse -ErrorAction SilentlyContinue `
+            | Measure-Object -property length -sum -ErrorAction SilentlyContinue
+        ).Sum `
+        1
+}
+
+### Environment functions
+### ----------------------------
+
 # Reload the $env object from the registry
 function Refresh-Environment {
     $locations = 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment',
@@ -35,12 +72,28 @@ function Refresh-Environment {
 function Set-Environment([String]$variable, [String]$value) {
     [System.Environment]::SetEnvironmentVariable("$variable", "$value")
 }
+
 # Add a folder to $env:Path
 function Prepend-EnvPath([String]$path) { $env:PATH = $env:PATH + ";$path" }
 function Prepend-EnvPathIfExists([String]$path) { if (Test-Path $path) { Prepend-EnvPath $path } }
 function Append-EnvPath([String]$path) { $env:PATH = $env:PATH + ";$path" }
 function Append-EnvPathIfExists([String]$path) { if (Test-Path $path) { Append-EnvPath $path } }
 
+
+### Utilities
+### ----------------------------
+function Convert-ToDiskSize {
+    param ( $bytes, $precision='0' )
+    foreach ($size in ("B","K","M","G","T")) {
+        if (($bytes -lt 1000) -or ($size -eq "T")){
+            $bytes = ($bytes).tostring("F0" + "$precision")
+            return "${bytes}${size}"
+        }
+        else { $bytes /= 1KB }
+    }
+}
+
+# Extract a .zip file
 function Unzip-File {
     <#
     .SYNOPSIS
@@ -60,13 +113,10 @@ function Unzip-File {
         Switch parameter to force the use of COM for the extraction even if the .NET Framework 4.5 is present.
 
     .EXAMPLE
-       Unzip-File -File C:\zipfiles\AdventureWorks2012_Database.zip -Destination C:\databases\
+       Unzip-File -File archive.zip -Destination .\d
 
     .EXAMPLE
-       Unzip-File -File C:\zipfiles\AdventureWorks2012_Database.zip -Destination C:\databases\ -ForceCOM
-
-    .EXAMPLE
-       'C:\zipfiles\AdventureWorks2012_Database.zip' | Unzip-File
+       'archive.zip' | Unzip-File
 
     .EXAMPLE
         Get-ChildItem -Path C:\zipfiles | ForEach-Object {$_.fullname | Unzip-File -Destination C:\databases}
@@ -94,7 +144,7 @@ function Unzip-File {
     $filePath = Resolve-Path $File
     $destinationPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Destination)
 
-    If (($PSVersionTable.PSVersion.Major -ge 3) -and
+    if (($PSVersionTable.PSVersion.Major -ge 3) -and
        ((Get-ItemProperty -Path "HKLM:\Software\Microsoft\NET Framework Setup\NDP\v4\Full" -ErrorAction SilentlyContinue).Version -like "4.5*" -or
        (Get-ItemProperty -Path "HKLM:\Software\Microsoft\NET Framework Setup\NDP\v4\Client" -ErrorAction SilentlyContinue).Version -like "4.5*")) {
 
@@ -114,7 +164,12 @@ function Unzip-File {
     }
 }
 
-# Configure Visual Studio functions if it has been installed
+
+
+### Visual Studio
+### ----------------------------
+
+# Configure Visual Studio functions only if it has been installed
 if (($env:VSINSTALLDIR -ne $null) -and (Test-Path $env:VSINSTALLDIR)) {
     $vsInstall = $env:VSINSTALLDIR
     function Start-VisualStudio ([string] $solutionFile) {
