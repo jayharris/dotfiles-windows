@@ -26,7 +26,7 @@ function Reload-Powershell {
 # Download a file into a temporary folder
 function curlex($url) {
     $uri = new-object system.uri $url
-    $filename = $name = $uri.segments | last
+    $filename = $name = $uri.segments | Select-Object -Last 1
     $path = join-path $env:Temp $filename
     if( test-path $path ) { rm -force $path }
 
@@ -105,6 +105,22 @@ function Convert-ToDiskSize {
         }
         else { $bytes /= 1KB }
     }
+}
+
+# Start IIS Express Server with an optional path and port
+function Start-IISExpress {
+    [CmdletBinding()]
+    param (
+        [String] $path = (Get-Location).Path,
+        [Int32]  $port = 3000
+    )
+
+    if ((Test-Path "${env:ProgramFiles}\IIS Express\iisexpress.exe") -or (Test-Path "${env:ProgramFiles(x86)}\IIS Express\iisexpress.exe")) {
+        $iisExpress = Resolve-Path "${env:ProgramFiles}\IIS Express\iisexpress.exe" -ErrorAction SilentlyContinue
+        if ($iisExpress -eq $null) { $iisExpress = Get-Item "${env:ProgramFiles(x86)}\IIS Express\iisexpress.exe" }
+
+        & $iisExpress @("/path:${path}") /port:$port
+    } else { Write-Warning "Unable to find iisexpress.exe"}
 }
 
 # Extract a .zip file
