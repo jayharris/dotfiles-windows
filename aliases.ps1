@@ -13,7 +13,10 @@ ${function:dt} = { Set-Location ~\Desktop }
 ${function:docs} = { Set-Location ~\Documents }
 ${function:dl} = { Set-Location ~\Downloads }
 
-# List all files, including dot files
+# Missing Bash aliases
+Set-Alias time Measure-Command
+
+# List all files, including hidden files
 ${function:la} = { ls -Force @args }
 
 # List only directories

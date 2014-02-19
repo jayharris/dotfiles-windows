@@ -63,7 +63,7 @@ Extras is designed to augment the existing settings and configuration. You could
 When setting up a new Windows PC, you may want to set some Windows defaults and features, such as showing hidden files in Windows Explorer and installing IIS. This will also set your machine name and full user name, so you may want to modify this file before executing.
 
 ```post
-. .\windows.ps1
+.\windows.ps1
 ```
 
 ### Install Chocolatey packages
@@ -71,7 +71,7 @@ When setting up a new Windows PC, you may want to set some Windows defaults and 
 When setting up a new Windows box, you may want to install some common [Chocolatey](http://chocolatey.org/) packages (it will also install chocolatey, if it isn't already).
 
 ```posh
-. .\chocolatey.ps1
+.\chocolatey.ps1
 ```
 
 ### Install Node packages
@@ -79,8 +79,23 @@ When setting up a new Windows box, you may want to install some common [Chocolat
 In addition to the applications provided by Chocolatey, you may also like some common applications that are provided by Node via [NPM](https://www.npmjs.org/). (Node is required, and can be installed via Chocolatey.)
 
 ```posh
-. .\npm.ps1
+.\npm.ps1
 ```
+
+### Install Visual Studio Extensions
+
+You can also install Visual Studio Extensions from the [Gallery](http://visualstudiogallery.msdn.microsoft.com/) into your most recent version of Visual Studio.
+
+```posh
+.\visualstudio.ps1
+```
+
+Or, to install Visual Studio plugins at any time:
+```posh
+Install-VSExtension $url
+```
+The Url can be found on the gallery. It's the extensions `Download` link url.
+
 
 ## Forking your own version
 

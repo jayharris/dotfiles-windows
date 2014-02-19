@@ -23,6 +23,18 @@ function Reload-Powershell {
     exit
 }
 
+# Download a file into a temporary folder
+function curlex($url) {
+    $uri = new-object system.uri $url
+    $filename = $name = $uri.segments | last
+    $path = join-path $env:Temp $filename
+    if( test-path $path ) { rm -force $path }
+
+    (new-object net.webclient).DownloadFile($url, $path)
+
+    return new-object io.fileinfo $path
+}
+
 # Empty the Recycle Bin on all drives
 function Empty-RecycleBin {
     $RecBin = (New-Object -ComObject Shell.Application).Namespace(0xA)
@@ -82,6 +94,8 @@ function Append-EnvPathIfExists([String]$path) { if (Test-Path $path) { Append-E
 
 ### Utilities
 ### ----------------------------
+
+# Convert a number to a disk size (12.4K or 5M)
 function Convert-ToDiskSize {
     param ( $bytes, $precision='0' )
     foreach ($size in ("B","K","M","G","T")) {
@@ -191,4 +205,11 @@ if (($env:VSINSTALLDIR -ne $null) -and (Test-Path $env:VSINSTALLDIR)) {
         }
     }
     Set-Alias -name vsadmin -Value Start-VisualStudioAsAdmin
+
+    function Install-VSExtension($url) {
+        Write-Output "Downloading ${url}"
+        $extensionFile = (curlex $url)
+        Write-Output "Installing $($extensionFile.Name)"
+        $result = Start-Process -FilePath "VSIXInstaller.exe" -ArgumentList "/q $($extensionFile.FullName)" -Wait -PassThru;
+    }
 }
