@@ -224,9 +224,10 @@ if (($env:VSINSTALLDIR -ne $null) -and (Test-Path $env:VSINSTALLDIR)) {
     Set-Alias -name vsadmin -Value Start-VisualStudioAsAdmin
 
     function Install-VSExtension($url) {
+        $vsixInstaller = Join-Path $env:DevEnvDir "VSIXInstaller.exe"
         Write-Output "Downloading ${url}"
         $extensionFile = (curlex $url)
         Write-Output "Installing $($extensionFile.Name)"
-        $result = Start-Process -FilePath "VSIXInstaller.exe" -ArgumentList "/q $($extensionFile.FullName)" -Wait -PassThru;
+        $result = Start-Process -FilePath `"$vsixInstaller`" -ArgumentList "/q $($extensionFile.FullName)" -Wait -PassThru;
     }
 }
