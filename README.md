@@ -48,7 +48,7 @@ Set-Environment "EMAIL" "Jay Harris <jay@aranasoft.com>"
 
 # Git credentials
 # Not in the repository, to prevent people from accidentally committing under my name
-Set-Environment "GIT_AUTHOR_NAME" "Jay Harris","User")
+Set-Environment "GIT_AUTHOR_NAME" "Jay Harris","User"
 Set-Environment "GIT_COMMITTER_NAME" $env:GIT_AUTHOR_NAME
 git config --global user.name $env:GIT_AUTHOR_NAME
 Set-Environment "GIT_AUTHOR_EMAIL" "jay@aranasoft.com"
