@@ -21,6 +21,8 @@ cinst opera
 #cinst sublimetext2
 #cinst virtualclonedrive
 #cinst vlc
+cinst webpi
+cinst webpicommandline
 #cinst wget
 #cinst wput
 cinst wincommandpaste
