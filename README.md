@@ -44,15 +44,15 @@ My `.\extra.ps1` looks something like this:
 ```posh
 # Hg credentials
 # Not in the repository, to prevent people from accidentally committing under my name
-Set-Environment("EMAIL", "Jay Harris <jay@aranasoft.com>", "User")
+Set-Environment "EMAIL" "Jay Harris <jay@aranasoft.com>"
 
 # Git credentials
 # Not in the repository, to prevent people from accidentally committing under my name
-Set-Environment("GIT_AUTHOR_NAME","Jay Harris","User")
-Set-Environment("GIT_COMMITTER_NAME", $env:GIT_AUTHOR_NAME, "User")
+Set-Environment "GIT_AUTHOR_NAME" "Jay Harris","User")
+Set-Environment "GIT_COMMITTER_NAME" $env:GIT_AUTHOR_NAME
 git config --global user.name $env:GIT_AUTHOR_NAME
-Set-Environment("GIT_AUTHOR_EMAIL","jay@aranasoft.com", "User")
-Set-Environment("GIT_COMMITTER_EMAIL",$env:GIT_AUTHOR_EMAIL, "User")
+Set-Environment "GIT_AUTHOR_EMAIL" "jay@aranasoft.com"
+Set-Environment "GIT_COMMITTER_EMAIL" $env:GIT_AUTHOR_EMAIL
 git config --global user.email $env:GIT_AUTHOR_EMAIL
 ```
 
