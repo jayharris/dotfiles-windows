@@ -1,6 +1,5 @@
 Push-Location (Split-Path -parent $profile)
-"components","functions","aliases","extra" | Where-Object {Test-Path "$_.ps1"} | ForEach-Object -process {Invoke-Expression ". .\$_.ps1"}
-Pop-Location
+"components","functions","aliases" | Where-Object {Test-Path "$_.ps1"} | ForEach-Object -process {Invoke-Expression ". .\$_.ps1"}
 
 # Configure Git
 if (Test-Path (Join-Path $env:LOCALAPPDATA "GitHub")) {
@@ -97,3 +96,6 @@ if ((Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7) -or (Test-Path hkl
         Append-EnvPathIfExists $env:FSHARPINSTALLDIR
     }
 }
+
+if (Test-Path "extra.ps1") { & .\extra.ps1 }
+Pop-Location

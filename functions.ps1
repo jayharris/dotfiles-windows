@@ -81,8 +81,13 @@ function Refresh-Environment {
 }
 
 # Set a permanent Environment variable, and reload it into $env
-function Set-Environment([String]$variable, [String]$value) {
-    [System.Environment]::SetEnvironmentVariable("$variable", "$value")
+function Set-Environment([String] $variable, [String] $value) {
+    [System.Environment]::SetEnvironmentVariable("$variable", "$value","User")
+echo var
+	echo $variable
+echo val
+echo $value
+    Invoke-Expression "`$env:${variable} = `"$value`""
 }
 
 # Add a folder to $env:Path
