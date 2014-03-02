@@ -1,8 +1,38 @@
+[alias]
+s = status
+# View abbreviated SHA, description, and history graph of the latest 20 commits
+l = log --limit 20 --graph --template '\033[0;33m{node|short}\033[0m {desc|strip|firstline}\n'
+# Show the diff between the latest commit and the current state
+d = diff --rev -1 --stat
+# `git di $number` shows the diff between the state `$number` revisions ago and the current state
+di = !eval "f() { hg diff --rev -$1 --stat; }; f"
+# Commit all changes
+ca = commit --addremove --verbose
+# Find commits by commit message
+fm = !eval "f() { hg log --template '\033[0;33m{node|short}\033[0m  \033[0;34m{date|shortdate}\033[0m  {desc|strip|firstline}  \033[0;32m[{author|strip|person}]\033[0m\n' --keyword=$1; }; f"
+
+[ui]
+ssh = ssh -C
+
+[diff]
+git = True
+
+[color]
+mode = auto
+
+branches.current = yellow inverse
+
+diff.extended = yellow bold
+diff.hunk = magenta bold
+diff.deleted = red bold
+diff.inserted = green bold
+
+status.added = yellow
+status.modified = green
+status.unknown = cyan
+
 [extensions]
 color =
 purge =
 progress =
 rebase =
-
-[color]
-mode = win32
