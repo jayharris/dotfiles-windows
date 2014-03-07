@@ -205,7 +205,10 @@ if (($env:VSINSTALLDIR -ne $null) -and (Test-Path $env:VSINSTALLDIR)) {
     $vsInstall = $env:VSINSTALLDIR
     function Start-VisualStudio ([string] $solutionFile) {
         $devenv = Resolve-Path "$vsInstall\Common7\IDE\devenv.exe"
-        if (($solutionFile -ne $null) -and (Test-Path $solutionFile)) {
+        if (($solutionFile -eq $null) -or ($solutionFile -eq "")) {
+            $solutionFile = (Get-ChildItem -Filter "*.sln" | Select-Object -First 1).Name
+        }
+        if (($solutionFile -ne $null) -and ($solutionFile -ne "") -and (Test-Path $solutionFile)) {
             start-process $devenv -ArgumentList $solutionFile
         } else {
             start-process $devenv
@@ -215,7 +218,10 @@ if (($env:VSINSTALLDIR -ne $null) -and (Test-Path $env:VSINSTALLDIR)) {
 
     function Start-VisualStudioAsAdmin ([string] $solutionFile) {
         $devenv = Resolve-Path "$vsInstall\Common7\IDE\devenv.exe"
-        if (($solutionFile -ne $null) -and (Test-Path $solutionFile)) {
+        if (($solutionFile -eq $null) -or ($solutionFile -eq "")) {
+            $solutionFile = (Get-ChildItem -Filter "*.sln" | Select-Object -First 1).Name
+        }
+        if (($solutionFile -ne $null) -and ($solutionFile -ne "") -and (Test-Path $solutionFile)) {
             start-process $devenv -ArgumentList $solutionFile -verb "runAs"
         } else {
             start-process $devenv -verb "runAs"
