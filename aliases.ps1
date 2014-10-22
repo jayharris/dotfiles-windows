@@ -1,3 +1,7 @@
+# Remove Default PoSh aliases that conflict with tools
+rm alias:curl
+rm alias:wget
+
 # Easier Navigation: .., ..., ...., ....., and ~
 ${function:~} = { Set-Location ~ }
 # PoSh won't allow ${function:..} because of an invalid path error, so...

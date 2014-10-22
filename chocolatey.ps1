@@ -23,7 +23,7 @@ cinst opera
 #cinst vlc
 cinst webpi
 cinst webpicommandline
-#cinst wget
-#cinst wput
+cinst wget
+cinst wput
 cinst wincommandpaste
 cinst winmerge
