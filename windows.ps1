@@ -24,6 +24,13 @@ $user.Put() | Out-Null
 # Set Computer Name
 (Get-WmiObject Win32_ComputerSystem).Rename($machineName) | Out-Null
 
+Remove-Variable machineName
+Remove-Variable userFullName
+Remove-Variable user
+Remove-Variable myPrincipal
+Remove-Variable myIdentity
+
+
 # Configure IIS
 Write-Output "Configuring IIS. This may take a while..."
 & dism.exe /Online /Enable-Feature /All `
@@ -70,6 +77,10 @@ Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication
 # Power: Disable Hibernation
 powercfg /hibernate off
 
+# Power Set standby delay to 24 hours
+powercfg /change /standby-timeout-ac 1440
+
+
 # Explorer: Show hidden files by default (1: Show Files, 2: Hide Files)
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Hidden" 1
 # Explorer: show file extensions by default (0: Show Extensions, 1: Hide Extensions)
@@ -84,6 +95,28 @@ Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explo
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCAHealth" 1
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCANetwork" 1
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCAVolume" 1
+
+
+### SSD Specific Tweaks
+### --------------------------
+
+# Disable SuperFetch
+Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "EnableSuperfetch" 0
+
+
+### Login Screen
+### --------------------------
+
+# Enable Custom Background on the Login / Lock Screen
+# Background file: C:\Windows\System32\Oobe\info\backgrounds\backgroundDefault.jpg
+# Alternate Sizes: ./background{width}x{Height}.jpg (./background1024x768.jpg)
+# File Size Limit: 256Kb
+# Set-ItemProperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\Background" "OEMBackground" 1
+
+# Win7: Change Shadows on Account Selection Screen (0 Light [Green], 1 Dark [Black], 2 None)
+# Set-ItemProperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI" "ButtonSet" 1
+
+# More Info: http://myitforum.com/myitforumwp/2012/12/19/corporate-identity-oem-branding-in-windows-8/
 
 
 ### Accessibility
