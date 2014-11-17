@@ -14,6 +14,7 @@ cinst hg
 cinst fiddler
 cinst firefox
 cinst nodejs.install
+cinst nuget.commandline
 cinst opera
 #cinst putty
 #cinst ruby
