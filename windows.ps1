@@ -99,6 +99,9 @@ Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explo
 # Taskbar: use small icons (0: Large Icons, 1: Small Icons)
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarSmallIcons" 1
 
+# Taskbar: Don't show Windows Store Apps on Taskbar
+Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "StoreAppsOnTaskbar" 0
+
 # SysTray: hide the Action Center, Network, and Volume icons
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCAHealth" 1
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCANetwork" 1
