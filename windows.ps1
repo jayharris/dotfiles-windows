@@ -1,6 +1,4 @@
 $machineName    = "CHOZO"
-$userFullName   = "Jay Harris"
-
 
 # Get the ID and security principal of the current user account
 $myIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent()
@@ -16,16 +14,18 @@ if (!$myPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Admin
    exit
 }
 
-# Set DisplayName for my account
-$user = Get-WmiObject Win32_UserAccount | Where {$_.Caption -eq $myIdentity.Name}
-$user.FullName = $userFullName
-$user.Put() | Out-Null
+## Set DisplayName for my account
+## Useful for setting up Account information if you are not using a Microsoft Account
+# $userFullName   = "Jay Harris"
+# $user = Get-WmiObject Win32_UserAccount | Where {$_.Caption -eq $myIdentity.Name}
+# $user.FullName = $userFullName
+# $user.Put() | Out-Null
+# Remove-Variable userFullName
 
 # Set Computer Name
 (Get-WmiObject Win32_ComputerSystem).Rename($machineName) | Out-Null
 
 Remove-Variable machineName
-Remove-Variable userFullName
 Remove-Variable user
 Remove-Variable myPrincipal
 Remove-Variable myIdentity
@@ -69,7 +69,6 @@ Write-Output "Configuring IIS. This may take a while..."
 # HKUsers drive for Registry
 if ((Get-PSDrive HKUsers -ErrorAction SilentlyContinue) -eq $null) { New-PSDrive -Name HKUSERS -PSProvider Registry -Root Registry::HKEY_USERS | Out-Null }
 
-
 # Sound: Disable Startup Sound
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" "DisableStartupSound" 1
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" "DisableStartupSound" 1
@@ -107,16 +106,16 @@ Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory 
 ### Login Screen
 ### --------------------------
 
-# Enable Custom Background on the Login / Lock Screen
-# Background file: C:\Windows\System32\Oobe\info\backgrounds\backgroundDefault.jpg
-# Alternate Sizes: ./background{width}x{Height}.jpg (./background1024x768.jpg)
-# File Size Limit: 256Kb
+## Enable Custom Background on the Login / Lock Screen
+## Background file: C:\Windows\System32\Oobe\info\backgrounds\backgroundDefault.jpg
+## Alternate Sizes: ./background{width}x{Height}.jpg (./background1024x768.jpg)
+## File Size Limit: 256Kb
 # Set-ItemProperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\Background" "OEMBackground" 1
 
-# Win7: Change Shadows on Account Selection Screen (0 Light [Green], 1 Dark [Black], 2 None)
+## Win7: Change Shadows on Account Selection Screen (0 Light [Green], 1 Dark [Black], 2 None)
 # Set-ItemProperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI" "ButtonSet" 1
 
-# More Info: http://myitforum.com/myitforumwp/2012/12/19/corporate-identity-oem-branding-in-windows-8/
+## More Info: http://myitforum.com/myitforumwp/2012/12/19/corporate-identity-oem-branding-in-windows-8/
 
 
 ### Accessibility
