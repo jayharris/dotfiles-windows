@@ -167,5 +167,11 @@ $MU.AddService2("7971f918-a847-4430-9279-4a52d1efe18d",7,"")
 Remove-Variable MU
 
 
+### Internet Explorer
+### --------------------------
+
+# Set home page to `about:blank` for faster loading
+Set-ItemProperty "HKCU:\Software\Microsoft\Internet Explorer\Main" "Start Page" "about:blank"
+
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
