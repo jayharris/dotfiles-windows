@@ -9,7 +9,7 @@ cinst curl
 #cinst filezilla
 cinst githubforwindows
 cinst googlechrome
-cinst googlechrome.Canary
+cinst googlechrome.canary
 cinst hg
 cinst fiddler
 cinst firefox
