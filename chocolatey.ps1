@@ -20,6 +20,7 @@ cinst opera
 #cinst ruby
 #cinst skype
 #cinst sublimetext2
+cinst vim
 #cinst virtualclonedrive
 #cinst vlc
 cinst webpi

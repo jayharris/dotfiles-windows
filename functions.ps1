@@ -3,8 +3,8 @@ function which($name) { Get-Command $name -ErrorAction SilentlyContinue | Select
 function touch($file) { "" | Out-File $file -Encoding ASCII }
 
 # Common Editing needs
-function Edit-Hosts { Start-Process -FilePath notepad -ArgumentList "$env:windir\system32\drivers\etc\hosts" -verb "runAs" }
-function Edit-Profile { Start-Process -FilePath notepad -ArgumentList $profile }
+function Edit-Hosts { Invoke-Expression "sudo $(if($env:EDITOR -ne $null)  {$env:EDITOR } else { 'notepad' }) $env:windir\system32\drivers\etc\hosts" }
+function Edit-Profile { Invoke-Expression "$(if($env:EDITOR -ne $null)  {$env:EDITOR } else { 'notepad' }) $profile" }
 
 # Sudo
 function sudo() {
