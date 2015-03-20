@@ -1,7 +1,3 @@
-# Remove Default PoSh aliases that conflict with tools
-rm alias:curl
-rm alias:wget
-
 # Easier Navigation: .., ..., ...., ....., and ~
 ${function:~} = { Set-Location ~ }
 # PoSh won't allow ${function:..} because of an invalid path error, so...
@@ -20,20 +16,47 @@ ${function:dl} = { Set-Location ~\Downloads }
 # Missing Bash aliases
 Set-Alias time Measure-Command
 
-# List all files, including hidden files
-${function:la} = { ls -Force @args }
+# Correct PowerShell Aliases if tools are available (aliases win if set)
+# WGet: Use `ls.exe` if available
+if (Get-Command wget.exe -ErrorAction SilentlyContinue | Test-Path) {
+  rm alias:wget
+}
 
-# List only directories
-${function:lsd} = { ls -Directory @args }
+# Directory Listing: Use `ls.exe` if available
+if (Get-Command ls.exe -ErrorAction SilentlyContinue | Test-Path) {
+    rm alias:ls
+    # Set `ls` to call `ls.exe` and always use --color
+    ${function:ls} = { ls.exe --color @args }
+    # List all files in long format
+    ${function:l} = { ls -lF @args }
+    # List all files in long format, including hidden files
+    ${function:la} = { ls -laF @args }
+    # List only directories
+    ${function:lsd} = { Get-ChildItem -Directory -Force @args }
+} else {
+    # List all files, including hidden files
+    ${function:la} = { ls -Force @args }
+    # List only directories
+    ${function:lsd} = { Get-ChildItem -Directory -Force @args }
+}
+
+# curl: Use `curl.exe` if available
+if (Get-Command curl.exe -ErrorAction SilentlyContinue | Test-Path) {
+    rm alias:curl
+    # Set `ls` to call `ls.exe` and always use --color
+    ${function:curl} = { curl.exe @args }
+    # Gzip-enabled `curl`
+    ${function:gurl} = { curl --compressed @args }
+} else {
+    # Gzip-enabled `curl`
+    ${function:gurl} = { curl -TransferEncoding GZip }
+}
 
 # Create a new directory and enter it
 Set-Alias mkd CreateAndSet-Directory
 
 # Determine size of a file or total size of a directory
 Set-Alias fs Get-DiskUsage
-
-# Gzip-enabled `curl`
-${function:gurl} = { curl --compressed @args }
 
 # Empty the Recycle Bin on all drives
 Set-Alias emptytrash Empty-RecycleBin

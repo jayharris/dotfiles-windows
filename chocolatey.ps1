@@ -3,7 +3,7 @@ if ((which cinst) -eq $null) {
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 }
 
-cinst curl
+#cinst curl #`curl` comes with GH4W
 #cinst dropbox
 #cinst evernote
 #cinst filezilla
