@@ -1,3 +1,7 @@
+## v1.3-beta
+
+- Separated Components into All, Shell, and Visual Studio specific instances.
+
 ## v1.2
 Released 28-February-2014
 
