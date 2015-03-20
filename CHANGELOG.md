@@ -1,6 +1,13 @@
-## v1.3-beta
+## v1.3
+Released 20-March-2015
 
 - Separated Components into All, Shell, and Visual Studio specific instances.
+- Remove aliases on 'ls', 'wget', 'curl' if tools exist.
+- Set IE default page to `about:blank` for faster loading.
+- Added options to remove SysTray Power Icon, use small Taskbar icons, delete confirmation, bing search, store apps.
+- `vs` and `vsadmin` automatically open the CWD's Solution file if there is one.
+- Updated Hg configuration for better aliases, logging, color.
+
 
 ## v1.2
 Released 28-February-2014
