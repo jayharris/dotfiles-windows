@@ -1,3 +1,9 @@
+## v1.3.1
+Release 20-March-2015
+
+- Added EDITOR. Updated `Edit-Hosts` and `Edit-Profile` to use it if set.
+
+
 ## v1.3
 Released 20-March-2015
 
