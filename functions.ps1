@@ -16,6 +16,14 @@ function sudo() {
     }
 }
 
+# System Update - Update RubyGems, NPM, and their installed packages
+function System-Update() {
+    gem update --system
+    gem update
+    npm install npm -g
+    npm update -g
+}
+
 # Reload the Shell
 function Reload-Powershell {
     $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
