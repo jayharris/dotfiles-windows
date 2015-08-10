@@ -69,4 +69,39 @@ if ((Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7) -or (Test-Path hkl
         $env:FSHARPINSTALLDIR = $fsRegistry.GetValue("ProductDir")
         Append-EnvPathIfExists $env:FSHARPINSTALLDIR
     }
+
+    # Configure Visual Studio functions
+    function Start-VisualStudio ([string] $solutionFile) {
+        $devenv = Resolve-Path "$vsinstall\Common7\IDE\devenv.exe"
+        if (($solutionFile -eq $null) -or ($solutionFile -eq "")) {
+            $solutionFile = (Get-ChildItem -Filter "*.sln" | Select-Object -First 1).Name
+        }
+        if (($solutionFile -ne $null) -and ($solutionFile -ne "") -and (Test-Path $solutionFile)) {
+            start-process $devenv -ArgumentList $solutionFile
+        } else {
+            start-process $devenv
+        }
+    }
+    Set-Alias -name vs -Value Start-VisualStudio
+
+    function Start-VisualStudioAsAdmin ([string] $solutionFile) {
+        $devenv = Resolve-Path "$vsinstall\Common7\IDE\devenv.exe"
+        if (($solutionFile -eq $null) -or ($solutionFile -eq "")) {
+            $solutionFile = (Get-ChildItem -Filter "*.sln" | Select-Object -First 1).Name
+        }
+        if (($solutionFile -ne $null) -and ($solutionFile -ne "") -and (Test-Path $solutionFile)) {
+            start-process $devenv -ArgumentList $solutionFile -verb "runAs"
+        } else {
+            start-process $devenv -verb "runAs"
+        }
+    }
+    Set-Alias -name vsadmin -Value Start-VisualStudioAsAdmin
+
+    function Install-VSExtension($url) {
+        $vsixInstaller = Join-Path $env:DevEnvDir "VSIXInstaller.exe"
+        Write-Output "Downloading ${url}"
+        $extensionFile = (curlex $url)
+        Write-Output "Installing $($extensionFile.Name)"
+        $result = Start-Process -FilePath `"$vsixInstaller`" -ArgumentList "/q $($extensionFile.FullName)" -Wait -PassThru;
+    }
 }
