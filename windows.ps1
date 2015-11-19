@@ -126,20 +126,13 @@ Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\ConnectedSearc
 Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "EnableSuperfetch" 0
 
 
-### Login Screen
+### Lock Screen
 ### --------------------------
 
 ## Enable Custom Background on the Login / Lock Screen
-## Background file: C:\Windows\System32\Oobe\info\backgrounds\backgroundDefault.jpg
-## Alternate Sizes: ./background{width}x{Height}.jpg (./background1024x768.jpg)
+## Background file: C:\someDirectory\someImage.jpg
 ## File Size Limit: 256Kb
-# Set-ItemProperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\Background" "OEMBackground" 1
-
-## Win7: Change Shadows on Account Selection Screen (0 Light [Green], 1 Dark [Black], 2 None)
-# Set-ItemProperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI" "ButtonSet" 1
-
-## More Info: http://myitforum.com/myitforumwp/2012/12/19/corporate-identity-oem-branding-in-windows-8/
-
+# Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\Personalization" "LockScreenImage" "C:\someDirectory\someImage.jpg"
 
 ### Accessibility
 ### --------------------------
