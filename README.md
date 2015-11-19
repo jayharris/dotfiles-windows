@@ -25,6 +25,8 @@ Note: You must have your execution policy set to unrestricted (or at least in by
 
 ### Git-free install
 
+> **Note:** You must have your execution policy set to unrestricted (or at least in bypass) for this to work. To set this, run `Set-ExecutionPolicy Unrestricted` from a PowerShell running as Administrator.
+
 To install these dotfiles from PowerShell without Git:
 
 ```bash
@@ -32,8 +34,6 @@ iex ((new-object net.webclient).DownloadString('https://raw.github.com/jayharris
 ```
 
 To update later on, just run that command again.
-
-Note: You must have your execution policy set to unrestricted (or at least in bypass) for this to work: `Set-ExecutionPolicy Unrestricted`.
 
 ### Add custom commands without creating a new fork
 
