@@ -59,6 +59,10 @@ npm install -g sass
 npm install -g yo
 
 
+### Install Janus for vim
+curl.exe -L https://bit.ly/janus-bootstrap | bash
+
+
 ### Visual Studio 2015
 # VsVim
 Install-VSExtension https://visualstudiogallery.msdn.microsoft.com/59ca71b3-a4a3-46ca-8fe1-0e90e3f79329/file/6390/57/VsVim.vsix
