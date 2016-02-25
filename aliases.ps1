@@ -19,12 +19,12 @@ Set-Alias time Measure-Command
 # Correct PowerShell Aliases if tools are available (aliases win if set)
 # WGet: Use `ls.exe` if available
 if (Get-Command wget.exe -ErrorAction SilentlyContinue | Test-Path) {
-  rm alias:wget
+  rm alias:wget -ErrorAction SilentlyContinue
 }
 
 # Directory Listing: Use `ls.exe` if available
 if (Get-Command ls.exe -ErrorAction SilentlyContinue | Test-Path) {
-    rm alias:ls
+    rm alias:ls -ErrorAction SilentlyContinue
     # Set `ls` to call `ls.exe` and always use --color
     ${function:ls} = { ls.exe --color @args }
     # List all files in long format
@@ -42,7 +42,7 @@ if (Get-Command ls.exe -ErrorAction SilentlyContinue | Test-Path) {
 
 # curl: Use `curl.exe` if available
 if (Get-Command curl.exe -ErrorAction SilentlyContinue | Test-Path) {
-    rm alias:curl
+    rm alias:curl -ErrorAction SilentlyContinue
     # Set `ls` to call `ls.exe` and always use --color
     ${function:curl} = { curl.exe @args }
     # Gzip-enabled `curl`
