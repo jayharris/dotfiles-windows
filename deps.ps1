@@ -48,6 +48,11 @@ if (((Get-Package -Name "GitHubForWindows" -ErrorAction SilentlyContinue) -ne $n
 }
 
 
+### Web Platform Installer
+Append-EnvPath "C:\Program Files\Microsoft\Web Platform Installer\"
+webpicmd /Install /Products:"Python279" /AcceptEula
+
+
 ### Node Packages
 npm install -g azure-cli
 npm install -g bower
@@ -101,10 +106,6 @@ curl.exe -L https://bit.ly/janus-bootstrap | bash
     /FeatureName:NetFx4-AdvSrvs `
     /FeatureName:NetFx4Extended-ASPNET45 | Out-Null
 
-
-### Web Platform Installer
-Append-EnvPath "C:\Program Files\Microsoft\Web Platform Installer\"
-webpicmd /Install /Products:"Python279" /AcceptEula
 
 ### Visual Studio 2015
 # VsVim
