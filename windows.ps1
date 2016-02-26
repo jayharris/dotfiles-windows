@@ -16,7 +16,7 @@ if (!$myPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Admin
 
 ## Set DisplayName for my account
 ## Useful for setting up Account information if you are not using a Microsoft Account
-#$userFullName   = "Jay Harris"
+#$userFullName   = "Jeff Strauss"
 #$user = Get-WmiObject Win32_UserAccount | Where {$_.Caption -eq $myIdentity.Name}
 #$user.FullName = $userFullName
 #$user.Put() | Out-Null
@@ -85,7 +85,7 @@ Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\Windows Search" "All
 # SysTray: hide the Action Center, Network, and Volume icons
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCAHealth" 1  # Action Center
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCANetwork" 1 # Network
-Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCAVolume" 1  # Volume
+#Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCAVolume" 1  # Volume
 #Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCAPower" 1  # Power
 
 # Recycle Bin: Disable Delete Confirmation Dialog

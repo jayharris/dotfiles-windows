@@ -1,6 +1,6 @@
-﻿# JStrauss's dotfiles for Windows, forked from JayHarris
+﻿# Jeff Strauss's dotfiles for Windows
 
-A collection of PowerShell files for Windows, including common application installation through `Chocolatey` and `npm`, and developer-minded Windows configuration defaults. 
+A collection of PowerShell files for Windows, including common application installation through `chocolatey` and `npm`, and developer-minded Windows configuration defaults.
 
 Are you a Mac user? Check out my [dotfiles](https://github.com/jstrauss/dotfiles) repository.
 
@@ -32,6 +32,9 @@ To install these dotfiles from PowerShell without Git:
 ```bash
 iex ((new-object net.webclient).DownloadString('https://raw.github.com/jstrauss/dotfiles-windows/master/setup/install.ps1'))
 ```
+
+> **Note:** If you have forked this into your own repository, be sure to
+> modify the `DownloadString` parameter to the URL of your own fork.
 
 To update later on, just run that command again.
 
@@ -65,6 +68,10 @@ When setting up a new Windows PC, you may want to set some Windows defaults and 
 ```post
 .\windows.ps1
 ```
+
+If you are not going to tie your Windows installation to a Microsoft
+Live Account, then be sure to uncomment the lines 19 to 24 in this file
+and set the appropriate `$userFullName` variable before running.
 
 ### Install Dependencies and Packages
 
@@ -116,4 +123,4 @@ Suggestions/improvements are
 
 ## Thanks to…
 
-* @[Mathias Bynens](http://mathiasbynens.be/) for his [OSX dotfiles](http://mths.be/dotfiles), which this repository is modeled after.
+* @[Mathias Bynens](http://mathiasbynens.be/) for his [OSX dotfiles](http://mths.be/dotfiles), and @[Jay Harris](http://github.com/jayharris) from whose this repo is forked.
