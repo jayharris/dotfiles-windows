@@ -34,14 +34,14 @@ if (Get-Command ls.exe -ErrorAction SilentlyContinue | Test-Path) {
     # List only directories
     ${function:lsd} = { Get-ChildItem -Directory -Force @args }
     # Group directories at top
-    ${function:ll} = { ls -g --group-diretories-first @args }
+    ${function:ll} = { ls -g --group-directories-first @args }
 } else {
     # List all files, including hidden files
     ${function:la} = { ls -Force @args }
     # List only directories
     ${function:lsd} = { Get-ChildItem -Directory -Force @args }
     # Group directories at top
-    ${function:ll} = { ls -g --group-diretories-first @args }
+    ${function:ll} = { ls -g --group-directories-first @args }
 }
 
 # curl: Use `curl.exe` if available
