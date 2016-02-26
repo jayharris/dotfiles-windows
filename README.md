@@ -12,7 +12,7 @@ You can clone the repository wherever you want. (I like to keep it in `~\Project
 
 From PowerShell:
 ```posh
-git clone https://github.com/jayharris/dotfiles-windows.git; cd dotfiles-windows; . .\bootstrap.ps1
+git clone https://github.com/jstrauss/dotfiles-windows.git; cd dotfiles-windows; . .\bootstrap.ps1
 ```
 
 To update your settings, `cd` into your local `dotfiles-windows` repository within PowerShell and then:
@@ -30,7 +30,7 @@ Note: You must have your execution policy set to unrestricted (or at least in by
 To install these dotfiles from PowerShell without Git:
 
 ```bash
-iex ((new-object net.webclient).DownloadString('https://raw.github.com/jayharris/dotfiles-windows/master/setup/install.ps1'))
+iex ((new-object net.webclient).DownloadString('https://raw.github.com/jstrauss/dotfiles-windows/master/setup/install.ps1'))
 ```
 
 To update later on, just run that command again.
@@ -44,14 +44,14 @@ My `.\extra.ps1` looks something like this:
 ```posh
 # Hg credentials
 # Not in the repository, to prevent people from accidentally committing under my name
-Set-Environment "EMAIL" "Jay Harris <jay@aranasoft.com>"
+Set-Environment "EMAIL" "Jeff Strauss <jeff@aranasoft.com>"
 
 # Git credentials
 # Not in the repository, to prevent people from accidentally committing under my name
-Set-Environment "GIT_AUTHOR_NAME" "Jay Harris","User"
+Set-Environment "GIT_AUTHOR_NAME" "Jeff Strauss","User"
 Set-Environment "GIT_COMMITTER_NAME" $env:GIT_AUTHOR_NAME
 git config --global user.name $env:GIT_AUTHOR_NAME
-Set-Environment "GIT_AUTHOR_EMAIL" "jay@aranasoft.com"
+Set-Environment "GIT_AUTHOR_EMAIL" "jeff@aranasoft.com"
 Set-Environment "GIT_COMMITTER_EMAIL" $env:GIT_AUTHOR_EMAIL
 git config --global user.email $env:GIT_AUTHOR_EMAIL
 ```
@@ -87,13 +87,13 @@ The Url can be found on the gallery. It's the extensions `Download` link url.
 
 ## Forking your own version
 
-This repository is built around how I use Windows, which is predominantly in a VM hosted on OSX. As such, things like VNC or Ruby or FileZilla or Skype are not installed, as they are available to me on the OSX side, installed by my [OSX dotfiles](https://github.com/jayharris/dotfiles). If you are using Windows as your primary OS, you may want a different configuration that reflects that, and I recommend you [fork this repository](https://github.com/jayharris/dotfiles-windows/fork).
+This repository is built around how I use Windows, which is predominantly in a VM hosted on OSX. As such, things like VNC or Ruby or FileZilla or Skype are not installed, as they are available to me on the OSX side, installed by my [OSX dotfiles](https://github.com/jstrauss/dotfiles). If you are using Windows as your primary OS, you may want a different configuration that reflects that, and I recommend you [fork this repository](https://github.com/jayharris/dotfiles-windows/fork) from Jay Harris.
 
 If you do fork for your own custom configuration, you will need to touch a few files to reference your own repository, instead of mine.
 
 Within `/setup/install.ps1`, modify the Repository variables.
 ```posh
-$account = "jayharris"
+$account = "jstrauss"
 $repo    = "dotfiles-windows"
 $branch  = "master"
 ```
@@ -106,13 +106,13 @@ iex ((new-object net.webclient).DownloadString('https://raw.github.com/$account/
 ## Feedback
 
 Suggestions/improvements are
-[welcome and encouraged](https://github.com/jayharris/dotfiles-windows/issues)!
+[welcome and encouraged](https://github.com/jstrauss/dotfiles-windows/issues)!
 
 ## Author
 
-| [![twitter/mathias](http://gravatar.com/avatar/1318668b99b2d5a3900f3f7758763a69?s=70)](http://twitter.com/jayharris "Follow @jayharris on Twitter") |
+| [![twitter/jeffreystrauss](https://s.gravatar.com/avatar/b06d474fb0c5bb9d62fee08782c75d14?s=70)](http://twitter.com/jeffreystrauss "Follow @jeffreystrauss on Twitter") |
 |---|
-| [Jay Harris](http://twitter.com/jayharris/) |
+| [Jeff Strauss](http://twitter.com/jeffreystrauss/) |
 
 ## Thanks to…
 
