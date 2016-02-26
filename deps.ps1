@@ -19,6 +19,8 @@ Install-Package -Provider Chocolatey -Name nodejs.install
 Install-Package -Provider Chocolatey -Name Opera
 Install-Package -Provider Chocolatey -Name ruby
 Install-Package -Provider Chocolatey -Name vim
+Install-Package -Provider Chocolatey -Name webpi
+Install-Package -Provider Chocolatey -Name webpicmd
 Install-Package -Provider Chocolatey -Name wget
 Install-Package -Provider Chocolatey -Name wput
 Install-Package -Provider Chocolatey -Name winmerge
@@ -99,6 +101,10 @@ curl.exe -L https://bit.ly/janus-bootstrap | bash
     /FeatureName:NetFx4-AdvSrvs `
     /FeatureName:NetFx4Extended-ASPNET45 | Out-Null
 
+
+### Web Platform Installer
+Append-EnvPath "C:\Program Files\Microsoft\Web Platform Installer\"
+webpicmd /Install /Products:"Python279" /AcceptEula
 
 ### Visual Studio 2015
 # VsVim
