@@ -16,6 +16,7 @@ Install-Package -Provider Chocolatey -Name hg
 Install-Package -Provider Chocolatey -Name Fiddler4
 Install-Package -Provider Chocolatey -Name Firefox
 Install-Package -Provider Chocolatey -Name nodejs.install
+Install-Package -Provider Chocolatey -Name notepadplusplus
 Install-Package -Provider Chocolatey -Name Opera
 Install-Package -Provider Chocolatey -Name ruby
 Install-Package -Provider Chocolatey -Name vim
@@ -48,16 +49,16 @@ if (((Get-Package -Name "GitHubForWindows" -ErrorAction SilentlyContinue) -ne $n
 
 ### Node Packages
 npm install -g azure-cli
+npm install -g babel-cli
 npm install -g bower
 npm install -g coffee-script
 npm install -g conventional-changelog
-npm install -g grunt
 npm install -g gulp
 npm install -g less
 npm install -g lineman
 npm install -g mocha
 npm install -g node-inspector
-npm install -g sass
+npm install -g node-sass
 npm install -g yo
 
 
