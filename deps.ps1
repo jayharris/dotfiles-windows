@@ -7,7 +7,7 @@ Get-PackageProvider Chocolatey -Force
 Set-PackageSource -Name chocolatey -Trusted
 
 ### Chocolatey Packages
-Install-Package -Provider Chocolatey -Name curl #`curl` comes with GH4W
+#Install-Package -Provider Chocolatey -Name curl #`curl` comes with GH4W
 Install-Package -Provider Chocolatey -Name Dropbox
 Install-Package -Provider Chocolatey -Name GitHubForWindows
 Install-Package -Provider Chocolatey -Name GoogleChrome
