@@ -20,6 +20,8 @@ Install-Package -Provider Chocolatey -Name notepadplusplus
 Install-Package -Provider Chocolatey -Name Opera
 Install-Package -Provider Chocolatey -Name ruby
 Install-Package -Provider Chocolatey -Name vim
+Install-Package -Provider Chocolatey -Name webpi
+Install-Package -Provider Chocolatey -Name webpicmd
 Install-Package -Provider Chocolatey -Name wget
 Install-Package -Provider Chocolatey -Name wput
 Install-Package -Provider Chocolatey -Name winmerge
@@ -45,6 +47,11 @@ if (((Get-Package -Name "GitHubForWindows" -ErrorAction SilentlyContinue) -ne $n
         . (Join-Path (Split-Path -parent $PROFILE) "profile.ps1")
     Pop-Location
 }
+
+
+### Web Platform Installer
+Append-EnvPath "C:\Program Files\Microsoft\Web Platform Installer\"
+webpicmd /Install /Products:"Python279" /AcceptEula
 
 
 ### Node Packages
