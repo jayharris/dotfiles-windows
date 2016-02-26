@@ -16,6 +16,7 @@ Install-Package -Provider Chocolatey -Name hg
 Install-Package -Provider Chocolatey -Name Fiddler4
 Install-Package -Provider Chocolatey -Name Firefox
 Install-Package -Provider Chocolatey -Name nodejs.install
+Install-Package -Provider Chocolatey -Name notepadplusplus
 Install-Package -Provider Chocolatey -Name Opera
 Install-Package -Provider Chocolatey -Name ruby
 Install-Package -Provider Chocolatey -Name vim
