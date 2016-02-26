@@ -18,6 +18,7 @@ if ((Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7) -or (Test-Path hkl
     if (!($env:Path).Split(";").Contains($vsinstall)) { Append-EnvPath $vsinstall }
     $vsCommonToolsVersion = $vsVersion.replace(".","")
     Invoke-Expression "`$env:VS${vsCommonToolsVersion}COMN = Join-Path `"$vsinstall`" `"Common7\Tools`""
+    Invoke-Expression "`$env:VS${vsCommonToolsVersion}COMNTOOLS = Join-Path `"$vsinstall`" `"Common7\Tools`""
 
     Append-EnvPathIfExists (Join-Path $vsinstall "Common7\Tools")
     Append-EnvPathIfExists (Join-Path $vsinstall "Team Tools\Performance Tools")
