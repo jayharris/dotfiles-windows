@@ -51,6 +51,9 @@ powercfg /change /standby-timeout-ac 1440
 # SSD: Disable SuperFetch
 Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "EnableSuperfetch" 0
 
+# Network: Disable WiFi Sense. 0=Disabled, 1=Enabled
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config" "AutoConnectAllowedOEM" 0
+
 
 ### Explorer, Taskbar, and System Tray
 ### --------------------------
