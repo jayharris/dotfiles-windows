@@ -1,4 +1,4 @@
-$machineName    = "CHOZO"
+$machineName    = "PROMETHEUS"
 
 # Get the ID and security principal of the current user account
 $myIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent()
