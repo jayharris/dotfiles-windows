@@ -1,11 +1,11 @@
 # Configure Visual Studio
-if ((Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7) -or (Test-Path hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7)) {
+if ((Test-Path "hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7") -or (Test-Path "hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7")) {
     # Add a folder to $env:Path
     function Append-EnvPath([String]$path) { $env:PATH = $env:PATH + ";$path" }
     function Append-EnvPathIfExists([String]$path) { if (Test-Path $path) { Append-EnvPath $path } }
 
-    $vsRegistry = Get-Item hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7 -ErrorAction SilentlyContinue
-    if ($vsRegistry -eq $null) { $vsRegistry = Get-Item hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7 }
+    $vsRegistry = Get-Item "hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7" -ErrorAction SilentlyContinue
+    if ($vsRegistry -eq $null) { $vsRegistry = Get-Item "hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7" }
     $vsVersion  = $vsRegistry.property | Sort-Object -Descending | Select-Object -first 1
     $vsinstall  = ForEach-Object -process {$vsRegistry.GetValue($vsVersion)}
 
@@ -20,6 +20,11 @@ if ((Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7) -or (Test-Path hkl
     Invoke-Expression "`$env:VS${vsCommonToolsVersion}COMN = Join-Path `"$vsinstall`" `"Common7\Tools`""
     Invoke-Expression "`$env:VS${vsCommonToolsVersion}COMNTOOLS = Join-Path `"$vsinstall`" `"Common7\Tools`""
 
+    $vsSetupRegistryPath = "hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\$vsVersion\Setup"
+    if (${Test-Path $vsSetupRegistryPath} -eq $false) { $vsSetupRegistryPath = "hklm:\SOFTWARE\Microsoft\VisualStudio\$vsVersion\Setup" }
+    $vsVersionUser = (Get-ChildItem $vsSetupRegistryPath -Name | Where-Object {$_ -like "Visual Studio * Prereq*"} | Select-Object -First 1).Substring(14,4)
+    $env:GYP_MSVS_VERSION = $vsVersionUser
+
     Append-EnvPathIfExists (Join-Path $vsinstall "Common7\Tools")
     Append-EnvPathIfExists (Join-Path $vsinstall "Team Tools\Performance Tools")
     Append-EnvPathIfExists (Join-Path $vsinstall "VSTSDB\Deploy")
@@ -32,9 +37,9 @@ if ((Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7) -or (Test-Path hkl
     Append-EnvPathIfExists (Join-Path ${env:ProgramFiles(x86)} "HTML Help Workshop")
 
 
-    if ((Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VC7) -or (Test-Path hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VC7)) {
-        $vcRegistry = Get-Item hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VC7 -ErrorAction SilentlyContinue
-        if ($vcRegistry -eq $null) { $vcRegistry = Get-Item hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VC7 }
+    if ((Test-Path "hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VC7") -or (Test-Path "hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VC7")) {
+        $vcRegistry = Get-Item "hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VC7" -ErrorAction SilentlyContinue
+        if ($vcRegistry -eq $null) { $vcRegistry = Get-Item "hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VC7" }
         $env:VCINSTALLDIR   = $vcRegistry.GetValue($vsVersion)
         $env:FrameworkDir32 = $vcRegistry.GetValue("FrameworkDir32")
         $env:FrameworkDir64 = $vcRegistry.GetValue("FrameworkDir64")
@@ -64,9 +69,24 @@ if ((Test-Path hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VS7) -or (Test-Path hkl
         if (Test-Path (Join-Path $env:FrameworkDir $env:FrameworkVersion)) { $env:LIBPATH = $env:LIBPATH + ";" + $(Join-Path $env:FrameworkDir $env:FrameworkVersion) }
     }
 
+    if ((Test-Path "hklm:\SOFTWARE\Microsoft\VisualStudio\SxS\VC7") -or (Test-Path "hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VC7")) {
+        $msBuildToolsRegistryPath = "hklm:\SOFTWARE\Wow6432Node\Microsoft\MSBuild\ToolsVersions"
+        if (${Test-Path $msBuildToolsRegistertPath} -eq $false) { $msBuildToolsRegistryPath = "hklm:\SOFTWARE\Microsoft\MSBuild\ToolsVersions" }
+
+        $msBuildVersion = Get-ChildItem $msBuildToolsRegistryPath | Sort-Object {[float] (Split-Path -Leaf $_.Name)} -Descending | Select-Object @{N='Name';e={Split-Path -Leaf $_.Name}} -First 1 | Select -ExpandProperty "Name"
+        $msBuildRegistry = Get-Item (Join-Path $msBuildToolsRegistryPath $msBuildVersion)
+        $msBuildToolsRoot = $msBuildRegistry.GetValue("MSBuildToolsRoot")
+
+        $msBuildRegistry.property | where {$_ -like "VCTargetsPath*"} | ForEach-Object {
+            $vcTargetsPathValue = $msBuildRegistry.GetValue($_)
+            $vcTargetsPath = $vcTargetsPathValue.Substring($vcTargetsPathValue.IndexOf("`$(MSBuildExtensionsPath32)")+26).TrimEnd("')")
+            Invoke-Expression "`$env:${_} = Join-Path `"$msBuildToolsRoot`" `"$vcTargetsPath`""
+        }
+    }
+
     if ((Test-Path "hklm:\SOFTWARE\Microsoft\VisualStudio\$vsVersion\Setup\F#") -or (Test-Path "hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\$vsVersion\Setup\F#")) {
-        $fsRegistry = Get-Item "hklm:\SOFTWARE\Microsoft\VisualStudio\$vsVersion\Setup\F#" -ErrorAction SilentlyContinue
-        if ($fsRegistry -eq $null) { $fsRegistry = Get-Item "hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\$vsVersion\Setup\F#" }
+        $fsRegistry = Get-Item "hklm:\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\$vsVersion\Setup\F#" -ErrorAction SilentlyContinue
+        if ($fsRegistry -eq $null) { $fsRegistry = Get-Item "hklm:\SOFTWARE\Microsoft\VisualStudio\$vsVersion\Setup\F#" }
         $env:FSHARPINSTALLDIR = $fsRegistry.GetValue("ProductDir")
         Append-EnvPathIfExists $env:FSHARPINSTALLDIR
     }
