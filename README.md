@@ -1,8 +1,8 @@
-﻿# JayHarris's dotfiles for Windows
+﻿# JStrauss's dotfiles for Windows, forked from JayHarris
 
 A collection of PowerShell files for Windows, including common application installation through `Chocolatey` and `npm`, and developer-minded Windows configuration defaults. 
 
-Are you a Mac user? Check out my [dotfiles](https://github.com/jayharris/dotfiles) repository.
+Are you a Mac user? Check out my [dotfiles](https://github.com/jstrauss/dotfiles) repository.
 
 ## Installation
 
@@ -66,34 +66,22 @@ When setting up a new Windows PC, you may want to set some Windows defaults and 
 .\windows.ps1
 ```
 
-### Install Chocolatey packages
+### Install Dependencies and Packages
 
-When setting up a new Windows box, you may want to install some common [Chocolatey](http://chocolatey.org/) packages (it will also install chocolatey, if it isn't already).
+When setting up a new Windows box, you may want to install some common packages, utilities, and dependencies. These could include Node.js packages via [NPM](https://www.npmjs.org), [Chocolatey](http://chocolatey.org/) packages, and Visual Studio Extensions from the [Gallery](http://visualstudiogallery.msdn.microsoft.com/). The scripts will install Chocolatey, if it not already installed. Node is required, and can be installed via Chocalatey.
 
-```posh
-.\chocolatey.ps1
-```
-
-### Install Node packages
-
-In addition to the applications provided by Chocolatey, you may also like some common applications that are provided by Node via [NPM](https://www.npmjs.org/). (Node is required, and can be installed via Chocolatey.)
+All of these dependencies can be found near the beginning of this file:
 
 ```posh
-.\npm.ps1
-```
-
-### Install Visual Studio Extensions
-
-You can also install Visual Studio Extensions from the [Gallery](http://visualstudiogallery.msdn.microsoft.com/) into your most recent version of Visual Studio.
-
-```posh
-.\visualstudio.ps1
+.\deps.ps1
 ```
 
 Or, to install Visual Studio plugins at any time:
+
 ```posh
 Install-VSExtension $url
 ```
+
 The Url can be found on the gallery. It's the extensions `Download` link url.
 
 
