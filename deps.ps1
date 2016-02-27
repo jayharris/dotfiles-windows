@@ -3,31 +3,38 @@ Update-Help -Force
 
 ### Package Providers
 Get-PackageProvider NuGet -Force
-Get-PackageProvider Chocolatey -Force
-Set-PackageSource -Name chocolatey -Trusted
+# Chocolatey Provider is not ready yet. Use normal Chocolatey
+#Get-PackageProvider Chocolatey -Force
+#Set-PackageSource -Name chocolatey -Trusted
 
-### Chocolatey Packages
-#Install-Package -Provider Chocolatey -Name curl #`curl` comes with GH4W
-Install-Package -Provider Chocolatey -Name Dropbox
-Install-Package -Provider Chocolatey -Name GitHubForWindows
-Install-Package -Provider Chocolatey -Name GoogleChrome
-Install-Package -Provider Chocolatey -Name GoogleChrome.Canary
-Install-Package -Provider Chocolatey -Name hg
-Install-Package -Provider Chocolatey -Name Fiddler4
-Install-Package -Provider Chocolatey -Name Firefox
-Install-Package -Provider Chocolatey -Name nodejs.install
-Install-Package -Provider Chocolatey -Name Opera
-Install-Package -Provider Chocolatey -Name ruby
-Install-Package -Provider Chocolatey -Name vim
-Install-Package -Provider Chocolatey -Name webpi
-Install-Package -Provider Chocolatey -Name webpicmd
-Install-Package -Provider Chocolatey -Name wget
-Install-Package -Provider Chocolatey -Name wput
-Install-Package -Provider Chocolatey -Name winmerge
+### Chocolatey
+if ((which cinst) -eq $null) {
+    iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
+    Refresh-Environment
+    choco feature enable -n=allowGlobalConfirmation
+}
+
+#cinst curl #`curl` comes with GH4W
+cinst GitHubForWindows
+cinst GoogleChrome
+cinst GoogleChrome.Canary
+cinst hg
+cinst Fiddler4
+cinst Firefox
+cinst nodejs.install
+cinst nuget.commandline
+cinst Opera
+cinst ruby
+cinst vim
+cinst webpi
+cinst wget
+cinst wput
+#cinst wincommandpaste # Copy/Paste is supported natively in Win10
+cinst winmerge
 
 
 ### Completing PoshGit installation if installing GH4W
-if (((Get-Package -Name "GitHubForWindows" -ErrorAction SilentlyContinue) -ne $null) -and -not (Get-Command git -ErrorAction SilentlyContinue | Test-Path)) {
+if (((choco list -lr | where {$_ -like "githubforwindows*"}) -ne $null) -and ((which git) -eq $null)) {
     Write-Host ""
     Write-Host "You have installed GitHubForWindows but `git` was not found."
     Write-Host "In case GitHubForWindows is newly installed, execution has been"
@@ -43,13 +50,15 @@ if (((Get-Package -Name "GitHubForWindows" -ErrorAction SilentlyContinue) -ne $n
         Write-Host "Launching GitHubForWindows Shell to complete tooling installation."
         Start-Process .\GitHub.appref-ms -ArgumentList "--open-shell"
         Read-Host -Prompt "After launching, close the GH4W shell and press Enter to proceed" | Out-Null
+        Refresh-Environment
         . (Join-Path (Split-Path -parent $PROFILE) "profile.ps1")
     Pop-Location
+} else {
+    Refresh-Environment
 }
 
 
 ### Web Platform Installer
-Append-EnvPath "C:\Program Files\Microsoft\Web Platform Installer\"
 webpicmd /Install /Products:"Python279" /AcceptEula
 
 
