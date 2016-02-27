@@ -73,16 +73,17 @@ if (which webpicmd) {
 ### Node Packages
 if (which npm) {
     npm install -g azure-cli
+    npm install -g babel-cli
     npm install -g bower
     npm install -g coffee-script
     npm install -g conventional-changelog
-    npm install -g grunt
+    npm install -g grunt-cli
     npm install -g gulp
     npm install -g less
     npm install -g lineman
     npm install -g mocha
     npm install -g node-inspector
-    npm install -g sass
+    npm install -g node-sass
     npm install -g yo
 }
 
