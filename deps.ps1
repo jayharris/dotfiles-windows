@@ -58,43 +58,14 @@ if (((choco list -lr | where {$_ -like "githubforwindows*"}) -ne $null) -and ((w
 }
 
 
-### Windows Features
-& dism.exe /Online /Enable-Feature /All `
-    /FeatureName:NetFx3 `
-    /FeatureName:IIS-WebServerRole `
-    /FeatureName:IIS-WebServer `
-    /FeatureName:IIS-CommonHttpFeatures `
-    /FeatureName:IIS-HttpErrors `
-    /FeatureName:IIS-ApplicationDevelopment `
-    /FeatureName:IIS-NetFxExtensibility `
-    /FeatureName:IIS-NetFxExtensibility45 `
-    /FeatureName:IIS-HealthAndDiagnostics `
-    /FeatureName:IIS-HttpLogging `
-    /FeatureName:IIS-Security `
-    /FeatureName:IIS-RequestFiltering `
-    /FeatureName:IIS-Performance `
-    /FeatureName:IIS-HttpCompressionDynamic `
-    /FeatureName:IIS-WebServerManagementTools `
-    /FeatureName:IIS-WindowsAuthentication `
-    /FeatureName:IIS-StaticContent `
-    /FeatureName:IIS-DefaultDocument `
-    /FeatureName:IIS-DirectoryBrowsing `
-    /FeatureName:IIS-WebSockets `
-    /FeatureName:IIS-ASPNET `
-    /FeatureName:IIS-ASPNET45 `
-    /FeatureName:IIS-ISAPIExtensions `
-    /FeatureName:IIS-ISAPIFilter `
-    /FeatureName:IIS-BasicAuthentication `
-    /FeatureName:IIS-HttpCompressionStatic `
-    /FeatureName:IIS-ManagementConsole `
-    /FeatureName:WCF-Services45 `
-    /FeatureName:WCF-TCP-PortSharing45 `
-    /FeatureName:NetFx4-AdvSrvs `
-    /FeatureName:NetFx4Extended-ASPNET45 | Out-Null
-
-
 ### Web Platform Installer
-webpicmd /Install /Products:"Python279" /AcceptEula
+webpicmd /Install /AcceptEula /Products:"StaticContent,DefaultDocument,DirectoryBrowse,RequestFiltering,HTTPErrors,HTTPLogging,ISAPIExtensions,ISAPIFilters,UrlRewrite2"
+webpicmd /Install /AcceptEula /Products:"BasicAuthentication,WindowsAuthentication"
+webpicmd /Install /AcceptEula /Products:"StaticContentCompression,DynamicContentCompression"
+webpicmd /Install /AcceptEula /Products:"IISManagementConsole"
+webpicmd /Install /AcceptEula /Products:"WebSockets"
+webpicmd /Install /AcceptEula /Products:"NetFx3,NetFx4,NETFramework452,NetFx4Extended-ASPNET45,NETExtensibility,NetFxExtensibility45,ASPNET,ASPNET45"
+webpicmd /Install /AcceptEula /Products:"Python279"
 
 
 ### Node Packages
