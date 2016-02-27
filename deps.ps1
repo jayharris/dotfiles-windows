@@ -58,29 +58,6 @@ if (((choco list -lr | where {$_ -like "githubforwindows*"}) -ne $null) -and ((w
 }
 
 
-### Web Platform Installer
-webpicmd /Install /Products:"Python279" /AcceptEula
-
-
-### Node Packages
-npm install -g azure-cli
-npm install -g bower
-npm install -g coffee-script
-npm install -g conventional-changelog
-npm install -g grunt
-npm install -g gulp
-npm install -g less
-npm install -g lineman
-npm install -g mocha
-npm install -g node-inspector
-npm install -g sass
-npm install -g yo
-
-
-### Install Janus for vim
-curl.exe -L https://bit.ly/janus-bootstrap | bash
-
-
 ### Windows Features
 & dism.exe /Online /Enable-Feature /All `
     /FeatureName:NetFx3 `
@@ -114,6 +91,29 @@ curl.exe -L https://bit.ly/janus-bootstrap | bash
     /FeatureName:WCF-TCP-PortSharing45 `
     /FeatureName:NetFx4-AdvSrvs `
     /FeatureName:NetFx4Extended-ASPNET45 | Out-Null
+
+
+### Web Platform Installer
+webpicmd /Install /Products:"Python279" /AcceptEula
+
+
+### Node Packages
+npm install -g azure-cli
+npm install -g bower
+npm install -g coffee-script
+npm install -g conventional-changelog
+npm install -g grunt
+npm install -g gulp
+npm install -g less
+npm install -g lineman
+npm install -g mocha
+npm install -g node-inspector
+npm install -g sass
+npm install -g yo
+
+
+### Install Janus for vim
+curl.exe -L https://bit.ly/janus-bootstrap | bash
 
 
 ### Visual Studio 2015
