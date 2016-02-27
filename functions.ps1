@@ -86,6 +86,8 @@ function Refresh-Environment {
             Set-Item -Path Env:\$name -Value $value
         }
     }
+
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 }
 
 # Set a permanent Environment variable, and reload it into $env
