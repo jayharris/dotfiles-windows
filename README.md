@@ -1,4 +1,4 @@
-﻿# JayHarris's dotfiles for Windows
+﻿# Jay Harris's dotfiles for Windows
 
 A collection of PowerShell files for Windows, including common application installation through `Chocolatey` and `npm`, and developer-minded Windows configuration defaults. 
 
@@ -66,40 +66,24 @@ When setting up a new Windows PC, you may want to set some Windows defaults and 
 .\windows.ps1
 ```
 
-### Install Chocolatey packages
+### Install dependencies and packages
 
-When setting up a new Windows box, you may want to install some common [Chocolatey](http://chocolatey.org/) packages (it will also install chocolatey, if it isn't already).
-
-```posh
-.\chocolatey.ps1
-```
-
-### Install Node packages
-
-In addition to the applications provided by Chocolatey, you may also like some common applications that are provided by Node via [NPM](https://www.npmjs.org/). (Node is required, and can be installed via Chocolatey.)
+When setting up a new Windows box, you may want to install some common packages, utilities, and dependencies. These could include node.js packages via [NPM](https://www.npmjs.org), [Chocolatey](http://chocolatey.org/) packages, Windows Features and Tools via [Web Platform Installer](https://www.microsoft.com/web/downloads/platform.aspx), and Visual Studio Extensions from the [Visual Studio Gallery](http://visualstudiogallery.msdn.microsoft.com/).
 
 ```posh
-.\npm.ps1
+.\deps.ps1
 ```
 
-### Install Visual Studio Extensions
+> The scripts will install Chocolatey, node.js, and WebPI if necessary.
 
-You can also install Visual Studio Extensions from the [Gallery](http://visualstudiogallery.msdn.microsoft.com/) into your most recent version of Visual Studio.
+> **Visual Studio Extensions**  
+> Extensions will be installed into your most current version of Visual Studio. You can also install additional plugins at any time via `Install-VSExtension $url`. The Url can be found on the gallery; it's the extension's `Download` link url.
 
-```posh
-.\visualstudio.ps1
-```
-
-Or, to install Visual Studio plugins at any time:
-```posh
-Install-VSExtension $url
-```
-The Url can be found on the gallery. It's the extensions `Download` link url.
 
 
 ## Forking your own version
 
-This repository is built around how I use Windows, which is predominantly in a VM hosted on OSX. As such, things like VNC or Ruby or FileZilla or Skype are not installed, as they are available to me on the OSX side, installed by my [OSX dotfiles](https://github.com/jayharris/dotfiles). If you are using Windows as your primary OS, you may want a different configuration that reflects that, and I recommend you [fork this repository](https://github.com/jayharris/dotfiles-windows/fork).
+This repository is built around how I use Windows, which is predominantly in a VM hosted on OS X. As such, things like VNC, FileZilla, or Skype are not installed, as they are available to me on the OS X side, installed by my [OS X dotfiles](https://github.com/jayharris/dotfiles). If you are using Windows as your primary OS, you may want a different configuration that reflects that, and I recommend you [fork this repository](https://github.com/jayharris/dotfiles-windows/fork).
 
 If you do fork for your own custom configuration, you will need to touch a few files to reference your own repository, instead of mine.
 
@@ -110,7 +94,13 @@ $repo    = "dotfiles-windows"
 $branch  = "master"
 ```
 
-Also, be sure to reference your own repository in the git-free installation command.
+Within the Windows Defaults file, `/windows.ps1`, modify the Machine
+name on the first line.
+```posh
+$machineName    = "MyMachineName"
+```
+
+Finally, be sure to reference your own repository in the git-free installation command.
 ```bash
 iex ((new-object net.webclient).DownloadString('https://raw.github.com/$account/$repo/$branch/setup/install.ps1'))
 ```
@@ -122,10 +112,10 @@ Suggestions/improvements are
 
 ## Author
 
-| [![twitter/mathias](http://gravatar.com/avatar/1318668b99b2d5a3900f3f7758763a69?s=70)](http://twitter.com/jayharris "Follow @jayharris on Twitter") |
+| [![twitter/jayharris](http://gravatar.com/avatar/1318668b99b2d5a3900f3f7758763a69?s=70)](http://twitter.com/jayharris "Follow @jayharris on Twitter") |
 |---|
 | [Jay Harris](http://twitter.com/jayharris/) |
 
 ## Thanks to…
 
-* @[Mathias Bynens](http://mathiasbynens.be/) for his [OSX dotfiles](http://mths.be/dotfiles), which this repository is modeled after.
+* @[Mathias Bynens](http://mathiasbynens.be/) for his [OS X dotfiles](http://mths.be/dotfiles), which this repository is modeled after.
