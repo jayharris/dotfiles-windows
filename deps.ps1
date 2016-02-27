@@ -14,24 +14,31 @@ if ((which cinst) -eq $null) {
     choco feature enable -n=allowGlobalConfirmation
 }
 
+# system and cli
 #cinst curl #`curl` comes with GH4W
-cinst GitHubForWindows
-cinst GoogleChrome
-cinst GoogleChrome.Canary
-cinst hg
-cinst Fiddler4
-cinst Firefox
-cinst nodejs.install
 cinst nuget.commandline
-cinst Opera
-cinst ruby
-cinst vim
 cinst webpi
 cinst wget
 cinst wput
-#cinst wincommandpaste # Copy/Paste is supported natively in Win10
+
+# browsers
+cinst GoogleChrome
+cinst GoogleChrome.Canary
+cinst Firefox
+cinst Opera
+
+# dev tools and frameworks
+cinst atom
+cinst GitHubForWindows
+cinst hg
+cinst Fiddler4
+cinst nodejs.install
+cinst ruby
+cinst vim
 cinst winmerge
 
+# other
+#cinst wincommandpaste # Copy/Paste is supported natively in Win10
 
 ### Completing PoshGit installation if installing GH4W
 if (((choco list -lr | where {$_ -like "githubforwindows*"}) -ne $null) -and ((which git) -eq $null)) {
@@ -40,12 +47,14 @@ if (((choco list -lr | where {$_ -like "githubforwindows*"}) -ne $null) -and ((w
     Write-Host "In case GitHubForWindows is newly installed, execution has been"
     Write-Host "paused while you complete the installation."
     Write-Host ""
-    Read-Host -Prompt "When installation has completed, press Enter to continue" | Out-Null
+    Read-Host -Prompt "When (or if) installation has completed, press Enter to continue" | Out-Null
     Push-Location (Join-Path $env:LocalAppData "GitHub")
         Write-Host ""
         Write-Host "Relaunching GitHubForWindows to begin tooling installation."
-        Write-Host "Once launched, close GitHubForWindows to proceed."
-        Start-Process .\GitHub.appref-ms -Wait
+        Write-Host "You will be prompted for your GitHub credentials, though feel free to Skip."
+        Write-Host "A notification for Extracting Tools may display."
+        Start-Process .\GitHub.appref-ms
+        Read-Host -Prompt "Once GH4W displays the Repositories screen, press Enter to proceed." | Out-Null
         Write-Host ""
         Write-Host "Launching GitHubForWindows Shell to complete tooling installation."
         Start-Process .\GitHub.appref-ms -ArgumentList "--open-shell"
