@@ -171,26 +171,27 @@ $settings = @{
 # Console: Allow Copy/Paste using Mouse (0: Disabled, 1:Enabled)
 "QuickEdit"            = 1;
 # Console: Colors for Window. (8-byte; 4b background, 4b foreground. 0-15: Color, 0x07: Default)
-"ScreenColors"         = 0x0F;
+"ScreenColors"         = 0x09;
 # Console: Colors for Popup Windows. (8-byte; 4b background, 4b foreground. 0-15: Color, 0xF7: Default)
-"PopupColors"          = 0xF0;
+"PopupColors"          = 0x90;
 # Console: The 16 colors in the Console color well (BGR).
-"ColorTable00"         = Convert-ConsoleColor "#1e1e1e";
-"ColorTable01"         = Convert-ConsoleColor "#7587a6";
-"ColorTable02"         = Convert-ConsoleColor "#8f9d6a";
-"ColorTable03"         = Convert-ConsoleColor "#afc4db";
-"ColorTable04"         = Convert-ConsoleColor "#cf6a4c";
-"ColorTable05"         = Convert-ConsoleColor "#9b859d";
-"ColorTable06"         = Convert-ConsoleColor "#f9ee98";
-"ColorTable07"         = Convert-ConsoleColor "#c3c3c3";
-"ColorTable08"         = Convert-ConsoleColor "#323537";
-"ColorTable09"         = Convert-ConsoleColor "#838184";
-"ColorTable10"         = Convert-ConsoleColor "#464b50";
-"ColorTable11"         = Convert-ConsoleColor "#a7a7a7";
-"ColorTable12"         = Convert-ConsoleColor "#cda869";
-"ColorTable13"         = Convert-ConsoleColor "#9b703f";
-"ColorTable14"         = Convert-ConsoleColor "#5f5a60";
-"ColorTable15"         = Convert-ConsoleColor "#ffffff";
+# Jellybeans
+"ColorTable00"         = Convert-ConsoleColor "#151515";
+"ColorTable01"         = Convert-ConsoleColor "#3d1f86";
+"ColorTable02"         = Convert-ConsoleColor "#888888";
+"ColorTable03"         = Convert-ConsoleColor "#99ad6a";
+"ColorTable04"         = Convert-ConsoleColor "#0f0207";
+"ColorTable05"         = Convert-ConsoleColor "#5f7bae";
+"ColorTable06"         = Convert-ConsoleColor "#404040";
+"ColorTable07"         = Convert-ConsoleColor "#ffb964";
+"ColorTable08"         = Convert-ConsoleColor "#8fbfdc";
+"ColorTable09"         = Convert-ConsoleColor "#e8e8d3";
+"ColorTable10"         = Convert-ConsoleColor "#8197bf";
+"ColorTable11"         = Convert-ConsoleColor "#f0a0c0";
+"ColorTable12"         = Convert-ConsoleColor "#902020";
+"ColorTable13"         = Convert-ConsoleColor "#707070";
+"ColorTable14"         = Convert-ConsoleColor "#c6b6ee";
+"ColorTable15"         = Convert-ConsoleColor "#cf6a4c";
 }
 
 $registryPaths=@(`
