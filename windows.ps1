@@ -144,4 +144,71 @@ Remove-Variable MU
 Set-ItemProperty "HKCU:\Software\Microsoft\Internet Explorer\Main" "Start Page" "about:blank"
 
 
+### PowerShell Console
+### --------------------------
+$settings = @{
+# Console: Dimensions of window, in characters. (8-byte; 4b height, 4b width. Max: 0x7FFF7FFF (32767h x 32767w))
+"WindowSize"           = 0x00320078; # 50h x 120w
+# Console: Dimensions of screen buffer in memory, in characters. (8-byte; 4b height, 4b width. Max: 0x7FFF7FFF (32767h x 32767w))
+"ScreenBufferSize"     = 0x0BB80078; # 3000h x 120w
+# Console: Percentage of Character Space for Cursor (25: Small, 50: Medium, 100: Large)
+"CursorSize"           = 100; # 100
+# Console: Name of display font (TrueType)
+"FaceName"             = "Lucida Console";
+# Console: Font Family. (0: Raster, 54: TrueType)
+"FontFamily"           = 54;
+# Console: Dimensions of font character in pixels. (8-byte; 4b height, 4b width. 0: Auto)
+"FontSize"             = 0x000F0000; # 15px height x auto width
+# Console: Boldness of font. Raster=(0: Normal, 1: Bold). TrueType=(100-900, 400: Normal)
+"FontWeight"           = 400;
+# Console: Number of commands in history buffer. (50: Default)
+"HistoryBufferSize"    = 50;
+# Console: Discard duplicate commands (0: Disabled, 1: Enabled)
+"HistoryNoDup"         = 1;
+# Console: Typing Mode. (0: Overtype, 1: Insert)
+"InsertMode"           = 1;
+# Console: Allow Copy/Paste using Mouse (0: Disabled, 1:Enabled)
+"QuickEdit"            = 1;
+# Console: Colors for Window. (8-byte; 4b background, 4b foreground. 0-15: Color, 0x07: Default)
+"ScreenColors"         = 0x0F;
+# Console: Colors for Popup Windows. (8-byte; 4b background, 4b foreground. 0-15: Color, 0xF7: Default)
+"PopupColors"          = 0xF0;
+# Console: The 16 colors in the Console color well (BGR).
+"ColorTable00"         = Convert-ConsoleColor "#1e1e1e";
+"ColorTable01"         = Convert-ConsoleColor "#7587a6";
+"ColorTable02"         = Convert-ConsoleColor "#8f9d6a";
+"ColorTable03"         = Convert-ConsoleColor "#afc4db";
+"ColorTable04"         = Convert-ConsoleColor "#cf6a4c";
+"ColorTable05"         = Convert-ConsoleColor "#9b859d";
+"ColorTable06"         = Convert-ConsoleColor "#f9ee98";
+"ColorTable07"         = Convert-ConsoleColor "#c3c3c3";
+"ColorTable08"         = Convert-ConsoleColor "#323537";
+"ColorTable09"         = Convert-ConsoleColor "#838184";
+"ColorTable10"         = Convert-ConsoleColor "#464b50";
+"ColorTable11"         = Convert-ConsoleColor "#a7a7a7";
+"ColorTable12"         = Convert-ConsoleColor "#cda869";
+"ColorTable13"         = Convert-ConsoleColor "#9b703f";
+"ColorTable14"         = Convert-ConsoleColor "#5f5a60";
+"ColorTable15"         = Convert-ConsoleColor "#ffffff";
+}
+
+$registryPaths=@(`
+"HKCU:\Console\%SystemRoot%_System32_WindowsPowerShell_v1.0_powershell.exe",`
+"HKCU:\Console\%SystemRoot%_SysWOW64_WindowsPowerShell_v1.0_powershell.exe",`
+"HKCU:\Console\Windows PowerShell (x86)",`
+"HKCU:\Console\Windows PowerShell"`
+)
+
+$registryPaths | ForEach {
+    If (!(Test-Path $_)) {
+        New-Item -path $_ -ItemType Folder | Out-Null
+    }
+
+    ForEach ($setting in $settings.GetEnumerator()) {
+        Set-ItemProperty -Path $_ -Name $($setting.Name) -Value $($setting.Value)
+    }
+}
+
+Reset-AllPowerShellShortcuts
+
 echo "Done. Note that some of these changes require a logout/restart to take effect."
