@@ -226,14 +226,12 @@ Set-ItemProperty "HKCU:\Console\PSReadLine" "EmphasisForeground" 0xD
 # PSReadLine: Error syntax color. vim Error group. (Default: 0xC)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "ErrorForeground" 0x4
 
-$registryPaths=@(`
+@(`
 "HKCU:\Console\%SystemRoot%_System32_WindowsPowerShell_v1.0_powershell.exe",`
 "HKCU:\Console\%SystemRoot%_SysWOW64_WindowsPowerShell_v1.0_powershell.exe",`
 "HKCU:\Console\Windows PowerShell (x86)",`
 "HKCU:\Console\Windows PowerShell"`
-)
-
-$registryPaths | ForEach {
+) | ForEach {
     If (!(Test-Path $_)) {
         New-Item -path $_ -ItemType Folder | Out-Null
     }
@@ -241,7 +239,9 @@ $registryPaths | ForEach {
     ForEach ($setting in $settings.GetEnumerator()) {
         Set-ItemProperty -Path $_ -Name $($setting.Name) -Value $($setting.Value)
     }
+    Remove-Variable setting
 }
+Remove-Setting settings
 
 Reset-AllPowerShellShortcuts
 
