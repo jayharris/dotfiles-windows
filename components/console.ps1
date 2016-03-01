@@ -117,3 +117,18 @@ function Convert-ConsoleColor {
     return [BitConverter]::ToInt32($bytes, 0)
 }
 
+$PSReadLineRegistry = Get-ItemProperty 'HKCU:\Console\PSReadLine' -ErrorAction SilentlyContinue
+Set-PSReadlineOption -TokenKind Comment   -ForegroundColor (?? $PSReadLineRegistry.CommentForeground   DarkGreen)
+Set-PSReadlineOption -TokenKind Keyword   -ForegroundColor (?? $PSReadLineRegistry.KeywordForeground   Green)
+Set-PSReadlineOption -TokenKind String    -ForegroundColor (?? $PSReadLineRegistry.StringForeground    DarkCyan)
+Set-PSReadlineOption -TokenKind Operator  -ForegroundColor (?? $PSReadLineRegistry.OperatorForeground  DarkGray)
+Set-PSReadlineOption -TokenKind Variable  -ForegroundColor (?? $PSReadLineRegistry.VariableForeground  Green)
+Set-PSReadlineOption -TokenKind Command   -ForegroundColor (?? $PSReadLineRegistry.CommandForeground   Yellow)
+Set-PSReadlineOption -TokenKind Parameter -ForegroundColor (?? $PSReadLineRegistry.ParameterForeground DarkGray)
+Set-PSReadlineOption -TokenKind Type      -ForegroundColor (?? $PSReadLineRegistry.TypeForeground      Gray)
+Set-PSReadlineOption -TokenKind Number    -ForegroundColor (?? $PSReadLineRegistry.NumberForeground    White)
+Set-PSReadlineOption -TokenKind Member    -ForegroundColor (?? $PSReadLineRegistry.MemberForeground    Gray)
+Set-PSReadlineOption -TokenKind None      -ForegroundColor (?? $PSReadLineRegistry.NormalForeground    "$([System.Console]::ForegroundColor)")
+Set-PSReadlineOption -EmphasisForegroundColor (?? $PSReadLineRegistry.EmphasisForeground Cyan)
+Set-PSReadlineOption -ErrorForegroundColor    (?? $PSReadLineRegistry.ErrorForeground Red)
+Remove-Variable PSReadLineRegistry
