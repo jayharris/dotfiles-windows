@@ -175,56 +175,56 @@ $settings = @{
 # Console: Allow Copy/Paste using Mouse (0: Disabled, 1:Enabled)
 "QuickEdit"            = 1;
 # Console: Colors for Window. (8-byte; 4b background, 4b foreground. 0-15: Color, 0x07: Default)
-"ScreenColors"         = 0x87;
+"ScreenColors"         = 0x0F;
 # Console: Colors for Popup Windows. (8-byte; 4b background, 4b foreground. 0-15: Color, 0xF7: Default)
-"PopupColors"          = 0x78;
+"PopupColors"          = 0xF0;
 
 # Console: The 16 colors in the Console color well (BGR).
-# Solarized
-"ColorTable00"         = Convert-ConsoleColor "#073642"; # Black       base02  :
-"ColorTable01"         = Convert-ConsoleColor "#dc322f"; # DarkBlue    red     : Error        (Error)
-"ColorTable02"         = Convert-ConsoleColor "#859900"; # DarkGreen   green   : Statement    (Keyword, Operator)
-"ColorTable03"         = Convert-ConsoleColor "#b58900"; # DarkCyan    yellow  : Type, Search (Type, Emphasis)
-"ColorTable04"         = Convert-ConsoleColor "#268bd2"; # DarkRed     blue    : Identifier   (Command, Member, Variable)
-"ColorTable05"         = Convert-ConsoleColor "#d33682"; # DarkMagenta magenta :
-"ColorTable06"         = Convert-ConsoleColor "#2aa198"; # DarkYellow  cyan    : Constant     (Number, String)
-"ColorTable07"         = Convert-ConsoleColor "#eee8d5"; # Gray        base2   :
-"ColorTable08"         = Convert-ConsoleColor "#002b36"; # DarkGray    base03  : Normal-Bg    (Background)
-"ColorTable09"         = Convert-ConsoleColor "#cb4b16"; # Blue        orange  : PreProc      (Parameter)
-"ColorTable10"         = Convert-ConsoleColor "#586e75"; # Green       base01  : Comment      (Comment)
-"ColorTable11"         = Convert-ConsoleColor "#657b83"; # Cyan        base00  :
-"ColorTable12"         = Convert-ConsoleColor "#839496"; # Red         base0   : Normal       (Foreground)
-"ColorTable13"         = Convert-ConsoleColor "#6c71c4"; # Magenta     violet  :
-"ColorTable14"         = Convert-ConsoleColor "#93a1a1"; # Yellow      base1   :
-"ColorTable15"         = Convert-ConsoleColor "#fdf6e3"; # White       base3   :
+# Jellybeans
+"ColorTable00"         = Convert-ConsoleColor "#151515"; # Black (0)
+"ColorTable01"         = Convert-ConsoleColor "#8197bf"; # DarkBlue (1)
+"ColorTable02"         = Convert-ConsoleColor "#437019"; # DarkGreen (2)
+"ColorTable03"         = Convert-ConsoleColor "#556779"; # DarkCyan (3)
+"ColorTable04"         = Convert-ConsoleColor "#902020"; # DarkRed (4)
+"ColorTable05"         = Convert-ConsoleColor "#540063"; # DarkMagenta (5)
+"ColorTable06"         = Convert-ConsoleColor "#dad085"; # DarkYellow (6)
+"ColorTable07"         = Convert-ConsoleColor "#888888"; # Gray (7)
+"ColorTable08"         = Convert-ConsoleColor "#606060"; # DarkGray (8)
+"ColorTable09"         = Convert-ConsoleColor "#7697d6"; # Blue (9)
+"ColorTable10"         = Convert-ConsoleColor "#99ad6a"; # Green (A)
+"ColorTable11"         = Convert-ConsoleColor "#c6b6ee"; # Cyan (B)
+"ColorTable12"         = Convert-ConsoleColor "#cf6a4c"; # Red (C)
+"ColorTable13"         = Convert-ConsoleColor "#f0a0c0"; # Magenta (D)
+"ColorTable14"         = Convert-ConsoleColor "#fad07a"; # Yellow (E)
+"ColorTable15"         = Convert-ConsoleColor "#e8e8d3"; # White (F)
 }
 
 # PSReadLine: Normal syntax color. vim Normal group. (Default: Foreground)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "NormalForeground" 0xC
+Set-ItemProperty "HKCU:\Console\PSReadLine" "NormalForeground" 0xF
 # PSReadLine: Comment Token syntax color. vim Comment group. (Default: 0x2)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "CommentForeground" 0xA
+Set-ItemProperty "HKCU:\Console\PSReadLine" "CommentForeground" 0x7
 # PSReadLine: Keyword Token syntax color. vim Statement group. (Default: 0xA)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "KeywordForeground" 0x2
+Set-ItemProperty "HKCU:\Console\PSReadLine" "KeywordForeground" 0x1
 # PSReadLine: String Token syntax color. vim String [or Constant] group. (Default: 0x3)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "StringForeground"  0x6
+Set-ItemProperty "HKCU:\Console\PSReadLine" "StringForeground"  0xA
 # PSReadLine: Operator Token syntax color. vim Operator [or Statement] group. (Default: 0x8)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "OperatorForeground" 0x2
+Set-ItemProperty "HKCU:\Console\PSReadLine" "OperatorForeground" 0xB
 # PSReadLine: Variable Token syntax color. vim Identifier group. (Default: 0xA)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "VariableForeground" 0x4
+Set-ItemProperty "HKCU:\Console\PSReadLine" "VariableForeground" 0xB
 # PSReadLine: Command Token syntax color. vim Function [or Identifier] group. (Default: 0xE)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "CommandForeground" 0x2
+Set-ItemProperty "HKCU:\Console\PSReadLine" "CommandForeground" 0x1
 # PSReadLine: Parameter Token syntax color. vim Normal group. (Default: 0x8)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "ParameterForeground" 0xC
+Set-ItemProperty "HKCU:\Console\PSReadLine" "ParameterForeground" 0xF
 # PSReadLine: Type Token syntax color. vim Type group. (Default: 0x7)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "TypeForeground" 0x3
+Set-ItemProperty "HKCU:\Console\PSReadLine" "TypeForeground" 0xE
 # PSReadLine: Number Token syntax color. vim Number [or Constant] group. (Default: 0xF)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "NumberForeground" 0x5
+Set-ItemProperty "HKCU:\Console\PSReadLine" "NumberForeground" 0xC
 # PSReadLine: Member Token syntax color. vim Function [or Identifier] group. (Default: 0x7)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "MemberForeground" 0x4
+Set-ItemProperty "HKCU:\Console\PSReadLine" "MemberForeground" 0xE
 # PSReadLine: Emphasis syntax color. vim Search group. (Default: 0xB)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "EmphasisForeground" 0x3
+Set-ItemProperty "HKCU:\Console\PSReadLine" "EmphasisForeground" 0xD
 # PSReadLine: Error syntax color. vim Error group. (Default: 0xC)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "ErrorForeground" 0x1
+Set-ItemProperty "HKCU:\Console\PSReadLine" "ErrorForeground" 0x4
 
 $registryPaths=@(`
 "HKCU:\Console\%SystemRoot%_System32_WindowsPowerShell_v1.0_powershell.exe",`
