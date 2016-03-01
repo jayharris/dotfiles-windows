@@ -1,0 +1,6 @@
+set guioptions-=m  "hide menu bar
+set guioptions-=T  "hide toolbar
+set guioptions-=r  "hide right-hand scrollbar
+set guioptions-=L  "hide left-hand scrollbar
+
+set guifont=Source\ Code\ Pro:h11
