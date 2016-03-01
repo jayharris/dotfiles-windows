@@ -70,6 +70,11 @@ function Get-DiskUsage([string] $path=(Get-Location).Path) {
         1
 }
 
+# Cleanup all disks (Based on Registry Settings in `windows.ps1`)
+function Clean-Disks {
+    Start-Process "$(Join-Path $env:WinDir 'system32\cleanmgr.exe')" -ArgumentList "/sagerun:6174" -Verb "runAs"
+}
+
 ### Environment functions
 ### ----------------------------
 
