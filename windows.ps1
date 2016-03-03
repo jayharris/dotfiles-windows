@@ -189,6 +189,9 @@ Remove-Variable diskCleanupRegPath
 ### PowerShell Console
 ### --------------------------
 
+# PowerShell: Make 'Source Code Pro' an available Console font
+Set-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont' 000 'Source Code Pro'
+
 # Custom Path for PSReadLine Settings
 if (!(Test-Path "HKCU:\Console\PSReadLine")) {New-Item -Path "HKCU:\Console\PSReadLine" -Type Folder | Out-Null}
 
@@ -230,17 +233,17 @@ Set-ItemProperty "HKCU:\Console\PSReadLine" "ErrorForeground" 0x4
     }
 
 # Console: Dimensions of window, in characters. (8-byte; 4b height, 4b width. Max: 0x7FFF7FFF (32767h x 32767w))
-Set-ItemProperty $_ "WindowSize"           0x00320078; # 50h x 120w
+Set-ItemProperty $_ "WindowSize"           0x002D0078; # 45h x 120w
 # Console: Dimensions of screen buffer in memory, in characters. (8-byte; 4b height, 4b width. Max: 0x7FFF7FFF (32767h x 32767w))
 Set-ItemProperty $_ "ScreenBufferSize"     0x0BB80078; # 3000h x 120w
 # Console: Percentage of Character Space for Cursor (25: Small, 50: Medium, 100: Large)
 Set-ItemProperty $_ "CursorSize"           100; # 100
 # Console: Name of display font (TrueType)
-Set-ItemProperty $_ "FaceName"             "Lucida Console";
+Set-ItemProperty $_ "FaceName"             "Source Code Pro";
 # Console: Font Family. (0: Raster, 54: TrueType)
 Set-ItemProperty $_ "FontFamily"           54;
 # Console: Dimensions of font character in pixels (Pixels, not Points). (8-byte; 4b height, 4b width. 0: Auto)
-Set-ItemProperty $_ "FontSize"             0x00100000; # 12px height x auto width
+Set-ItemProperty $_ "FontSize"             0x00110000; # 17px height x auto width
 # Console: Boldness of font. Raster=(0: Normal, 1: Bold). TrueType=(100-900, 400: Normal)
 Set-ItemProperty $_ "FontWeight"           400;
 # Console: Number of commands in history buffer. (50: Default)
