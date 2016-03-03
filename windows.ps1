@@ -334,6 +334,8 @@ Set-ItemProperty $_ "QuickEdit"            1;
 Set-ItemProperty $_ "ScreenColors"         0x0F;
 # Console: Colors for Popup Windows. (8-byte; 4b background, 4b foreground. 0-15: Color, 0xF7: Default)
 Set-ItemProperty $_ "PopupColors"          0xF0;
+# Console: Adjust opacity between 30% and 100%: 0x4C to 0xFF -or- 76 to 255.
+Set-ItemProperty $_ "WindowAlpha"          0xF2; # 95%
 
 # Console: The 16 colors in the Console color well (Persisted values are in BGR).
 # Jellybeans
