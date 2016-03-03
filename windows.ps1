@@ -192,54 +192,6 @@ Remove-Variable diskCleanupRegPath
 # Custom Path for PSReadLine Settings
 if (!(Test-Path "HKCU:\Console\PSReadLine")) {New-Item -Path "HKCU:\Console\PSReadLine" -Type Folder | Out-Null}
 
-$settings = @{
-# Console: Dimensions of window, in characters. (8-byte; 4b height, 4b width. Max: 0x7FFF7FFF (32767h x 32767w))
-"WindowSize"           = 0x00320078; # 50h x 120w
-# Console: Dimensions of screen buffer in memory, in characters. (8-byte; 4b height, 4b width. Max: 0x7FFF7FFF (32767h x 32767w))
-"ScreenBufferSize"     = 0x0BB80078; # 3000h x 120w
-# Console: Percentage of Character Space for Cursor (25: Small, 50: Medium, 100: Large)
-"CursorSize"           = 100; # 100
-# Console: Name of display font (TrueType)
-"FaceName"             = "Lucida Console";
-# Console: Font Family. (0: Raster, 54: TrueType)
-"FontFamily"           = 54;
-# Console: Dimensions of font character in pixels. (8-byte; 4b height, 4b width. 0: Auto)
-"FontSize"             = 0x000F0000; # 15px height x auto width
-# Console: Boldness of font. Raster=(0: Normal, 1: Bold). TrueType=(100-900, 400: Normal)
-"FontWeight"           = 400;
-# Console: Number of commands in history buffer. (50: Default)
-"HistoryBufferSize"    = 50;
-# Console: Discard duplicate commands (0: Disabled, 1: Enabled)
-"HistoryNoDup"         = 1;
-# Console: Typing Mode. (0: Overtype, 1: Insert)
-"InsertMode"           = 1;
-# Console: Allow Copy/Paste using Mouse (0: Disabled, 1:Enabled)
-"QuickEdit"            = 1;
-# Console: Colors for Window. (8-byte; 4b background, 4b foreground. 0-15: Color, 0x07: Default)
-"ScreenColors"         = 0x0F;
-# Console: Colors for Popup Windows. (8-byte; 4b background, 4b foreground. 0-15: Color, 0xF7: Default)
-"PopupColors"          = 0xF0;
-
-# Console: The 16 colors in the Console color well (BGR).
-# Jellybeans
-"ColorTable00"         = Convert-ConsoleColor "#151515"; # Black (0)
-"ColorTable01"         = Convert-ConsoleColor "#8197bf"; # DarkBlue (1)
-"ColorTable02"         = Convert-ConsoleColor "#437019"; # DarkGreen (2)
-"ColorTable03"         = Convert-ConsoleColor "#556779"; # DarkCyan (3)
-"ColorTable04"         = Convert-ConsoleColor "#902020"; # DarkRed (4)
-"ColorTable05"         = Convert-ConsoleColor "#540063"; # DarkMagenta (5)
-"ColorTable06"         = Convert-ConsoleColor "#dad085"; # DarkYellow (6)
-"ColorTable07"         = Convert-ConsoleColor "#888888"; # Gray (7)
-"ColorTable08"         = Convert-ConsoleColor "#606060"; # DarkGray (8)
-"ColorTable09"         = Convert-ConsoleColor "#7697d6"; # Blue (9)
-"ColorTable10"         = Convert-ConsoleColor "#99ad6a"; # Green (A)
-"ColorTable11"         = Convert-ConsoleColor "#c6b6ee"; # Cyan (B)
-"ColorTable12"         = Convert-ConsoleColor "#cf6a4c"; # Red (C)
-"ColorTable13"         = Convert-ConsoleColor "#f0a0c0"; # Magenta (D)
-"ColorTable14"         = Convert-ConsoleColor "#fad07a"; # Yellow (E)
-"ColorTable15"         = Convert-ConsoleColor "#e8e8d3"; # White (F)
-}
-
 # PSReadLine: Normal syntax color. vim Normal group. (Default: Foreground)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "NormalForeground" 0xF
 # PSReadLine: Comment Token syntax color. vim Comment group. (Default: 0x2)
@@ -277,12 +229,52 @@ Set-ItemProperty "HKCU:\Console\PSReadLine" "ErrorForeground" 0x4
         New-Item -path $_ -ItemType Folder | Out-Null
     }
 
-    ForEach ($setting in $settings.GetEnumerator()) {
-        Set-ItemProperty -Path $_ -Name $($setting.Name) -Value $($setting.Value)
-    }
-    Remove-Variable setting
+# Console: Dimensions of window, in characters. (8-byte; 4b height, 4b width. Max: 0x7FFF7FFF (32767h x 32767w))
+Set-ItemProperty $_ "WindowSize"           0x00320078; # 50h x 120w
+# Console: Dimensions of screen buffer in memory, in characters. (8-byte; 4b height, 4b width. Max: 0x7FFF7FFF (32767h x 32767w))
+Set-ItemProperty $_ "ScreenBufferSize"     0x0BB80078; # 3000h x 120w
+# Console: Percentage of Character Space for Cursor (25: Small, 50: Medium, 100: Large)
+Set-ItemProperty $_ "CursorSize"           100; # 100
+# Console: Name of display font (TrueType)
+Set-ItemProperty $_ "FaceName"             "Lucida Console";
+# Console: Font Family. (0: Raster, 54: TrueType)
+Set-ItemProperty $_ "FontFamily"           54;
+# Console: Dimensions of font character in pixels (Pixels, not Points). (8-byte; 4b height, 4b width. 0: Auto)
+Set-ItemProperty $_ "FontSize"             0x00100000; # 12px height x auto width
+# Console: Boldness of font. Raster=(0: Normal, 1: Bold). TrueType=(100-900, 400: Normal)
+Set-ItemProperty $_ "FontWeight"           400;
+# Console: Number of commands in history buffer. (50: Default)
+Set-ItemProperty $_ "HistoryBufferSize"    50;
+# Console: Discard duplicate commands (0: Disabled, 1: Enabled)
+Set-ItemProperty $_ "HistoryNoDup"         1;
+# Console: Typing Mode. (0: Overtype, 1: Insert)
+Set-ItemProperty $_ "InsertMode"           1;
+# Console: Allow Copy/Paste using Mouse (0: Disabled, 1:Enabled)
+Set-ItemProperty $_ "QuickEdit"            1;
+# Console: Colors for Window. (8-byte; 4b background, 4b foreground. 0-15: Color, 0x07: Default)
+Set-ItemProperty $_ "ScreenColors"         0x0F;
+# Console: Colors for Popup Windows. (8-byte; 4b background, 4b foreground. 0-15: Color, 0xF7: Default)
+Set-ItemProperty $_ "PopupColors"          0xF0;
+
+# Console: The 16 colors in the Console color well (Persisted values are in BGR).
+# Jellybeans
+Set-ItemProperty $_ "ColorTable00"         $(Convert-ConsoleColor "#151515") # Black (0)
+Set-ItemProperty $_ "ColorTable01"         $(Convert-ConsoleColor "#8197bf") # DarkBlue (1)
+Set-ItemProperty $_ "ColorTable02"         $(Convert-ConsoleColor "#437019") # DarkGreen (2)
+Set-ItemProperty $_ "ColorTable03"         $(Convert-ConsoleColor "#556779") # DarkCyan (3)
+Set-ItemProperty $_ "ColorTable04"         $(Convert-ConsoleColor "#902020") # DarkRed (4)
+Set-ItemProperty $_ "ColorTable05"         $(Convert-ConsoleColor "#540063") # DarkMagenta (5)
+Set-ItemProperty $_ "ColorTable06"         $(Convert-ConsoleColor "#dad085") # DarkYellow (6)
+Set-ItemProperty $_ "ColorTable07"         $(Convert-ConsoleColor "#888888") # Gray (7)
+Set-ItemProperty $_ "ColorTable08"         $(Convert-ConsoleColor "#606060") # DarkGray (8)
+Set-ItemProperty $_ "ColorTable09"         $(Convert-ConsoleColor "#7697d6") # Blue (9)
+Set-ItemProperty $_ "ColorTable10"         $(Convert-ConsoleColor "#99ad6a") # Green (A)
+Set-ItemProperty $_ "ColorTable11"         $(Convert-ConsoleColor "#c6b6ee") # Cyan (B)
+Set-ItemProperty $_ "ColorTable12"         $(Convert-ConsoleColor "#cf6a4c") # Red (C)
+Set-ItemProperty $_ "ColorTable13"         $(Convert-ConsoleColor "#f0a0c0") # Magenta (D)
+Set-ItemProperty $_ "ColorTable14"         $(Convert-ConsoleColor "#fad07a") # Yellow (E)
+Set-ItemProperty $_ "ColorTable15"         $(Convert-ConsoleColor "#e8e8d3") # White (F)
 }
-Remove-Variable settings
 
 Reset-AllPowerShellShortcuts
 
