@@ -102,6 +102,82 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\DWM" "ColorPrevalence" 0
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "ConfirmFileDelete" 0
 
 
+### Remove default Windows Apps
+### --------------------------
+
+# 3D Builder
+Get-AppxPackage "Microsoft.3DBuilder" | Remove-AppxPackage
+
+# Alarms and Clock
+Get-AppxPackage "Microsoft.WindowsAlarms" | Remove-AppxPackage
+
+# Bing Finance
+Get-AppxPackage "Microsoft.BingFinance" | Remove-AppxPackage
+
+# Bing News
+Get-AppxPackage "Microsoft.BingNews" | Remove-AppxPackage
+
+# Bing Sports
+Get-AppxPackage "Microsoft.BingSports" | Remove-AppxPackage
+
+# Bing Weather
+Get-AppxPackage "Microsoft.BingWeather" | Remove-AppxPackage
+
+# Calendar and Mail
+Get-AppxPackage "Microsoft.WindowsCommunicationsApps" | Remove-AppxPackage
+
+# Candy Crush Soda Saga
+Get-AppxPackage "king.com.CandyCrushSodaSaga" | Remove-AppxPackage
+
+# Get Office, and it's "Get Office365" notifications
+Get-AppxPackage "Microsoft.MicrosoftOfficeHub" | Remove-AppxPackage
+
+# Get Started
+Get-AppxPackage "Microsoft.GetStarted" | Remove-AppxPackage
+
+# Maps
+Get-AppxPackage "Microsoft.WindowsMaps" | Remove-AppxPackage
+
+# Messaging
+Get-AppxPackage "Microsoft.Messaging" | Remove-AppxPackage
+
+# OneNote
+Get-AppxPackage "Microsoft.Office.OneNote" | Remove-AppxPackage
+
+# People
+Get-AppxPackage "Microsoft.People" | Remove-AppxPackage
+
+# Photos
+Get-AppxPackage "Microsoft.Windows.Photos" | Remove-AppxPackage
+
+# Skype
+Get-AppxPackage "Microsoft.SkypeApp" | Remove-AppxPackage
+
+# Solitaire
+Get-AppxPackage "Microsoft.MicrosoftSolitaireCollection" | Remove-AppxPackage
+
+# Sway
+Get-AppxPackage "Microsoft.Office.Sway" | Remove-AppxPackage
+
+# Twitter
+Get-AppxPackage "*.Twitter" | Remove-AppxPackage
+
+# Voice Recorder
+Get-AppxPackage "Microsoft.WindowsSoundRecorder" | Remove-AppxPackage
+
+# Windows Phone Companion
+Get-AppxPackage "Microsoft.WindowsPhone" | Remove-AppxPackage
+
+# XBox
+Get-AppxPackage "Microsoft.XboxApp" | Remove-AppxPackage
+
+# Zune Music (Groove)
+Get-AppxPackage "Microsoft.ZuneMusic" | Remove-AppxPackage
+
+# Zune Video
+Get-AppxPackage "Microsoft.ZuneVideo" | Remove-AppxPackage
+
+
 ### Lock Screen
 ### --------------------------
 
