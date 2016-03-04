@@ -1,11 +1,5 @@
-$myMachineName    = "CHOZO"
-
-# Get the ID and security principal of the current user account
-$myIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent()
-$myPrincipal=new-object System.Security.Principal.WindowsPrincipal($myIdentity)
-
 # Check to see if we are currently running "as Administrator"
-if (!$myPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)) {
+if (!(Verify-Elevated)) {
    $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
    $newProcess.Arguments = $myInvocation.MyCommand.Definition;
    $newProcess.Verb = "runas";
@@ -14,26 +8,20 @@ if (!$myPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Admin
    exit
 }
 
-# HKUsers drive for Registry
-if ((Get-PSDrive HKUsers -ErrorAction SilentlyContinue) -eq $null) { New-PSDrive -Name HKUSERS -PSProvider Registry -Root Registry::HKEY_USERS | Out-Null }
-
 ###############################################################################
 ### Security and Identity                                                     #
 ###############################################################################
 
-## Set DisplayName for my account
-## Use only if you are not using a Microsoft Account
+# Set Computer Name
+(Get-WmiObject Win32_ComputerSystem).Rename("CHOZO") | Out-Null
+
+## Set DisplayName for my account. Use only if you are not using a Microsoft Account
+#$myIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent()
 #$user = Get-WmiObject Win32_UserAccount | Where {$_.Caption -eq $myIdentity.Name}
 #$user.FullName = "Jay Harris
 #$user.Put() | Out-Null
 #Remove-Variable user
-
-# Set Computer Name
-(Get-WmiObject Win32_ComputerSystem).Rename($myMachineName) | Out-Null
-
-Remove-Variable myMachineName
-Remove-Variable myPrincipal
-Remove-Variable myIdentity
+#Remove-Variable myIdentity
 
 ###############################################################################
 ### Devices, Power, and Startup                                               #

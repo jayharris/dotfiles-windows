@@ -97,7 +97,7 @@ $branch  = "master"
 Within the Windows Defaults file, `/windows.ps1`, modify the Machine
 name on the first line.
 ```posh
-$myMachineName    = "MyMachineName"
+(Get-WmiObject Win32_ComputerSystem).Rename("MyMachineName") | Out-Null
 ```
 
 Finally, be sure to reference your own repository in the git-free installation command.
