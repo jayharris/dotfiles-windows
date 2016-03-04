@@ -1,4 +1,4 @@
-$machineName    = "CHOZO"
+$myMachineName    = "CHOZO"
 
 # Get the ID and security principal of the current user account
 $myIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent()
@@ -14,29 +14,30 @@ if (!$myPrincipal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Admin
    exit
 }
 
-## Set DisplayName for my account
-## Useful for setting up Account information if you are not using a Microsoft Account
-#$userFullName   = "Jay Harris"
-#$user = Get-WmiObject Win32_UserAccount | Where {$_.Caption -eq $myIdentity.Name}
-#$user.FullName = $userFullName
-#$user.Put() | Out-Null
-#Remove-Variable userFullName
-#Remove-Variable user
-
-# Set Computer Name
-(Get-WmiObject Win32_ComputerSystem).Rename($machineName) | Out-Null
-
-Remove-Variable machineName
-Remove-Variable myPrincipal
-Remove-Variable myIdentity
-
-
 # HKUsers drive for Registry
 if ((Get-PSDrive HKUsers -ErrorAction SilentlyContinue) -eq $null) { New-PSDrive -Name HKUSERS -PSProvider Registry -Root Registry::HKEY_USERS | Out-Null }
 
+###############################################################################
+### Security and Identity                                                     #
+###############################################################################
 
-### Devices, Power, and Startup
-### --------------------------
+## Set DisplayName for my account
+## Use only if you are not using a Microsoft Account
+#$user = Get-WmiObject Win32_UserAccount | Where {$_.Caption -eq $myIdentity.Name}
+#$user.FullName = "Jay Harris
+#$user.Put() | Out-Null
+#Remove-Variable user
+
+# Set Computer Name
+(Get-WmiObject Win32_ComputerSystem).Rename($myMachineName) | Out-Null
+
+Remove-Variable myMachineName
+Remove-Variable myPrincipal
+Remove-Variable myIdentity
+
+###############################################################################
+### Devices, Power, and Startup                                               #
+###############################################################################
 
 # Sound: Disable Startup Sound
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" "DisableStartupSound" 1
@@ -45,35 +46,37 @@ Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication
 # Power: Disable Hibernation
 powercfg /hibernate off
 
-# Power Set standby delay to 24 hours
+# Power: Set standby delay to 24 hours
 powercfg /change /standby-timeout-ac 1440
 
 # SSD: Disable SuperFetch
 Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "EnableSuperfetch" 0
 
-# Network: Disable WiFi Sense. 0=Disabled, 1=Enabled
+# Network: Disable WiFi Sense
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config" "AutoConnectAllowedOEM" 0
 
+###############################################################################
+### Explorer, Taskbar, and System Tray                                        #
+###############################################################################
 
-### Explorer, Taskbar, and System Tray
-### --------------------------
+# Ensure necessary registry paths
 if (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Type Folder | Out-Null}
 if (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState")) {New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" -Type Folder | Out-Null}
 if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\Windows Search")) {New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\Windows Search" -Type Folder | Out-Null}
 
-# Explorer: Show hidden files by default (1: Show Files, 2: Hide Files)
+# Explorer: Show hidden files by default: Show Files: 1, Hide Files: 2
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Hidden" 1
 
-# Explorer: show file extensions by default (0: Show Extensions, 1: Hide Extensions)
+# Explorer: Show file extensions by default
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "HideFileExt" 0
 
-# Explorer: show path in title bar
+# Explorer: Show path in title bar
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" "FullPath" 1
 
 # Explorer: Avoid creating Thumbs.db files on network volumes
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "DisableThumbnailsOnNetworkFolders" 1
 
-# Taskbar: use small icons (0: Large Icons, 1: Small Icons)
+# Taskbar: Enable small icons
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarSmallIcons" 1
 
 # Taskbar: Don't show Windows Store Apps on Taskbar
@@ -86,109 +89,109 @@ Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" "BingS
 # Taskbar: Disable Cortana
 Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\Windows Search" "AllowCortana" 0
 
-# SysTray: hide the Action Center, Network, and Volume icons
+# SysTray: Hide the Action Center, Network, and Volume icons
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCAHealth" 1  # Action Center
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCANetwork" 1 # Network
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCAVolume" 1  # Volume
 #Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "HideSCAPower" 1  # Power
 
-# Taskbar: Show colors on Taskbar, Start, and SysTray (0: Disabled, 1: Taskbar, Start, & SysTray, 2: Taskbar Only)
+# Taskbar: Show colors on Taskbar, Start, and SysTray: Disabled: 0, Taskbar, Start, & SysTray: 1, Taskbar Only: 2
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" "ColorPrevalence" 1
 
-# Titlebar: Show colors on titlebar (0: Disabled, 1: Enabled)
+# Titlebar: Disable theme colors on titlebar
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\DWM" "ColorPrevalence" 0
 
 # Recycle Bin: Disable Delete Confirmation Dialog
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "ConfirmFileDelete" 0
 
+###############################################################################
+### Default Windows Applications                                              #
+###############################################################################
 
-### Remove default Windows Apps
-### --------------------------
-
-# 3D Builder
+# Uninstall 3D Builder
 Get-AppxPackage "Microsoft.3DBuilder" | Remove-AppxPackage
 
-# Alarms and Clock
+# Uninstall Alarms and Clock
 Get-AppxPackage "Microsoft.WindowsAlarms" | Remove-AppxPackage
 
-# Bing Finance
+# Uninstall Bing Finance
 Get-AppxPackage "Microsoft.BingFinance" | Remove-AppxPackage
 
-# Bing News
+# Uninstall Bing News
 Get-AppxPackage "Microsoft.BingNews" | Remove-AppxPackage
 
-# Bing Sports
+# Uninstall Bing Sports
 Get-AppxPackage "Microsoft.BingSports" | Remove-AppxPackage
 
-# Bing Weather
+# Uninstall Bing Weather
 Get-AppxPackage "Microsoft.BingWeather" | Remove-AppxPackage
 
-# Calendar and Mail
+# Uninstall Calendar and Mail
 Get-AppxPackage "Microsoft.WindowsCommunicationsApps" | Remove-AppxPackage
 
-# Candy Crush Soda Saga
+# Uninstall Candy Crush Soda Saga
 Get-AppxPackage "king.com.CandyCrushSodaSaga" | Remove-AppxPackage
 
-# Get Office, and it's "Get Office365" notifications
+# Uninstall Get Office, and it's "Get Office365" notifications
 Get-AppxPackage "Microsoft.MicrosoftOfficeHub" | Remove-AppxPackage
 
-# Get Started
+# Uninstall Get Started
 Get-AppxPackage "Microsoft.GetStarted" | Remove-AppxPackage
 
-# Maps
+# Uninstall Maps
 Get-AppxPackage "Microsoft.WindowsMaps" | Remove-AppxPackage
 
-# Messaging
+# Uninstall Messaging
 Get-AppxPackage "Microsoft.Messaging" | Remove-AppxPackage
 
-# OneNote
+# Uninstall OneNote
 Get-AppxPackage "Microsoft.Office.OneNote" | Remove-AppxPackage
 
-# People
+# Uninstall People
 Get-AppxPackage "Microsoft.People" | Remove-AppxPackage
 
-# Photos
+# Uninstall Photos
 Get-AppxPackage "Microsoft.Windows.Photos" | Remove-AppxPackage
 
-# Skype
+# Uninstall Skype
 Get-AppxPackage "Microsoft.SkypeApp" | Remove-AppxPackage
 
-# Solitaire
+# Uninstall Solitaire
 Get-AppxPackage "Microsoft.MicrosoftSolitaireCollection" | Remove-AppxPackage
 
-# Sway
+# Uninstall Sway
 Get-AppxPackage "Microsoft.Office.Sway" | Remove-AppxPackage
 
-# Twitter
+# Uninstall Twitter
 Get-AppxPackage "*.Twitter" | Remove-AppxPackage
 
-# Voice Recorder
+# Uninstall Voice Recorder
 Get-AppxPackage "Microsoft.WindowsSoundRecorder" | Remove-AppxPackage
 
-# Windows Phone Companion
+# Uninstall Windows Phone Companion
 Get-AppxPackage "Microsoft.WindowsPhone" | Remove-AppxPackage
 
-# XBox
+# Uninstall XBox
 Get-AppxPackage "Microsoft.XboxApp" | Remove-AppxPackage
 
-# Zune Music (Groove)
+# Uninstall Zune Music (Groove)
 Get-AppxPackage "Microsoft.ZuneMusic" | Remove-AppxPackage
 
-# Zune Video
+# Uninstall Zune Video
 Get-AppxPackage "Microsoft.ZuneVideo" | Remove-AppxPackage
 
-
-### Lock Screen
-### --------------------------
+###############################################################################
+### Lock Screen                                                               #
+###############################################################################
 
 ## Enable Custom Background on the Login / Lock Screen
 ## Background file: C:\someDirectory\someImage.jpg
 ## File Size Limit: 256Kb
 # Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\Personalization" "LockScreenImage" "C:\someDirectory\someImage.jpg"
 
-
-### Accessibility and Ease of Use
-### --------------------------
+###############################################################################
+### Accessibility and Ease of Use                                             #
+###############################################################################
 
 # Turn Off Windows Narrator
 if (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Narrator.exe")) {New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Narrator.exe" -Type Folder | Out-Null}
@@ -209,50 +212,53 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advan
 # Disable auto-correct
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\TabletTip\1.7" "EnableAutocorrection" 0
 
+###############################################################################
+### Windows Update                                                            #
+###############################################################################
 
-### Windows Update
-### --------------------------
-
+# Ensure Windows Update registry paths
 if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate")) {New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate" -Type Folder | Out-Null}
 if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU")) {New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" -Type Folder | Out-Null}
 
-# Windows Update: Enable Automatic Updates. 0=Enabled, 1=Disabled
+# Enable Automatic Updates
 Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" "NoAutoUpdate" 0
 
-# Windows Update: Don't automatically reboot after install
-Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate" "NoAutoRebootWithLoggedOnUsers" 1d
+# Disable automatic reboot after install
+Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate" "NoAutoRebootWithLoggedOnUsers" 1
 Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" "NoAutoRebootWithLoggedOnUsers" 1
 
-# Windows Update: Auto-Download but not Install. 0=NotConfigured, 1=Disabled, 2=NotifyBeforeDownload, 3=NotifyBeforeInstall, 4=ScheduledInstall
+# Configure to Auto-Download but not Install: NotConfigured: 0, Disabled: 1, NotifyBeforeDownload: 2, NotifyBeforeInstall: 3, ScheduledInstall: 4
 Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" "AUOptions" 3
 
-# Windows Update: Include Recommended Updates
+# Include Recommended Updates
 Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" "IncludeRecommendedUpdates" 1
 
-# Windows Update: Opt-In to Microsoft Update
+# Opt-In to Microsoft Update
 $MU = New-Object -ComObject Microsoft.Update.ServiceManager -Strict
 $MU.AddService2("7971f918-a847-4430-9279-4a52d1efe18d",7,"") | Out-Null
 Remove-Variable MU
 
-
-### Internet Explorer
-### --------------------------
+###############################################################################
+### Internet Explorer                                                         #
+###############################################################################
 
 # Set home page to `about:blank` for faster loading
 Set-ItemProperty "HKCU:\Software\Microsoft\Internet Explorer\Main" "Start Page" "about:blank"
 
-# Disable 'Default Browser' check ("no"=Disabled, "yes"=Enabled)
+# Disable 'Default Browser' check: "yes" or "no"
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Internet Explorer\Main" "Check_Associations" "no"
 
-# Disable Password Caching [Disable Remember Password]. 1=Disabled, 0=Enabled.
+# Disable Password Caching [Disable Remember Password]
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings" "DisablePasswordCaching" 1
 
 
-### Disk Cleanup (CleanMgr.exe)
-### --------------------------
+###############################################################################
+### Disk Cleanup (CleanMgr.exe)                                               #
+###############################################################################
+
 $diskCleanupRegPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\"
 
-# Cleanup Files by Group. 0=Disabled, 2=Enabled
+# Cleanup Files by Group: 0=Disabled, 2=Enabled
 Set-ItemProperty $(Join-Path $diskCleanupRegPath "BranchCache"                                  ) "StateFlags6174" 0   -ErrorAction SilentlyContinue
 Set-ItemProperty $(Join-Path $diskCleanupRegPath "Downloaded Program Files"                     ) "StateFlags6174" 2   -ErrorAction SilentlyContinue
 Set-ItemProperty $(Join-Path $diskCleanupRegPath "Internet Cache Files"                         ) "StateFlags6174" 2   -ErrorAction SilentlyContinue
@@ -282,40 +288,52 @@ Set-ItemProperty $(Join-Path $diskCleanupRegPath "Windows Upgrade Log Files"    
 
 Remove-Variable diskCleanupRegPath
 
+###############################################################################
+### PowerShell Console                                                        #
+###############################################################################
 
-### PowerShell Console
-### --------------------------
-
-# PowerShell: Make 'Source Code Pro' an available Console font
+# Make 'Source Code Pro' an available Console font
 Set-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont' 000 'Source Code Pro'
 
-# Custom Path for PSReadLine Settings
+# Create custom path for PSReadLine Settings
 if (!(Test-Path "HKCU:\Console\PSReadLine")) {New-Item -Path "HKCU:\Console\PSReadLine" -Type Folder | Out-Null}
 
 # PSReadLine: Normal syntax color. vim Normal group. (Default: Foreground)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "NormalForeground" 0xF
+
 # PSReadLine: Comment Token syntax color. vim Comment group. (Default: 0x2)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "CommentForeground" 0x7
+
 # PSReadLine: Keyword Token syntax color. vim Statement group. (Default: 0xA)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "KeywordForeground" 0x1
+
 # PSReadLine: String Token syntax color. vim String [or Constant] group. (Default: 0x3)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "StringForeground"  0xA
+
 # PSReadLine: Operator Token syntax color. vim Operator [or Statement] group. (Default: 0x8)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "OperatorForeground" 0xB
+
 # PSReadLine: Variable Token syntax color. vim Identifier group. (Default: 0xA)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "VariableForeground" 0xB
+
 # PSReadLine: Command Token syntax color. vim Function [or Identifier] group. (Default: 0xE)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "CommandForeground" 0x1
+
 # PSReadLine: Parameter Token syntax color. vim Normal group. (Default: 0x8)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "ParameterForeground" 0xF
+
 # PSReadLine: Type Token syntax color. vim Type group. (Default: 0x7)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "TypeForeground" 0xE
+
 # PSReadLine: Number Token syntax color. vim Number [or Constant] group. (Default: 0xF)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "NumberForeground" 0xC
+
 # PSReadLine: Member Token syntax color. vim Function [or Identifier] group. (Default: 0x7)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "MemberForeground" 0xE
+
 # PSReadLine: Emphasis syntax color. vim Search group. (Default: 0xB)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "EmphasisForeground" 0xD
+
 # PSReadLine: Error syntax color. vim Error group. (Default: 0xC)
 Set-ItemProperty "HKCU:\Console\PSReadLine" "ErrorForeground" 0x4
 
@@ -323,43 +341,44 @@ Set-ItemProperty "HKCU:\Console\PSReadLine" "ErrorForeground" 0x4
 "HKCU:\Console\%SystemRoot%_System32_WindowsPowerShell_v1.0_powershell.exe",`
 "HKCU:\Console\%SystemRoot%_SysWOW64_WindowsPowerShell_v1.0_powershell.exe",`
 "HKCU:\Console\Windows PowerShell (x86)",`
-"HKCU:\Console\Windows PowerShell"`
+"HKCU:\Console\Windows PowerShell"`,
+"HKCU:\Console"`
 ) | ForEach {
     If (!(Test-Path $_)) {
         New-Item -path $_ -ItemType Folder | Out-Null
     }
 
-# Console: Dimensions of window, in characters. (8-byte; 4b height, 4b width. Max: 0x7FFF7FFF (32767h x 32767w))
-Set-ItemProperty $_ "WindowSize"           0x002D0078; # 45h x 120w
-# Console: Dimensions of screen buffer in memory, in characters. (8-byte; 4b height, 4b width. Max: 0x7FFF7FFF (32767h x 32767w))
-Set-ItemProperty $_ "ScreenBufferSize"     0x0BB80078; # 3000h x 120w
-# Console: Percentage of Character Space for Cursor (25: Small, 50: Medium, 100: Large)
-Set-ItemProperty $_ "CursorSize"           100; # 100
-# Console: Name of display font (TrueType)
-Set-ItemProperty $_ "FaceName"             "Source Code Pro";
-# Console: Font Family. (0: Raster, 54: TrueType)
-Set-ItemProperty $_ "FontFamily"           54;
-# Console: Dimensions of font character in pixels (Pixels, not Points). (8-byte; 4b height, 4b width. 0: Auto)
-Set-ItemProperty $_ "FontSize"             0x00110000; # 17px height x auto width
-# Console: Boldness of font. Raster=(0: Normal, 1: Bold). TrueType=(100-900, 400: Normal)
-Set-ItemProperty $_ "FontWeight"           400;
-# Console: Number of commands in history buffer. (50: Default)
-Set-ItemProperty $_ "HistoryBufferSize"    50;
-# Console: Discard duplicate commands (0: Disabled, 1: Enabled)
-Set-ItemProperty $_ "HistoryNoDup"         1;
-# Console: Typing Mode. (0: Overtype, 1: Insert)
-Set-ItemProperty $_ "InsertMode"           1;
-# Console: Allow Copy/Paste using Mouse (0: Disabled, 1:Enabled)
-Set-ItemProperty $_ "QuickEdit"            1;
-# Console: Colors for Window. (8-byte; 4b background, 4b foreground. 0-15: Color, 0x07: Default)
-Set-ItemProperty $_ "ScreenColors"         0x0F;
-# Console: Colors for Popup Windows. (8-byte; 4b background, 4b foreground. 0-15: Color, 0xF7: Default)
-Set-ItemProperty $_ "PopupColors"          0xF0;
-# Console: Adjust opacity between 30% and 100%: 0x4C to 0xFF -or- 76 to 255.
-Set-ItemProperty $_ "WindowAlpha"          0xF2; # 95%
+# Dimensions of window, in characters: 8-byte; 4b height, 4b width. Max: 0x7FFF7FFF (32767h x 32767w)
+Set-ItemProperty $_ "WindowSize"           0x002D0078 # 45h x 120w
+# Dimensions of screen buffer in memory, in characters: 8-byte; 4b height, 4b width. Max: 0x7FFF7FFF (32767h x 32767w)
+Set-ItemProperty $_ "ScreenBufferSize"     0x0BB80078 # 3000h x 120w
+# Percentage of Character Space for Cursor: 25: Small, 50: Medium, 100: Large
+Set-ItemProperty $_ "CursorSize"           100
+# Name of display font
+Set-ItemProperty $_ "FaceName"             "Source Code Pro"
+# Font Family: Raster: 0, TrueType: 54
+Set-ItemProperty $_ "FontFamily"           54
+# Dimensions of font character in pixels, not Points: 8-byte; 4b height, 4b width. 0: Auto
+Set-ItemProperty $_ "FontSize"             0x00110000 # 17px height x auto width
+# Boldness of font: Raster=(Normal: 0, Bold: 1), TrueType=(100-900, Normal: 400)
+Set-ItemProperty $_ "FontWeight"           400
+# Number of commands in history buffer
+Set-ItemProperty $_ "HistoryBufferSize"    50
+# Discard duplicate commands
+Set-ItemProperty $_ "HistoryNoDup"         1
+# Typing Mode: Overtype: 0, Insert: 1
+Set-ItemProperty $_ "InsertMode"           1
+# Enable Copy/Paste using Mouse
+Set-ItemProperty $_ "QuickEdit"            1
+# Background and Foreground Colors for Window: 2-byte; 1b background, 1b foreground; Color: 0-F
+Set-ItemProperty $_ "ScreenColors"         0x0F
+# Background and Foreground Colors for Popup Window: 2-byte; 1b background, 1b foreground; Color: 0-F
+Set-ItemProperty $_ "PopupColors"          0xF0
+# Adjust opacity between 30% and 100%: 0x4C to 0xFF -or- 76 to 255
+Set-ItemProperty $_ "WindowAlpha"          0xF2
 
-# Console: The 16 colors in the Console color well (Persisted values are in BGR).
-# Jellybeans
+# The 16 colors in the Console color well (Persisted values are in BGR).
+# Theme: Jellybeans
 Set-ItemProperty $_ "ColorTable00"         $(Convert-ConsoleColor "#151515") # Black (0)
 Set-ItemProperty $_ "ColorTable01"         $(Convert-ConsoleColor "#8197bf") # DarkBlue (1)
 Set-ItemProperty $_ "ColorTable02"         $(Convert-ConsoleColor "#437019") # DarkGreen (2)
@@ -378,6 +397,7 @@ Set-ItemProperty $_ "ColorTable14"         $(Convert-ConsoleColor "#fad07a") # Y
 Set-ItemProperty $_ "ColorTable15"         $(Convert-ConsoleColor "#e8e8d3") # White (F)
 }
 
+# Remove property overrides from PowerShell shortcuts
 Reset-AllPowerShellShortcuts
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
