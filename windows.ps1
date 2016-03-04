@@ -229,6 +229,9 @@ Set-ItemProperty "HKCU:\Software\Microsoft\Internet Explorer\Main" "Start Page" 
 # Disable 'Default Browser' check ("no"=Disabled, "yes"=Enabled)
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Internet Explorer\Main" "Check_Associations" "no"
 
+# Disable Password Caching [Disable Remember Password]. 1=Disabled, 0=Enabled.
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings" "DisablePasswordCaching" 1
+
 
 ### Disk Cleanup (CleanMgr.exe)
 ### --------------------------
