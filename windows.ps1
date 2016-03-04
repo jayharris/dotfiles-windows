@@ -226,6 +226,9 @@ Remove-Variable MU
 # Set home page to `about:blank` for faster loading
 Set-ItemProperty "HKCU:\Software\Microsoft\Internet Explorer\Main" "Start Page" "about:blank"
 
+# Disable 'Default Browser' check ("no"=Disabled, "yes"=Enabled)
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Internet Explorer\Main" "Check_Associations" "no"
+
 
 ### Disk Cleanup (CleanMgr.exe)
 ### --------------------------
