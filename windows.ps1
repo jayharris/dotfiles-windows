@@ -329,7 +329,7 @@ Set-ItemProperty "HKCU:\Console\PSReadLine" "ErrorForeground" 0x4
 "HKCU:\Console\%SystemRoot%_System32_WindowsPowerShell_v1.0_powershell.exe",`
 "HKCU:\Console\%SystemRoot%_SysWOW64_WindowsPowerShell_v1.0_powershell.exe",`
 "HKCU:\Console\Windows PowerShell (x86)",`
-"HKCU:\Console\Windows PowerShell"`,
+"HKCU:\Console\Windows PowerShell",`
 "HKCU:\Console"`
 ) | ForEach {
     If (!(Test-Path $_)) {
