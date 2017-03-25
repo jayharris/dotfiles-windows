@@ -30,7 +30,6 @@ cinst Opera
 # dev tools and frameworks
 cinst atom
 cinst GitHubForWindows
-cinst hg
 cinst Fiddler4
 cinst nodejs.install
 cinst ruby
@@ -81,18 +80,9 @@ if (which webpicmd) {
 
 ### Node Packages
 if (which npm) {
-    npm install -g azure-cli
-    npm install -g babel-cli
-    npm install -g bower
-    npm install -g coffee-script
-    npm install -g conventional-changelog
-    npm install -g grunt-cli
     npm install -g gulp
-    npm install -g less
-    npm install -g lineman
     npm install -g mocha
     npm install -g node-inspector
-    npm install -g node-sass
     npm install -g yo
 }
 
@@ -107,9 +97,9 @@ if ((which vim) -and (which rake)) {
 if (which Install-VSExtension) {
     ### Visual Studio 2015
     # VsVim
-    Install-VSExtension https://visualstudiogallery.msdn.microsoft.com/59ca71b3-a4a3-46ca-8fe1-0e90e3f79329/file/6390/57/VsVim.vsix
+    # Install-VSExtension https://visualstudiogallery.msdn.microsoft.com/59ca71b3-a4a3-46ca-8fe1-0e90e3f79329/file/6390/57/VsVim.vsix
     # Productivity Power Tools 2015
-    Install-VSExtension https://visualstudiogallery.msdn.microsoft.com/34ebc6a2-2777-421d-8914-e29c1dfa7f5d/file/169971/1/ProPowerTools.vsix
+    # Install-VSExtension https://visualstudiogallery.msdn.microsoft.com/34ebc6a2-2777-421d-8914-e29c1dfa7f5d/file/169971/1/ProPowerTools.vsix
 
     ### Visual Studio 2013
     # VsVim
