@@ -60,7 +60,8 @@ function Verify-PowershellShortcut {
     $shell = New-Object -COMObject WScript.Shell -Strict
     $shortcut = $shell.CreateShortcut("$(Resolve-Path $Path)")
 
-    $result = $shortcut.TargetPath -eq $(Join-Path $pshome "powershell.exe")
+    $result = ($shortcut.TargetPath -eq "$env:WINDIR\system32\WindowsPowerShell\v1.0\powershell.exe") -or `
+      ($shortcut.TargetPath -eq "$env:WINDIR\syswow64\WindowsPowerShell\v1.0\powershell.exe")
     [Runtime.Interopservices.Marshal]::ReleaseComObject($shortcut) | Out-Null
     return $result
 }
