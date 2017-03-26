@@ -301,6 +301,16 @@ Remove-Variable MU
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" "DODownloadMode" 0
 
 ###############################################################################
+### Windows Defender                                                          #
+###############################################################################
+
+# Disable Cloud-Based Protection: Enabled Advanced: 2, Enabled Basic: 1, Disabled: 0
+Set-MpPreference -MAPSReporting 0
+
+# Disable automatic sample submission: Prompt: 0, Auto Send Safe: 1, Never: 2, Auto Send All: 3
+Set-MpPreference -SubmitSamplesConsent 2
+
+###############################################################################
 ### Internet Explorer                                                         #
 ###############################################################################
 
