@@ -66,6 +66,24 @@ function Verify-PowershellShortcut {
     return $result
 }
 
+function Verify-BashShortcut {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true)]
+        [string] $Path
+    )
+
+    if (!(Test-Path $Path -PathType Leaf)) { return $false }
+    if ([System.IO.Path]::GetExtension($Path) -ne ".lnk") { return $false; }
+
+    $shell = New-Object -COMObject WScript.Shell -Strict
+    $shortcut = $shell.CreateShortcut("$(Resolve-Path $Path)")
+
+    $result = ($shortcut.TargetPath -eq "$env:WINDIR\system32\bash.exe")
+    [Runtime.Interopservices.Marshal]::ReleaseComObject($shortcut) | Out-Null
+    return $result
+}
+
 function Reset-PowerShellShortcut {
     [CmdletBinding()]
     param (
@@ -100,6 +118,39 @@ function Reset-PowerShellShortcut {
     }
 }
 
+function Reset-BashShortcut {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true)]
+        [string] $Path
+    )
+
+    if (!(Test-Path $Path)) { Return }
+
+    if (Test-Path $Path -PathType Container) {
+        Get-ChildItem $Path | ForEach {
+            Reset-BashShortcut $_.FullName
+        }
+        Return
+    }
+
+    if (Verify-BashShortcut $Path) {
+        $filePath = Resolve-Path $Path
+
+        try {
+            [dotfiles.ShortcutManager]::ResetConsoleProperties($filePath)
+            $shell = New-Object -COMObject WScript.Shell -Strict
+            $shortcut = $shell.CreateShortcut("$(Resolve-Path $path)")
+            $shortcut.Save()
+            [Runtime.Interopservices.Marshal]::ReleaseComObject($shortcut) | Out-Null
+            [Runtime.Interopservices.Marshal]::ReleaseComObject($shell) | Out-Null
+        }
+        catch [UnauthorizedAccessException] {
+            Write-Warning "warning: admin permission is required to remove console props from $path"
+        }
+    }
+}
+
 function Reset-AllPowerShellShortcuts {
     @(`
         "$ENV:ALLUSERSPROFILE\Microsoft\Windows\Start Menu\Programs",`
@@ -107,6 +158,15 @@ function Reset-AllPowerShellShortcuts {
         "$ENV:USERPROFILE\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar",`
         "$ENV:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs"`
     ) | ForEach { Reset-PowerShellShortcut $_ }
+}
+
+function Reset-AllBashShortcuts {
+    @(`
+        "$ENV:ALLUSERSPROFILE\Microsoft\Windows\Start Menu\Programs",`
+        "$ENV:USERPROFILE\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\StartMenu",`
+        "$ENV:USERPROFILE\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar",`
+        "$ENV:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs"`
+    ) | ForEach { Reset-BashShortcut $_ }
 }
 
 function Convert-ConsoleColor {

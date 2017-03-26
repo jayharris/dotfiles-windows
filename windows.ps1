@@ -487,6 +487,7 @@ Set-ItemProperty "HKCU:\Console\PSReadLine" "EmphasisForeground" 0xD
 Set-ItemProperty "HKCU:\Console\PSReadLine" "ErrorForeground" 0x4
 
 @(`
+"HKCU:\Console\%SystemRoot%_System32_bash.exe",`
 "HKCU:\Console\%SystemRoot%_System32_WindowsPowerShell_v1.0_powershell.exe",`
 "HKCU:\Console\%SystemRoot%_SysWOW64_WindowsPowerShell_v1.0_powershell.exe",`
 "HKCU:\Console\Windows PowerShell (x86)",`
@@ -546,7 +547,8 @@ Set-ItemProperty $_ "ColorTable14"         $(Convert-ConsoleColor "#fad07a") # Y
 Set-ItemProperty $_ "ColorTable15"         $(Convert-ConsoleColor "#e8e8d3") # White (F)
 }
 
-# Remove property overrides from PowerShell shortcuts
+# Remove property overrides from PowerShell and Bash shortcuts
 Reset-AllPowerShellShortcuts
+Reset-AllBashShellShortcuts
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
