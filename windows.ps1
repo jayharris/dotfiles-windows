@@ -168,76 +168,115 @@ Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explo
 ###############################################################################
 
 # Uninstall 3D Builder
-Get-AppxPackage "Microsoft.3DBuilder" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.3DBuilder" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.3DBuilder" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Alarms and Clock
-Get-AppxPackage "Microsoft.WindowsAlarms" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.WindowsAlarms" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.WindowsAlarms" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Bing Finance
-Get-AppxPackage "Microsoft.BingFinance" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.BingFinance" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.BingFinance" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Bing News
-Get-AppxPackage "Microsoft.BingNews" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.BingNews" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.BingNews" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Bing Sports
-Get-AppxPackage "Microsoft.BingSports" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.BingSports" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.BingSports" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Bing Weather
-Get-AppxPackage "Microsoft.BingWeather" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.BingWeather" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.BingWeather" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Calendar and Mail
-Get-AppxPackage "Microsoft.WindowsCommunicationsApps" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.WindowsCommunicationsApps" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.WindowsCommunicationsApps" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Candy Crush Soda Saga
-Get-AppxPackage "king.com.CandyCrushSodaSaga" | Remove-AppxPackage
+Get-AppxPackage "king.com.CandyCrushSodaSaga" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "king.com.CandyCrushSodaSaga" | Remove-AppxProvisionedPackage -Online
+
+# Uninstall Facebook
+Get-AppxPackage "*.Facebook" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "*.Facebook" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Get Office, and it's "Get Office365" notifications
-Get-AppxPackage "Microsoft.MicrosoftOfficeHub" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.MicrosoftOfficeHub" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.MicrosoftOfficeHub" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Get Started
-Get-AppxPackage "Microsoft.GetStarted" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.GetStarted" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.GetStarted" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Maps
-Get-AppxPackage "Microsoft.WindowsMaps" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.WindowsMaps" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.WindowsMaps" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Messaging
-Get-AppxPackage "Microsoft.Messaging" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.Messaging" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.Messaging" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall OneNote
-Get-AppxPackage "Microsoft.Office.OneNote" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.Office.OneNote" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.Office.OneNote" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall People
-Get-AppxPackage "Microsoft.People" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.People" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.People" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Photos
-Get-AppxPackage "Microsoft.Windows.Photos" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.Windows.Photos" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.Windows.Photos" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Skype
-Get-AppxPackage "Microsoft.SkypeApp" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.SkypeApp" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.SkypeApp" | Remove-AppxProvisionedPackage -Online
+
+# Uninstall SlingTV
+Get-AppxPackage "*.SlingTV" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "*.SlingTV" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Solitaire
-Get-AppxPackage "Microsoft.MicrosoftSolitaireCollection" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.MicrosoftSolitaireCollection" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.MicrosoftSolitaireCollection" | Remove-AppxProvisionedPackage -Online
+
+# Uninstall StickyNotes
+Get-AppxPackage "Microsoft.MicrosoftStickyNotes" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.MicrosoftStickyNotes" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Sway
-Get-AppxPackage "Microsoft.Office.Sway" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.Office.Sway" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.Office.Sway" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Twitter
-Get-AppxPackage "*.Twitter" | Remove-AppxPackage
+Get-AppxPackage "*.Twitter" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "*.Twitter" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Voice Recorder
-Get-AppxPackage "Microsoft.WindowsSoundRecorder" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.WindowsSoundRecorder" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.WindowsSoundRecorder" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Windows Phone Companion
-Get-AppxPackage "Microsoft.WindowsPhone" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.WindowsPhone" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.WindowsPhone" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall XBox
-Get-AppxPackage "Microsoft.XboxApp" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.XboxApp" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.XboxApp" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Zune Music (Groove)
-Get-AppxPackage "Microsoft.ZuneMusic" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.ZuneMusic" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.ZuneMusic" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Zune Video
-Get-AppxPackage "Microsoft.ZuneVideo" | Remove-AppxPackage
+Get-AppxPackage "Microsoft.ZuneVideo" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.ZuneVideo" | Remove-AppxProvisionedPackage -Online
+
+# Prevent "Suggested Applications" from returning
+Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableWindowsConsumerFeatures" 1
 
 ###############################################################################
 ### Lock Screen                                                               #
