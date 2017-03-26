@@ -29,7 +29,7 @@ cinst Opera
 
 # dev tools and frameworks
 cinst atom
-cinst GitHubForWindows
+cinst github
 cinst Fiddler4
 cinst nodejs.install
 cinst ruby
