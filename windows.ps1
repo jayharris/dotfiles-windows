@@ -295,6 +295,9 @@ Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.ZuneMusic
 Get-AppxPackage "Microsoft.ZuneVideo" -AllUsers | Remove-AppxPackage
 Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.ZuneVideo" | Remove-AppxProvisionedPackage -Online
 
+# Uninstall Windows Media Player
+dism /online /Disable-Feature /FeatureName:WindowsMediaPlayer
+
 # Prevent "Suggested Applications" from returning
 Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableWindowsConsumerFeatures" 1
 
