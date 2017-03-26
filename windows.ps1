@@ -23,6 +23,9 @@ if (!(Verify-Elevated)) {
 #Remove-Variable user
 #Remove-Variable myIdentity
 
+# Enable Developer Mode
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" "AllowDevelopmentWithoutDevLicense" 1
+
 ###############################################################################
 ### Privacy                                                                   #
 ###############################################################################
