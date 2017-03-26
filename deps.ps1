@@ -70,7 +70,7 @@ if (((choco list -lr | where {$_ -like "githubforwindows*"}) -ne $null) -and ((w
 ### Windows Features
 
 # Bash on Windows
-Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart
+Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart | Out-Null
 
 # IIS Base Configuration
 Enable-WindowsOptionalFeature -Online -All -FeatureName `
@@ -88,7 +88,7 @@ Enable-WindowsOptionalFeature -Online -All -FeatureName `
     "IIS-StaticContent", `
     "IIS-WebSockets", `
     "IIS-WindowsAuthentication" `
-    -NoRestart
+    -NoRestart | Out-Null
 
 # ASP.NET Base Configuration
 Enable-WindowsOptionalFeature -Online -All -FeatureName `
@@ -99,7 +99,7 @@ Enable-WindowsOptionalFeature -Online -All -FeatureName `
     "IIS-NetFxExtensibility45", `
     "IIS-ASPNET", `
     "IIS-ASPNET45" `
-    -NoRestart
+    -NoRestart | Out-Null
 
 
 ### Web Platform Installer
