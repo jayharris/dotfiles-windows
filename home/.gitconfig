@@ -95,3 +95,6 @@
 
 [push]
     default = simple
+
+[credential]
+    helper = manager

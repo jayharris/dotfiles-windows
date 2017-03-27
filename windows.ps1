@@ -25,10 +25,9 @@ Write-Host "Configuring System..." -ForegroundColor "Yellow"
 #Remove-Variable myIdentity
 
 # Enable Developer Mode
-Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" "AllowDevelopmentWithoutDevLicense" 1
+#Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" "AllowDevelopmentWithoutDevLicense" 1
 # Bash on Windows
-Write-Host "Installing Windows Subsystem for Linux (this may take a few minutes)..." -ForegroundColor "Yellow"
-Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
+#Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
 
 ###############################################################################
 ### Privacy                                                                   #

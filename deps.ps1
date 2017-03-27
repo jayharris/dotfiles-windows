@@ -9,25 +9,6 @@ if (!(Verify-Elevated)) {
 }
 
 
-### Configure Bash
-Write-Host "Configuring Bash..." -ForegroundColor "Yellow"
-if (which lxrun) {
-  lxrun /install
-
-  # Change $HOME to match Windows mount
-  #bash -c "if [ ! -L /home/jayharris ]; then
-  #   sudo rm -frd /home/jayharris/ && sudo ln -sf /mnt/c/Users/jayharris /home/jayharris
-  #fi"
-
-  #bash -c "sudo apt-get update"
-  #bash -c "sudo apt-get -y install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev"
-  #bash -c "sudo apt-get -y install git"
-
-  #bash -c "git clone https://github.com/rbenv/rbenv.git ~/.rbenv && git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build"
-  #bash -c "rbenv install 2.3.2"
-}
-
-
 ### Update Help for Modules
 Write-Host "Updating Help..." -ForegroundColor "Yellow"
 Update-Help -Force
@@ -35,7 +16,7 @@ Update-Help -Force
 
 ### Package Providers
 Write-Host "Installing Package Providers..." -ForegroundColor "Yellow"
-Get-PackageProvider NuGet -Force
+Get-PackageProvider NuGet -Force | Out-Null
 # Chocolatey Provider is not ready yet. Use normal Chocolatey
 #Get-PackageProvider Chocolatey -Force
 #Set-PackageSource -Name chocolatey -Trusted
@@ -47,32 +28,7 @@ Install-Module Posh-Git -Scope CurrentUser -Force
 Install-Module PSWindowsUpdate -Scope CurrentUser -Force
 
 
-### Scoop, for Command Line utilities
-Write-Host "Installing Command Line Utilities..." -ForegroundColor "Yellow"
-if ((which scoop) -eq $null) {
-    iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
-}
-
-scoop install coreutils
-scoop install curl
-scoop install git
-scoop install grep
-scoop install nvm
-scoop install openssh
-scoop install ruby
-scoop install vim
-scoop install wget
-
-Refresh-Environment
-
-nvm on
-$nodeLtsVersion = scoop search nodejs-lts | Out-String -Stream | Select-String "nodejs-lts" | Select-Object -First 1 | ConvertFrom-String -TemplateContent "nodejs-lts ({version:1.1.1})" | Select -ExpandProperty "Version"
-nvm install $nodeLtsVersion
-nvm use $nodeLtsVersion
-Remove-Variable nodeLtsVersion
-
-
-### Chocolatey, for Desktop Apps
+### Chocolatey
 Write-Host "Installing Desktop Utilities..." -ForegroundColor "Yellow"
 if ((which cinst) -eq $null) {
     iex (new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1')
@@ -81,21 +37,32 @@ if ((which cinst) -eq $null) {
 }
 
 # system and cli
-cinst nuget.commandline
-cinst webpi
+choco install nuget.commandline   --limit-output
+choco install webpi               --limit-output
+choco install git.portable        --limit-output
+choco install nvm.portable        --limit-output
+choco install ruby                --limit-output
 
 # browsers
-cinst GoogleChrome
-cinst GoogleChrome.Canary
-cinst Firefox
-cinst Opera
+choco install GoogleChrome        --limit-output
+choco install GoogleChrome.Canary --limit-output
+choco install Firefox             --limit-output
+choco install Opera               --limit-output
 
 # dev tools and frameworks
-cinst atom
-cinst Fiddler4
-cinst winmerge
+choco install atom                --limit-output
+choco install Fiddler4            --limit-output
+choco install vim                 --limit-output
+choco install winmerge            --limit-output
 
 Refresh-Environment
+
+nvm on
+$nodeLtsVersion = choco search nodejs-lts --limit-output | ConvertFrom-String -TemplateContent "{Name:package-name}\|{Version:1.11.1}" | Select -ExpandProperty "Version"
+nvm install $nodeLtsVersion
+nvm use $nodeLtsVersion
+Remove-Variable nodeLtsVersion
+
 
 ### Windows Features
 Write-Host "Installing Windows Features..." -ForegroundColor "Yellow"
@@ -146,7 +113,7 @@ if (which npm) {
 ### Janus for vim
 Write-Host "Installing Janus..." -ForegroundColor "Yellow"
 if ((which curl) -and (which vim) -and (which rake) -and (which bash)) {
-    # bash -c "curl -L https://bit.ly/janus-bootstrap | bash"
+    curl.exe -L https://bit.ly/janus-bootstrap | bash"
 }
 
 
