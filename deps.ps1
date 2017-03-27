@@ -1,17 +1,42 @@
+# Check to see if we are currently running "as Administrator"
+if (!(Verify-Elevated)) {
+   $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
+   $newProcess.Arguments = $myInvocation.MyCommand.Definition;
+   $newProcess.Verb = "runas";
+   [System.Diagnostics.Process]::Start($newProcess);
+
+   exit
+}
+
+
+### Configure Bash
+Write-Host "Configuring Bash..." -ForegroundColor "Yellow"
+if (which lxrun) {
+  lxrun /install
+}
+
+
 ### Update Help for Modules
+Write-Host "Updating Help..." -ForegroundColor "Yellow"
 Update-Help -Force
 
+
 ### Package Providers
+Write-Host "Installing Package Providers..." -ForegroundColor "Yellow"
 Get-PackageProvider NuGet -Force
 # Chocolatey Provider is not ready yet. Use normal Chocolatey
 #Get-PackageProvider Chocolatey -Force
 #Set-PackageSource -Name chocolatey -Trusted
 
+
 ### Install PowerShell Modules
+Write-Host "Installing PowerShell Modules..." -ForegroundColor "Yellow"
 Install-Module Posh-Git -Scope CurrentUser -Force
 Install-Module PSWindowsUpdate -Scope CurrentUser -Force
 
+
 ### Scoop, for Command Line utilities
+Write-Host "Installing Command Line Utilities..." -ForegroundColor "Yellow"
 if ((which scoop) -eq $null) {
     iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
 }
@@ -20,14 +45,22 @@ scoop install coreutils
 scoop install curl
 scoop install git
 scoop install grep
-scoop install nodejs-lts
 scoop install nvm
 scoop install openssh
 scoop install ruby
 scoop install vim
 scoop install wget
 
+Refresh-Environment
+
+nvm on
+$nodeLtsVersion = scoop search nodejs-lts | Out-String -Stream | Select-String "nodejs-lts" | Select-Object -First 1 | ConvertFrom-String -TemplateContent "nodejs-lts ({version:1.1.1})" | Select -ExpandProperty "Version"
+nvm install $nodeLtsVersion
+Remove-Variable nodeLtsVersion
+
+
 ### Chocolatey, for Desktop Apps
+Write-Host "Installing Desktop Utilities..." -ForegroundColor "Yellow"
 if ((which cinst) -eq $null) {
     iex (new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1')
     Refresh-Environment
@@ -50,9 +83,7 @@ cinst Fiddler4
 cinst winmerge
 
 ### Windows Features
-# Bash on Windows
-Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart | Out-Null
-
+Write-Host "Installing Windows Features..." -ForegroundColor "Yellow"
 # IIS Base Configuration
 Enable-WindowsOptionalFeature -Online -All -FeatureName `
     "IIS-BasicAuthentication", `
@@ -83,14 +114,12 @@ Enable-WindowsOptionalFeature -Online -All -FeatureName `
     -NoRestart | Out-Null
 
 # Web Platform Installer for remaining Windows features
-if (which webpicmd) {
     webpicmd /Install /AcceptEula /Products:"UrlRewrite2"
     #webpicmd /Install /AcceptEula /Products:"NETFramework452"
     webpicmd /Install /AcceptEula /Products:"Python279"
-}
-
 
 ### Node Packages
+Write-Host "Installing Node Packages..." -ForegroundColor "Yellow"
 if (which npm) {
     npm update npm
     npm install -g gulp
@@ -99,9 +128,9 @@ if (which npm) {
     npm install -g yo
 }
 
-
 ### Janus for vim
-if ((which vim) -and (which rake)) {
+Write-Host "Installing Janus..." -ForegroundColor "Yellow"
+if ((which curl) -and (which vim) -and (which rake) -and (which bash)) {
     curl.exe -L https://bit.ly/janus-bootstrap | bash
 }
 

@@ -25,6 +25,8 @@ if (!(Verify-Elevated)) {
 
 # Enable Developer Mode
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" "AllowDevelopmentWithoutDevLicense" 1
+# Bash on Windows
+Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart | Out-Null
 
 ###############################################################################
 ### Privacy                                                                   #
