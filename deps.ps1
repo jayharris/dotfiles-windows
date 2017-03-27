@@ -1,6 +1,12 @@
 ### Update Help for Modules
 Update-Help -Force
 
+### Package Providers
+Get-PackageProvider NuGet -Force
+# Chocolatey Provider is not ready yet. Use normal Chocolatey
+#Get-PackageProvider Chocolatey -Force
+#Set-PackageSource -Name chocolatey -Trusted
+
 ### Install PowerShell Modules
 Install-Module Posh-Git -Scope CurrentUser -Force
 Install-Module PSWindowsUpdate -Scope CurrentUser -Force
@@ -20,12 +26,6 @@ scoop install openssh
 scoop install ruby
 scoop install vim
 scoop install wget
-
-### Package Providers
-Get-PackageProvider NuGet -Force
-# Chocolatey Provider is not ready yet. Use normal Chocolatey
-#Get-PackageProvider Chocolatey -Force
-#Set-PackageSource -Name chocolatey -Trusted
 
 ### Chocolatey, for Desktop Apps
 if ((which cinst) -eq $null) {
