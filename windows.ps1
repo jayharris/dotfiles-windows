@@ -551,6 +551,6 @@ Set-ItemProperty $_ "ColorTable15"         $(Convert-ConsoleColor "#e8e8d3") # W
 
 # Remove property overrides from PowerShell and Bash shortcuts
 Reset-AllPowerShellShortcuts
-Reset-AllBashShellShortcuts
+Reset-AllBashShortcuts
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
