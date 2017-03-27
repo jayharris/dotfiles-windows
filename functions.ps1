@@ -20,6 +20,7 @@ function sudo() {
 function System-Update() {
     Install-WindowsUpdate -IgnoreUserInput -IgnoreReboot -AcceptAll
     Update-Module
+    Update-Help -Force
     scoop update
     gem update --system
     gem update
