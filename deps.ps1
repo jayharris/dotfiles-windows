@@ -13,6 +13,18 @@ if (!(Verify-Elevated)) {
 Write-Host "Configuring Bash..." -ForegroundColor "Yellow"
 if (which lxrun) {
   lxrun /install
+
+  # Change $HOME to match Windows mount
+  #bash -c "if [ ! -L /home/jayharris ]; then
+  #   sudo rm -frd /home/jayharris/ && sudo ln -sf /mnt/c/Users/jayharris /home/jayharris
+  #fi"
+
+  #bash -c "sudo apt-get update"
+  #bash -c "sudo apt-get -y install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev"
+  #bash -c "sudo apt-get -y install git"
+
+  #bash -c "git clone https://github.com/rbenv/rbenv.git ~/.rbenv && git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build"
+  #bash -c "rbenv install 2.3.2"
 }
 
 
@@ -83,6 +95,8 @@ cinst atom
 cinst Fiddler4
 cinst winmerge
 
+Refresh-Environment
+
 ### Windows Features
 Write-Host "Installing Windows Features..." -ForegroundColor "Yellow"
 # IIS Base Configuration
@@ -115,9 +129,9 @@ Enable-WindowsOptionalFeature -Online -All -FeatureName `
     -NoRestart | Out-Null
 
 # Web Platform Installer for remaining Windows features
-    webpicmd /Install /AcceptEula /Products:"UrlRewrite2"
-    #webpicmd /Install /AcceptEula /Products:"NETFramework452"
-    webpicmd /Install /AcceptEula /Products:"Python279"
+webpicmd /Install /AcceptEula /Products:"UrlRewrite2"
+#webpicmd /Install /AcceptEula /Products:"NETFramework452"
+webpicmd /Install /AcceptEula /Products:"Python279"
 
 ### Node Packages
 Write-Host "Installing Node Packages..." -ForegroundColor "Yellow"
@@ -132,7 +146,7 @@ if (which npm) {
 ### Janus for vim
 Write-Host "Installing Janus..." -ForegroundColor "Yellow"
 if ((which curl) -and (which vim) -and (which rake) -and (which bash)) {
-    curl.exe -L https://bit.ly/janus-bootstrap | bash
+    # bash -c "curl -L https://bit.ly/janus-bootstrap | bash"
 }
 
 
