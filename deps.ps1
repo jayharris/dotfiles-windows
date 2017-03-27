@@ -1,5 +1,24 @@
-# Update Help for Modules
+### Update Help for Modules
 Update-Help -Force
+
+### Install PowerShell Modules
+Install-Module Posh-Git -Scope CurrentUser -Force
+
+### Scoop, for Command Line utilities
+if ((which scoop) -eq $null) {
+    iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+}
+
+scoop install coreutils
+scoop install curl
+scoop install git
+scoop install grep
+scoop install nodejs-lts
+scoop install nvm
+scoop install openssh
+scoop install ruby
+scoop install vim
+scoop install wget
 
 ### Package Providers
 Get-PackageProvider NuGet -Force
@@ -7,19 +26,16 @@ Get-PackageProvider NuGet -Force
 #Get-PackageProvider Chocolatey -Force
 #Set-PackageSource -Name chocolatey -Trusted
 
-### Chocolatey
+### Chocolatey, for Desktop Apps
 if ((which cinst) -eq $null) {
-    iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
+    iex (new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1')
     Refresh-Environment
     choco feature enable -n=allowGlobalConfirmation
 }
 
 # system and cli
-#cinst curl #`curl` comes with GH4W
 cinst nuget.commandline
 cinst webpi
-cinst wget
-cinst wput
 
 # browsers
 cinst GoogleChrome
@@ -29,46 +45,10 @@ cinst Opera
 
 # dev tools and frameworks
 cinst atom
-cinst github
 cinst Fiddler4
-cinst nodejs.install
-cinst ruby
-cinst vim
 cinst winmerge
 
-# other
-#cinst wincommandpaste # Copy/Paste is supported natively in Win10
-
-### Completing PoshGit installation if installing GH4W
-if (((choco list -lr | where {$_ -like "githubforwindows*"}) -ne $null) -and ((which git) -eq $null)) {
-    Write-Host ""
-    Write-Host "You have installed GitHubForWindows but `git` was not found."
-    Write-Host "In case GitHubForWindows is newly installed, execution has been"
-    Write-Host "paused while you complete the installation."
-    Write-Host ""
-    Read-Host -Prompt "When (or if) installation has completed, press Enter to continue" | Out-Null
-    Push-Location (Join-Path $env:LocalAppData "GitHub")
-        Write-Host ""
-        Write-Host "Relaunching GitHubForWindows to begin tooling installation."
-        Write-Host "You will be prompted for your GitHub credentials, though feel free to Skip."
-        Write-Host "A notification for Extracting Tools may display."
-        Start-Process .\GitHub.appref-ms
-        Read-Host -Prompt "Once GH4W displays the Repositories screen, press Enter to proceed." | Out-Null
-        Write-Host ""
-        Write-Host "Launching GitHubForWindows Shell to complete tooling installation."
-        Start-Process .\GitHub.appref-ms -ArgumentList "--open-shell"
-        Read-Host -Prompt "After launching, close the GH4W shell and press Enter to proceed" | Out-Null
-        Refresh-Environment
-        . (Join-Path (Split-Path -parent $PROFILE) "profile.ps1")
-    Pop-Location
-} else {
-    Refresh-Environment
-}
-
-
-
 ### Windows Features
-
 # Bash on Windows
 Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart | Out-Null
 
@@ -101,8 +81,7 @@ Enable-WindowsOptionalFeature -Online -All -FeatureName `
     "IIS-ASPNET45" `
     -NoRestart | Out-Null
 
-
-### Web Platform Installer
+# Web Platform Installer for remaining Windows features
 if (which webpicmd) {
     webpicmd /Install /AcceptEula /Products:"UrlRewrite2"
     #webpicmd /Install /AcceptEula /Products:"NETFramework452"
@@ -112,6 +91,7 @@ if (which webpicmd) {
 
 ### Node Packages
 if (which npm) {
+    npm update npm
     npm install -g gulp
     npm install -g mocha
     npm install -g node-inspector
