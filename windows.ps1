@@ -11,6 +11,7 @@ if (!(Verify-Elevated)) {
 ###############################################################################
 ### Security and Identity                                                     #
 ###############################################################################
+Write-Host "Configuring System..." -ForegroundColor "Yellow"
 
 # Set Computer Name
 (Get-WmiObject Win32_ComputerSystem).Rename("CHOZO") | Out-Null
@@ -31,6 +32,7 @@ Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsy
 ###############################################################################
 ### Privacy                                                                   #
 ###############################################################################
+Write-Host "Configuring Privacy..." -ForegroundColor "Yellow"
 
 # Ensure necessary registry paths
 if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo")) {New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Type Folder | Out-Null}
@@ -119,6 +121,7 @@ Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataC
 ###############################################################################
 ### Devices, Power, and Startup                                               #
 ###############################################################################
+Write-Host "Configuring Devices, Power, and Startup..." -ForegroundColor "Yellow"
 
 # Sound: Disable Startup Sound
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" "DisableStartupSound" 1
@@ -139,6 +142,7 @@ Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config" "Au
 ###############################################################################
 ### Explorer, Taskbar, and System Tray                                        #
 ###############################################################################
+Write-Host "Configuring Explorer, Taskbar, and System Tray..." -ForegroundColor "Yellow"
 
 # Ensure necessary registry paths
 if (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Type Folder | Out-Null}
@@ -202,6 +206,7 @@ Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\SettingSync\Gr
 ###############################################################################
 ### Default Windows Applications                                              #
 ###############################################################################
+Write-Host "Configuring Default Windows Applications..." -ForegroundColor "Yellow"
 
 # Uninstall 3D Builder
 Get-AppxPackage "Microsoft.3DBuilder" -AllUsers | Remove-AppxPackage
@@ -330,6 +335,7 @@ Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "Disab
 ###############################################################################
 ### Accessibility and Ease of Use                                             #
 ###############################################################################
+Write-Host "Configuring Accessibility..." -ForegroundColor "Yellow"
 
 # Turn Off Windows Narrator
 if (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Narrator.exe")) {New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Narrator.exe" -Type Folder | Out-Null}
@@ -353,6 +359,7 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\TabletTip\1.7" "EnableAutocorrection"
 ###############################################################################
 ### Windows Update & Application Updates                                      #
 ###############################################################################
+Write-Host "Configuring Windows Update..." -ForegroundColor "Yellow"
 
 # Ensure Windows Update registry paths
 if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate")) {New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate" -Type Folder | Out-Null}
@@ -382,6 +389,7 @@ Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimi
 ###############################################################################
 ### Windows Defender                                                          #
 ###############################################################################
+Write-Host "Configuring Windows Defender..." -ForegroundColor "Yellow"
 
 # Disable Cloud-Based Protection: Enabled Advanced: 2, Enabled Basic: 1, Disabled: 0
 Set-MpPreference -MAPSReporting 0
@@ -392,6 +400,7 @@ Set-MpPreference -SubmitSamplesConsent 2
 ###############################################################################
 ### Internet Explorer                                                         #
 ###############################################################################
+Write-Host "Configuring Internet Explorer..." -ForegroundColor "Yellow"
 
 # Set home page to `about:blank` for faster loading
 Set-ItemProperty "HKCU:\Software\Microsoft\Internet Explorer\Main" "Start Page" "about:blank"
@@ -406,6 +415,7 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Setti
 ###############################################################################
 ### Disk Cleanup (CleanMgr.exe)                                               #
 ###############################################################################
+Write-Host "Configuring Disk Cleanup..." -ForegroundColor "Yellow"
 
 $diskCleanupRegPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\"
 
@@ -442,6 +452,7 @@ Remove-Variable diskCleanupRegPath
 ###############################################################################
 ### PowerShell Console                                                        #
 ###############################################################################
+Write-Host "Configuring Console..." -ForegroundColor "Yellow"
 
 # Make 'Source Code Pro' an available Console font
 Set-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont' 000 'Source Code Pro'
