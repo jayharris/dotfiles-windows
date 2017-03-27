@@ -56,6 +56,7 @@ Refresh-Environment
 nvm on
 $nodeLtsVersion = scoop search nodejs-lts | Out-String -Stream | Select-String "nodejs-lts" | Select-Object -First 1 | ConvertFrom-String -TemplateContent "nodejs-lts ({version:1.1.1})" | Select -ExpandProperty "Version"
 nvm install $nodeLtsVersion
+nvm use $nodeLtsVersion
 Remove-Variable nodeLtsVersion
 
 
