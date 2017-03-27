@@ -31,6 +31,7 @@ function System-Update() {
 # Reload the Shell
 function Reload-Powershell {
     $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
+    $newProcess.Arguments = "-nologo";
     [System.Diagnostics.Process]::Start($newProcess);
     exit
 }
