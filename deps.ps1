@@ -3,6 +3,7 @@ Update-Help -Force
 
 ### Install PowerShell Modules
 Install-Module Posh-Git -Scope CurrentUser -Force
+Install-Module PSWindowsUpdate -Scope CurrentUser -Force
 
 ### Scoop, for Command Line utilities
 if ((which scoop) -eq $null) {
