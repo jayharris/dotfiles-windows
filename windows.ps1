@@ -27,7 +27,8 @@ Write-Host "Configuring System..." -ForegroundColor "Yellow"
 # Enable Developer Mode
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" "AllowDevelopmentWithoutDevLicense" 1
 # Bash on Windows
-Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -LogLevel 1 | Out-Null
+Write-Host "Installing Windows Subsystem for Linux (this may take a few minutes)..." -ForegroundColor "Yellow"
+Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
 
 ###############################################################################
 ### Privacy                                                                   #
@@ -317,7 +318,7 @@ Get-AppxPackage "Microsoft.ZuneVideo" -AllUsers | Remove-AppxPackage
 Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.ZuneVideo" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Windows Media Player
-Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -LogLevel 1 | Out-Null
+Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
 
 # Prevent "Suggested Applications" from returning
 if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\CloudContent")) {New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" -Type Folder | Out-Null}
