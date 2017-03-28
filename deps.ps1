@@ -64,6 +64,7 @@ nvm install $nodeLtsVersion
 nvm use $nodeLtsVersion
 Remove-Variable nodeLtsVersion
 
+gem pristine --all --env-shebang
 
 ### Windows Features
 Write-Host "Installing Windows Features..." -ForegroundColor "Yellow"
