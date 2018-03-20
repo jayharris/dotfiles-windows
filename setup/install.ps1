@@ -14,8 +14,9 @@ function Download-File {
     [string]$file
   )
   Write-Host "Downloading $url to $file"
-  $downloader = new-object System.Net.WebClient
-  $downloader.DownloadFile($url, $file)
+  [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+  Invoke-WebRequest -Uri $url -OutFile $file
+
 }
 
 function Unzip-File {
