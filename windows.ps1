@@ -217,6 +217,10 @@ Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.3DBuilder
 Get-AppxPackage "Microsoft.WindowsAlarms" -AllUsers | Remove-AppxPackage
 Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.WindowsAlarms" | Remove-AppxProvisionedPackage -Online
 
+# Uninstall Autodesk Sketchbook
+Get-AppxPackage "*.AutodeskSketchBook" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "*.AutodeskSketchBook" | Remove-AppxProvisionedPackage -Online
+
 # Uninstall Bing Finance
 Get-AppxPackage "Microsoft.BingFinance" -AllUsers | Remove-AppxPackage
 Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.BingFinance" | Remove-AppxProvisionedPackage -Online
@@ -233,6 +237,10 @@ Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.BingSport
 Get-AppxPackage "Microsoft.BingWeather" -AllUsers | Remove-AppxPackage
 Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.BingWeather" | Remove-AppxProvisionedPackage -Online
 
+# Uninstall Bubble Witch 3 Saga
+Get-AppxPackage "king.com.BubbleWitch3Saga" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "king.com.BubbleWitch3Saga" | Remove-AppxProvisionedPackage -Online
+
 # Uninstall Calendar and Mail
 Get-AppxPackage "Microsoft.WindowsCommunicationsApps" -AllUsers | Remove-AppxPackage
 Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.WindowsCommunicationsApps" | Remove-AppxProvisionedPackage -Online
@@ -240,6 +248,14 @@ Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.WindowsCo
 # Uninstall Candy Crush Soda Saga
 Get-AppxPackage "king.com.CandyCrushSodaSaga" -AllUsers | Remove-AppxPackage
 Get-AppXProvisionedPackage -Online | Where DisplayNam -like "king.com.CandyCrushSodaSaga" | Remove-AppxProvisionedPackage -Online
+
+# Uninstall Disney Magic Kingdoms
+Get-AppxPackage "*.DisneyMagicKingdoms" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "*.DisneyMagicKingdoms" | Remove-AppxProvisionedPackage -Online
+
+# Uninstall Dolby
+Get-AppxPackage "DolbyLaboratories.DolbyAccess" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "DolbyLaboratories.DolbyAccess" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Facebook
 Get-AppxPackage "*.Facebook" -AllUsers | Remove-AppxPackage
@@ -257,13 +273,25 @@ Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.GetStarte
 Get-AppxPackage "Microsoft.WindowsMaps" -AllUsers | Remove-AppxPackage
 Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.WindowsMaps" | Remove-AppxProvisionedPackage -Online
 
+# Uninstall March of Empires
+Get-AppxPackage "*.MarchofEmpires" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "*.MarchofEmpires" | Remove-AppxProvisionedPackage -Online
+
 # Uninstall Messaging
 Get-AppxPackage "Microsoft.Messaging" -AllUsers | Remove-AppxPackage
 Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.Messaging" | Remove-AppxProvisionedPackage -Online
 
+# Uninstall Mobile Plans
+Get-AppxPackage "Microsoft.OneConnect" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.OneConnect" | Remove-AppxProvisionedPackage -Online
+
 # Uninstall OneNote
 Get-AppxPackage "Microsoft.Office.OneNote" -AllUsers | Remove-AppxPackage
 Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.Office.OneNote" | Remove-AppxProvisionedPackage -Online
+
+# Uninstall Paint
+Get-AppxPackage "Microsoft.MSPaint" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.MSPaint" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall People
 Get-AppxPackage "Microsoft.People" -AllUsers | Remove-AppxPackage
@@ -272,6 +300,10 @@ Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.People" |
 # Uninstall Photos
 Get-AppxPackage "Microsoft.Windows.Photos" -AllUsers | Remove-AppxPackage
 Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.Windows.Photos" | Remove-AppxProvisionedPackage -Online
+
+# Uninstall Print3D
+Get-AppxPackage "Microsoft.Print3D" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.Print3D" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall Skype
 Get-AppxPackage "Microsoft.SkypeApp" -AllUsers | Remove-AppxPackage
@@ -284,6 +316,10 @@ Get-AppXProvisionedPackage -Online | Where DisplayNam -like "*.SlingTV" | Remove
 # Uninstall Solitaire
 Get-AppxPackage "Microsoft.MicrosoftSolitaireCollection" -AllUsers | Remove-AppxPackage
 Get-AppXProvisionedPackage -Online | Where DisplayNam -like "Microsoft.MicrosoftSolitaireCollection" | Remove-AppxProvisionedPackage -Online
+
+# Uninstall Spotify
+Get-AppxPackage "SpotifyAB.SpotifyMusic" -AllUsers | Remove-AppxPackage
+Get-AppXProvisionedPackage -Online | Where DisplayNam -like "SpotifyAB.SpotifyMusic" | Remove-AppxProvisionedPackage -Online
 
 # Uninstall StickyNotes
 Get-AppxPackage "Microsoft.MicrosoftStickyNotes" -AllUsers | Remove-AppxPackage
