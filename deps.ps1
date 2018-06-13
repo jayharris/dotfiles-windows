@@ -45,13 +45,13 @@ choco install nvm.portable        --limit-output
 choco install ruby                --limit-output
 
 # browsers
-choco install GoogleChrome        --limit-output
-choco install GoogleChrome.Canary --limit-output
-choco install Firefox             --limit-output
-choco install Opera               --limit-output
+choco install GoogleChrome        --limit-output; <# pin; evergreen #> choco pin add --name GoogleChrome        --limit-output
+choco install GoogleChrome.Canary --limit-output; <# pin; evergreen #> choco pin add --name GoogleChrome.Canary --limit-output
+choco install Firefox             --limit-output; <# pin; evergreen #> choco pin add --name Firefox             --limit-output
+choco install Opera               --limit-output; <# pin; evergreen #> choco pin add --name Opera               --limit-output
 
 # dev tools and frameworks
-choco install atom                --limit-output
+choco install atom                --limit-output; <# pin; evergreen #> choco pin add --name Atom                --limit-output
 choco install Fiddler4            --limit-output
 choco install vim                 --limit-output
 choco install winmerge            --limit-output
