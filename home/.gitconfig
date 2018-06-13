@@ -53,9 +53,6 @@
     # [default] space-before-tab: looks for spaces before tabs at the beginning of
     # a line
     whitespace = space-before-tab,tab-in-indent,trailing-space,tabwidth=4
-    # Make `git rebase` safer on OS X
-    # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
-    trustctime = false
 
 [color]
     # Use colors in Git commands that are capable of colored output when
