@@ -54,7 +54,7 @@ function Empty-RecycleBin {
 }
 
 # Sound Volume
-function Get-SoundVolume { [Audio]::Volume }
+function Get-SoundVolume { [math]::Round([Audio]::Volume * 100) }
 function Set-SoundVolume([Int32] $volume) { [Audio]::Volume = ($volume / 100)}
 function Set-SoundMute { [Audio]::Mute = $true }
 function Set-SoundUnmute { [Audio]::Mute = $false }
