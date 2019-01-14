@@ -17,7 +17,7 @@ ${function:dl} = { Set-Location ~\Downloads }
 Set-Alias time Measure-Command
 
 # Correct PowerShell Aliases if tools are available (aliases win if set)
-# WGet: Use `ls.exe` if available
+# WGet: Use `wget.exe` if available
 if (Get-Command wget.exe -ErrorAction SilentlyContinue | Test-Path) {
   rm alias:wget -ErrorAction SilentlyContinue
 }
