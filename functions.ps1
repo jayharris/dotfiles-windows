@@ -54,10 +54,105 @@ function Empty-RecycleBin {
 }
 
 # Sound Volume
-function Get-SoundVolume { [math]::Round([Audio]::Volume * 100) }
-function Set-SoundVolume([Parameter(mandatory=$true)][Int32] $Volume) { [Audio]::Volume = ($Volume / 100) }
-function Set-SoundMute { [Audio]::Mute = $true }
-function Set-SoundUnmute { [Audio]::Mute = $false }
+function Get-SoundVolume {
+  <#
+  .SYNOPSIS
+  Get audio output volume.
+
+  .DESCRIPTION
+  The Get-SoundVolume cmdlet gets the current master volume of the default audio output device. The returned value is an integer between 0 and 100.
+
+  .LINK
+  Set-SoundVolume
+
+  .LINK
+  Set-SoundMute
+
+  .LINK
+  Set-SoundUnmute
+
+  .LINK
+  https://github.com/jayharris/dotfiles-windows/
+  #>
+  [math]::Round([Audio]::Volume * 100)
+}
+function Set-SoundVolume([Parameter(mandatory=$true)][Int32] $Volume) {
+  <#
+  .SYNOPSIS
+  Set audio output volume.
+
+  .DESCRIPTION
+  The Set-SoundVolume cmdlet sets the current master volume of the default audio output device to a value between 0 and 100.
+
+  .PARAMETER Volume
+  An integer between 0 and 100.
+
+  .EXAMPLE
+  Set-SoundVolume 65
+  Sets the master volume to 65%.
+
+  .EXAMPLE
+  Set-SoundVolume -Volume 100
+  Sets the master volume to a maximum 100%.
+
+  .LINK
+  Get-SoundVolume
+
+  .LINK
+  Set-SoundMute
+
+  .LINK
+  Set-SoundUnmute
+
+  .LINK
+  https://github.com/jayharris/dotfiles-windows/
+  #>
+  [Audio]::Volume = ($Volume / 100)
+}
+function Set-SoundMute {
+  <#
+  .SYNOPSIS
+  Mote audio output.
+
+  .DESCRIPTION
+  The Set-SoundMute cmdlet mutes the default audio output device.
+
+  .LINK
+  Get-SoundVolume
+
+  .LINK
+  Set-SoundVolume
+
+  .LINK
+  Set-SoundUnmute
+
+  .LINK
+  https://github.com/jayharris/dotfiles-windows/
+  #>
+   [Audio]::Mute = $true
+}
+function Set-SoundUnmute {
+  <#
+  .SYNOPSIS
+  Unmote audio output.
+
+  .DESCRIPTION
+  The Set-SoundUnmute cmdlet unmutes the default audio output device.
+
+  .LINK
+  Get-SoundVolume
+
+  .LINK
+  Set-SoundVolume
+
+  .LINK
+  Set-SoundMute
+
+  .LINK
+  https://github.com/jayharris/dotfiles-windows/
+  #>
+   [Audio]::Mute = $false
+}
 
 
 ### File System functions
