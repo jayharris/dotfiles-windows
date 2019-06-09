@@ -494,48 +494,6 @@ Write-Host "Configuring Console..." -ForegroundColor "Yellow"
 # Make 'Source Code Pro' an available Console font
 Set-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\TrueTypeFont' 000 'Source Code Pro'
 
-# Create custom path for PSReadLine Settings
-if (!(Test-Path "HKCU:\Console\PSReadLine")) {New-Item -Path "HKCU:\Console\PSReadLine" -Type Folder | Out-Null}
-
-# PSReadLine: Normal syntax color. vim Normal group. (Default: Foreground)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "NormalForeground" 0xF
-
-# PSReadLine: Comment Token syntax color. vim Comment group. (Default: 0x2)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "CommentForeground" 0x7
-
-# PSReadLine: Keyword Token syntax color. vim Statement group. (Default: 0xA)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "KeywordForeground" 0x1
-
-# PSReadLine: String Token syntax color. vim String [or Constant] group. (Default: 0x3)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "StringForeground"  0xA
-
-# PSReadLine: Operator Token syntax color. vim Operator [or Statement] group. (Default: 0x8)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "OperatorForeground" 0xB
-
-# PSReadLine: Variable Token syntax color. vim Identifier group. (Default: 0xA)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "VariableForeground" 0xB
-
-# PSReadLine: Command Token syntax color. vim Function [or Identifier] group. (Default: 0xE)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "CommandForeground" 0x1
-
-# PSReadLine: Parameter Token syntax color. vim Normal group. (Default: 0x8)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "ParameterForeground" 0xF
-
-# PSReadLine: Type Token syntax color. vim Type group. (Default: 0x7)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "TypeForeground" 0xE
-
-# PSReadLine: Number Token syntax color. vim Number [or Constant] group. (Default: 0xF)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "NumberForeground" 0xC
-
-# PSReadLine: Member Token syntax color. vim Function [or Identifier] group. (Default: 0x7)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "MemberForeground" 0xE
-
-# PSReadLine: Emphasis syntax color. vim Search group. (Default: 0xB)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "EmphasisForeground" 0xD
-
-# PSReadLine: Error syntax color. vim Error group. (Default: 0xC)
-Set-ItemProperty "HKCU:\Console\PSReadLine" "ErrorForeground" 0x4
-
 @(`
 "HKCU:\Console\%SystemRoot%_System32_bash.exe",`
 "HKCU:\Console\%SystemRoot%_System32_WindowsPowerShell_v1.0_powershell.exe",`
@@ -595,6 +553,24 @@ Set-ItemProperty $_ "ColorTable12"         $(Convert-ConsoleColor "#cf6a4c") # R
 Set-ItemProperty $_ "ColorTable13"         $(Convert-ConsoleColor "#f0a0c0") # Magenta (D)
 Set-ItemProperty $_ "ColorTable14"         $(Convert-ConsoleColor "#fad07a") # Yellow (E)
 Set-ItemProperty $_ "ColorTable15"         $(Convert-ConsoleColor "#e8e8d3") # White (F)
+}
+
+# Customizing PoSh syntax
+# Theme: Jellybeans
+Set-PSReadlineOption -Colors @{
+    "Default"   = "#e8e8d3"
+    "Comment"   = "#888888"
+    "Keyword"   = "#8197bf"
+    "String"    = "#99ad6a"
+    "Operator"  = "#c6b6ee"
+    "Variable"  = "#c6b6ee"
+    "Command"   = "#8197bf"
+    "Parameter" = "#e8e8d3"
+    "Type"      = "#fad07a"
+    "Number"    = "#cf6a4c"
+    "Member"    = "#fad07a"
+    "Emphasis"  = "#f0a0c0"
+    "Error"     = "#902020"
 }
 
 # Remove property overrides from PowerShell and Bash shortcuts
