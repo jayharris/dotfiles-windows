@@ -45,6 +45,9 @@ choco install nvm.portable        --limit-output
 choco install python              --limit-output
 choco install ruby                --limit-output
 
+#fonts
+choco install sourcecodepro       --limit-output
+
 # browsers
 choco install GoogleChrome        --limit-output; <# pin; evergreen #> choco pin add --name GoogleChrome        --limit-output
 choco install GoogleChrome.Canary --limit-output; <# pin; evergreen #> choco pin add --name GoogleChrome.Canary --limit-output
