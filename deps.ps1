@@ -42,6 +42,7 @@ choco install nuget.commandline   --limit-output
 choco install webpi               --limit-output
 choco install git.install         --limit-output -params '"/GitAndUnixToolsOnPath /NoShellIntegration"'
 choco install nvm.portable        --limit-output
+choco install python              --limit-output
 choco install ruby                --limit-output
 
 # browsers
@@ -99,8 +100,6 @@ Enable-WindowsOptionalFeature -Online -All -FeatureName `
 
 # Web Platform Installer for remaining Windows features
 webpicmd /Install /AcceptEula /Products:"UrlRewrite2"
-#webpicmd /Install /AcceptEula /Products:"NETFramework452"
-webpicmd /Install /AcceptEula /Products:"Python279"
 
 ### Node Packages
 Write-Host "Installing Node Packages..." -ForegroundColor "Yellow"
