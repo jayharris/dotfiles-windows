@@ -17,9 +17,6 @@ Update-Help -Force
 ### Package Providers
 Write-Host "Installing Package Providers..." -ForegroundColor "Yellow"
 Get-PackageProvider NuGet -Force | Out-Null
-# Chocolatey Provider is not ready yet. Use normal Chocolatey
-#Get-PackageProvider Chocolatey -Force
-#Set-PackageSource -Name chocolatey -Trusted
 
 
 ### Install PowerShell Modules
@@ -28,89 +25,40 @@ Install-Module Posh-Git -Scope CurrentUser -Force
 Install-Module PSWindowsUpdate -Scope CurrentUser -Force
 
 
-### Chocolatey
-Write-Host "Installing Desktop Utilities..." -ForegroundColor "Yellow"
-if ((which cinst) -eq $null) {
-    iex (new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1')
-    Refresh-Environment
-    choco feature enable -n=allowGlobalConfirmation
-}
-
 # system and cli
-choco install curl                --limit-output
-choco install nuget.commandline   --limit-output
-choco install webpi               --limit-output
-choco install git.install         --limit-output -params '"/GitAndUnixToolsOnPath /NoShellIntegration"'
-choco install nvm.portable        --limit-output
-choco install python              --limit-output
-choco install ruby                --limit-output
-
-#fonts
-choco install sourcecodepro       --limit-output
+winget install Microsoft.WebPICmd                        --silent --accept-package-agreements
+winget install Git.Git                                   --silent --accept-package-agreements --override "/VerySilent /NoRestart /o:PathOption=CmdTools /Components=""icons,assoc,assoc_sh,gitlfs"""
+winget install OpenJS.NodeJS                             --silent --accept-package-agreements
+winget install Python.Python.3                           --silent --accept-package-agreements
+winget install RubyInstallerTeam.Ruby                    --silent --accept-package-agreements
 
 # browsers
-choco install GoogleChrome        --limit-output; <# pin; evergreen #> choco pin add --name GoogleChrome        --limit-output
-choco install GoogleChrome.Canary --limit-output; <# pin; evergreen #> choco pin add --name GoogleChrome.Canary --limit-output
-choco install Firefox             --limit-output; <# pin; evergreen #> choco pin add --name Firefox             --limit-output
-choco install Opera               --limit-output; <# pin; evergreen #> choco pin add --name Opera               --limit-output
+winget install Google.Chrome                             --silent --accept-package-agreements
+winget install Mozilla.Firefox                           --silent --accept-package-agreements
+winget install Opera.Opera                               --silent --accept-package-agreements
 
 # dev tools and frameworks
-choco install atom                --limit-output; <# pin; evergreen #> choco pin add --name Atom                --limit-output
-choco install Fiddler             --limit-output
-choco install vim                 --limit-output
-choco install winmerge            --limit-output
+winget install Microsoft.PowerShell                      --silent --accept-package-agreements
+winget install Microsoft.SQLServer.2019.Developer        --silent --accept-package-agreements
+winget install Microsoft.SQLServerManagementStudio       --silent --accept-package-agreements
+winget install Microsoft.VisualStudio.2022.Professional  --silent --accept-package-agreements --override "--wait --quiet --norestart --nocache --addProductLang En-us --add Microsoft.VisualStudio.Workload.Azure --add Microsoft.VisualStudio.Workload.NetWeb"
+winget install JetBrains.dotUltimate                     --silent --accept-package-agreements --override "/SpecificProductNames=ReSharper;dotTrace;dotCover /Silent=True /VsVersion=17.0"
+winget install Vim.Vim                                   --silent --accept-package-agreements
+winget install WinMerge.WinMerge                         --silent --accept-package-agreements
+winget install Microsoft.AzureCLI                        --silent --accept-package-agreements
+winget install Microsoft.AzureStorageExplorer            --silent --accept-package-agreements
+winget install Microsoft.AzureStorageEmulator            --silent --accept-package-agreements
+#winget install Microsoft.ServiceFabricRuntime            --silent --accept-package-agreements
+#winget install Microsoft.ServiceFabricExplorer           --silent --accept-package-agreements
 
 Refresh-Environment
 
-nvm on
-$nodeLtsVersion = choco search nodejs-lts --limit-output | ConvertFrom-String -TemplateContent "{Name:package-name}\|{Version:1.11.1}" | Select -ExpandProperty "Version"
-nvm install $nodeLtsVersion
-nvm use $nodeLtsVersion
-Remove-Variable nodeLtsVersion
-
 gem pristine --all --env-shebang
-
-### Windows Features
-Write-Host "Installing Windows Features..." -ForegroundColor "Yellow"
-# IIS Base Configuration
-Enable-WindowsOptionalFeature -Online -All -FeatureName `
-    "IIS-BasicAuthentication", `
-    "IIS-DefaultDocument", `
-    "IIS-DirectoryBrowsing", `
-    "IIS-HttpCompressionDynamic", `
-    "IIS-HttpCompressionStatic", `
-    "IIS-HttpErrors", `
-    "IIS-HttpLogging", `
-    "IIS-ISAPIExtensions", `
-    "IIS-ISAPIFilter", `
-    "IIS-ManagementConsole", `
-    "IIS-RequestFiltering", `
-    "IIS-StaticContent", `
-    "IIS-WebSockets", `
-    "IIS-WindowsAuthentication" `
-    -NoRestart | Out-Null
-
-# ASP.NET Base Configuration
-Enable-WindowsOptionalFeature -Online -All -FeatureName `
-    "NetFx3", `
-    "NetFx4-AdvSrvs", `
-    "NetFx4Extended-ASPNET45", `
-    "IIS-NetFxExtensibility", `
-    "IIS-NetFxExtensibility45", `
-    "IIS-ASPNET", `
-    "IIS-ASPNET45" `
-    -NoRestart | Out-Null
-
-# Web Platform Installer for remaining Windows features
-webpicmd /Install /AcceptEula /Products:"UrlRewrite2"
 
 ### Node Packages
 Write-Host "Installing Node Packages..." -ForegroundColor "Yellow"
 if (which npm) {
     npm update npm
-    npm install -g gulp
-    npm install -g mocha
-    npm install -g node-inspector
     npm install -g yo
 }
 
@@ -118,5 +66,8 @@ if (which npm) {
 Write-Host "Installing Janus..." -ForegroundColor "Yellow"
 if ((which curl) -and (which vim) -and (which rake) -and (which bash)) {
     curl.exe -L https://bit.ly/janus-bootstrap | bash
+
+    cd ~/.vim/
+    git submodule update --remote
 }
 
