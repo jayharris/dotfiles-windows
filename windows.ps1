@@ -27,7 +27,7 @@ Write-Host "Configuring System..." -ForegroundColor "Yellow"
 # Enable Developer Mode
 #Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" "AllowDevelopmentWithoutDevLicense" 1
 # Bash on Windows
-#Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
+Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
 
 ###############################################################################
 ### Privacy                                                                   #
@@ -437,7 +437,6 @@ Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRest
 #Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableCloudOptimizedContent" 1 -Force
 #Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableConsumerAccountStateContent" 1 -Force
 
-Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" -All -NoRestart -WarningAction SilentlyContinue | Out-Null
 
 ###############################################################################
 ### Lock Screen                                                               #
