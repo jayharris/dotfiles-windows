@@ -24,7 +24,7 @@ Write-Host "Configuring System..." -ForegroundColor "Yellow"
 #Remove-Variable user
 #Remove-Variable myIdentity
 
-# Enable Developer Mode
+# Enable Developer Mode: Enable: 1, Disable: 0
 #Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" "AllowDevelopmentWithoutDevLicense" 1
 # Bash on Windows
 Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
@@ -65,16 +65,16 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliver
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" "SubscribedContent-338394Enabled" 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" "SubscribedContent-338396Enabled" 0
 
-# General: Disable tips and suggestions for welcome and what's new
+# General: Disable tips and suggestions for welcome and what's new: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" "SubscribedContent-310093Enabled" 0
 
-# General: Disable tips and suggestions when I use windows
+# General: Disable tips and suggestions when I use windows: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" "SubscribedContent-338389Enabled" 0
 
 # Start Menu: Disable suggested content: Enable: 1, Disable: 0
 #Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" "SubscribedContent-338388Enabled" 0
 
-# Start Menu: Disable search entries
+# Start Menu: Disable search entries: Enable: 0, Disable: 1
 if (!(Test-Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer")) {New-Item -Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer" -Type Folder | Out-Null}
 Set-ItemProperty "HKCU:\Software\Policies\Microsoft\Windows\Explorer" "DisableSearchBoxSuggestions" 1
 
@@ -196,7 +196,7 @@ Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataC
 ###############################################################################
 Write-Host "Configuring Devices, Power, and Startup..." -ForegroundColor "Yellow"
 
-# Sound: Disable Startup Sound
+# Sound: Disable Startup Sound: Enable: 0, Disable: 1
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" "DisableStartupSound" 1
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" "DisableStartupSound" 1
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\EditionOverrides" "UserSetting_DisableStartupSound" 1
@@ -207,10 +207,10 @@ powercfg /hibernate off
 # Power: Set standby delay to 24 hours
 powercfg /change /standby-timeout-ac 1440
 
-# SSD: Disable SuperFetch
+# SSD: Disable SuperFetch: Enable: 1, Disable: 0
 Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "EnableSuperfetch" 0
 
-# Network: Disable WiFi Sense
+# Network: Disable WiFi Sense: Enable: 1, Disable: 0
 #Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config" "AutoConnectAllowedOEM" 0
 
 ###############################################################################
@@ -218,7 +218,7 @@ Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory 
 ###############################################################################
 Write-Host "Configuring Explorer, Taskbar, and System Tray..." -ForegroundColor "Yellow"
 
-# Ensure necessary registry paths
+# Prerequisite: Ensure necessary registry paths
 if (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Type Folder | Out-Null}
 if (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState")) {New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" -Type Folder | Out-Null}
 if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\Windows Search")) {New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\Windows Search" -Type Folder | Out-Null}
@@ -226,16 +226,16 @@ if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\Windows Search")) {Ne
 # Explorer: Show hidden files by default: Show Files: 1, Hide Files: 2
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Hidden" 1
 
-# Explorer: Show file extensions by default
+# Explorer: Show file extensions by default: Hide: 1, Show: 0
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "HideFileExt" 0
 
-# Explorer: Show path in title bar
+# Explorer: Show path in title bar: Hide: 0, Show: 1
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" "FullPath" 1
 
-# Explorer: Avoid creating Thumbs.db files on network volumes
+# Explorer: Disable creating Thumbs.db files on network volumes: Enable: 0, Disable: 1
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "DisableThumbnailsOnNetworkFolders" 1
 
-# Taskbar: Hide the Search, Task, Widget, and Chat buttons
+# Taskbar: Hide the Search, Task, Widget, and Chat buttons: Show: 1, Hide: 0
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" "SearchboxTaskbarMode" 0  # Search
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "ShowTaskViewButton" 0 # Task
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "TaskbarDa" 0 # Widgets
@@ -244,10 +244,10 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advan
 # Taskbar: Show colors on Taskbar, Start, and SysTray: Disabled: 0, Taskbar, Start, & SysTray: 1, Taskbar Only: 2
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" "ColorPrevalence" 1
 
-# Titlebar: Disable theme colors on titlebar
+# Titlebar: Disable theme colors on titlebar: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\DWM" "ColorPrevalence" 0
 
-# Recycle Bin: Disable Delete Confirmation Dialog
+# Recycle Bin: Disable Delete Confirmation Dialog: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "ConfirmFileDelete" 0
 
 ###############################################################################
@@ -452,22 +452,22 @@ Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRest
 ###############################################################################
 Write-Host "Configuring Accessibility..." -ForegroundColor "Yellow"
 
-# Turn Off Windows Narrator Hotkey
+# Turn Off Windows Narrator Hotkey: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Narrator\NoRoam" "WinEnterLaunchEnabled" 0
 
-# Disable "Window Snap" Automatic Window Arrangement
+# Disable "Window Snap" Automatic Window Arrangement: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\Control Panel\Desktop" "WindowArrangementActive" 0
 
-# Disable automatic fill to space on Window Snap
+# Disable automatic fill to space on Window Snap: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "SnapFill" 0
 
-# Disable showing what can be snapped next to a window
+# Disable showing what can be snapped next to a window: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "SnapAssist" 0
 
-# Disable automatic resize of adjacent windows on snap
+# Disable automatic resize of adjacent windows on snap: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "JointResize" 0
 
-# Disable auto-correct
+# Disable auto-correct: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\TabletTip\1.7" "EnableAutocorrection" 0
 
 ###############################################################################
@@ -475,13 +475,13 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\TabletTip\1.7" "EnableAutocorrection"
 ###############################################################################
 Write-Host "Configuring Windows Update..." -ForegroundColor "Yellow"
 
-# Disable automatic reboot after install
+# Disable automatic reboot after install: Enable: 1, Disable: 0
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" "IsExpedited" 0
 
-# Disable restart required notifications
+# Disable restart required notifications: Enable: 1, Disable: 0
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" "RestartNotificationsAllowed2" 0
 
-# Disable updates over metered connections
+# Disable updates over metered connections: Enable: 1, Disable: 0
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" "AllowAutoWindowsUpdateDownloadOverMeteredNetwork" 0
 
 # Opt-In to Microsoft Update
