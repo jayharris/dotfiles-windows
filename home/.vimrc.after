@@ -2,3 +2,4 @@ colorscheme jellybeans
 
 let NERDTreeShowHidden=1
 
+let g:snipMate = { 'snippet_version' : 1 }
