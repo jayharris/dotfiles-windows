@@ -1,6 +1,6 @@
 ﻿# Jay Harris's dotfiles for Windows
 
-A collection of PowerShell files for Windows, including common application installation through `Chocolatey` and `npm`, and developer-minded Windows configuration defaults. 
+A collection of PowerShell files for Windows, including common application installation through `Win-Get` and `npm`, and developer-minded Windows configuration defaults.
 
 Are you a Mac user? Check out my [dotfiles](https://github.com/jayharris/dotfiles) repository.
 
@@ -35,9 +35,26 @@ iex ((new-object net.webclient).DownloadString('https://raw.github.com/jayharris
 
 To update later on, just run that command again.
 
-### Add custom commands without creating a new fork
+## Use & Configuration
 
-If `.\extra.ps1` exists, it will be sourced along with the other files. You can use this to add a few custom commands without the need to fork this entire repository, or to add commands you don't want to commit to a public repository.
+### PowerShell Profile
+
+The following commands are executed every time you launch a new
+PowerShell window.
+
+ - `.\components.ps1` : Load various PowerShell components and modules.
+ - `.\functions.ps1` : Configure custom PowerShell functions.
+ - `.\aliases.ps1` : Configure alias-based commands.
+ - `.\exports.ps1` : Configure environment variables.
+ - `.\extra.ps1` : Secrets and secret commands that are not tracked by the Git repository.
+
+Also included are default configurations for Git, Mercurial, Ruby, NPM, and vim.
+
+### Secrets
+
+You may have scripts or commands that you want to execute when loading PowerShell that you do not want committed into your own `dotfiles` repository, such as a place to put tokens or credentials or even your Git commit email address. For such secret commands, use `.\extra.ps1`.
+
+If `.\extra.ps1` exists, it will be sourced along with the other files.
 
 My `.\extra.ps1` looks something like this:
 
@@ -60,30 +77,32 @@ Extras is designed to augment the existing settings and configuration. You could
 
 ### Sensible Windows defaults
 
-When setting up a new Windows PC, you may want to set some Windows defaults and features, such as showing hidden files in Windows Explorer and installing IIS. This will also set your machine name and full user name, so you may want to modify this file before executing.
+When setting up a new Windows PC, you may want to set some Windows defaults and features, such as showing hidden files in Windows Explorer, configuring privacy settings, installing IIS, and uninstalling Candy Crush. You are encouraged to browse through the file to understand all of the modifications and to modify these settings based on your own preferences.
 
-```post
+```posh
 .\windows.ps1
 ```
 
-### Install dependencies and packages
+This script will also set your machine name, so you may want to modify this file before executing.
+```posh
+(Get-WmiObject Win32_ComputerSystem).Rename("MyMachineName") | Out-Null
+```
 
-When setting up a new Windows box, you may want to install some common packages, utilities, and dependencies. These could include node.js packages via [NPM](https://www.npmjs.org), [Chocolatey](http://chocolatey.org/) packages, Windows Features and Tools via [Web Platform Installer](https://www.microsoft.com/web/downloads/platform.aspx), and Visual Studio Extensions from the [Visual Studio Gallery](http://visualstudiogallery.msdn.microsoft.com/).
+### Dependencies: Tools, Utilities, and Packages
+
+Setting up a new Windows machine often requires installation of common packages, utilities, and dependencies. These could include node.js packages via [NPM](https://www.npmjs.org), Win-Get packages, Windows Features and Tools, and Visual Studio Extensions.
 
 ```posh
 .\deps.ps1
 ```
 
-> The scripts will install Chocolatey, node.js, and WebPI if necessary.
-
-> **Visual Studio Extensions**  
-> Extensions will be installed into your most current version of Visual Studio. You can also install additional plugins at any time via `Install-VSExtension $url`. The Url can be found on the gallery; it's the extension's `Download` link url.
-
-
+## Customization
 
 ## Forking your own version
 
-This repository is built around how I use Windows, which is predominantly in a VM hosted on OS X. As such, things like VNC, FileZilla, or Skype are not installed, as they are available to me on the OS X side, installed by my [OS X dotfiles](https://github.com/jayharris/dotfiles). If you are using Windows as your primary OS, you may want a different configuration that reflects that, and I recommend you [fork this repository](https://github.com/jayharris/dotfiles-windows/fork).
+These scripts are for my preferences; your preferences may be different.
+
+This repository is built around how I use Windows, which is predominantly in a VM hosted on macOS. As such, things like VNC, FileZilla, or Skype are not installed, as they are available to me on the macOS side, installed by my [OS X dotfiles](https://github.com/jayharris/dotfiles). If you are using Windows as your primary OS, you may want a different configuration that reflects that, and I recommend you [fork this repository](https://github.com/jayharris/dotfiles-windows/fork).
 
 If you do fork for your own custom configuration, you will need to touch a few files to reference your own repository, instead of mine.
 
@@ -92,12 +111,6 @@ Within `/setup/install.ps1`, modify the Repository variables.
 $account = "jayharris"
 $repo    = "dotfiles-windows"
 $branch  = "master"
-```
-
-Within the Windows Defaults file, `/windows.ps1`, modify the Machine
-name on the first line.
-```posh
-(Get-WmiObject Win32_ComputerSystem).Rename("MyMachineName") | Out-Null
 ```
 
 Finally, be sure to reference your own repository in the git-free installation command.
