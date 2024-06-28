@@ -16,9 +16,16 @@ function sudo() {
     }
 }
 
+# Update Windows Store apps. This doesn't get all, but gets most.
+function Update-WindowsStore() {
+    Get-CimInstance -Namespace "Root\cimv2\mdm\dmmap" -ClassName "MDM_EnterpriseModernAppManagement_AppManagement01" | Invoke-CimMethod -MethodName UpdateScanMethod
+}
+
 # System Update - Update RubyGems, NPM, and their installed packages
 function System-Update() {
     Install-WindowsUpdate -IgnoreUserInput -IgnoreReboot -AcceptAll
+    Update-WindowsStore
+    winget upgrade --all
     Update-Module
     Update-Help -Force
     gem update --system
