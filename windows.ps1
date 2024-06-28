@@ -643,4 +643,26 @@ Set-PSReadlineOption -Colors @{
 Reset-AllPowerShellShortcuts
 Reset-AllBashShortcuts
 
+### Package Providers
+Write-Host "Installing Package Providers..." -ForegroundColor "Yellow"
+Get-PackageProvider NuGet -Force | Out-Null
+
+
+### Install PowerShell Modules
+Write-Host "Installing PowerShell Modules..." -ForegroundColor "Yellow"
+Install-Module Posh-Git -Scope CurrentUser -Force
+Install-Module PSWindowsUpdate -Scope CurrentUser -Force
+
+### Update Modules
+Write-Host "Updating Existing Powershell Modules..." -ForegroundColor "Yellow"
+Update-Module
+
+### Update Help for Modules
+Write-Host "Updating Help..." -ForegroundColor "Yellow"
+Update-Help -Force -ErrorAction SilentlyContinue
+
+### Initiating Windows Update
+Write-Host "Initiating Windows Update..." -ForegroundColor "Yellow"
+Install-WindowsUpdate -IgnoreUserInput -IgnoreReboot -AcceptAll
+
 echo "Done. Note that some of these changes require a logout/restart to take effect."
