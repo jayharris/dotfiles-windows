@@ -28,10 +28,14 @@ function System-Update() {
     winget upgrade --all
     Update-Module
     Update-Help -Force
-    gem update --system
-    gem update
-    npm install npm -g
-    npm update -g
+    if ((which gem)) {
+        gem update --system
+        gem update
+    }
+    if ((which npm)) {
+        npm install npm -g
+        npm update -g
+    }
 }
 
 # Reload the Shell
@@ -318,3 +322,4 @@ function Unzip-File {
         }
     }
 }
+
