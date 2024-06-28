@@ -8,12 +8,6 @@ if (!(Verify-Elevated)) {
    exit
 }
 
-
-### Update Help for Modules
-Write-Host "Updating Help..." -ForegroundColor "Yellow"
-Update-Help -Force
-
-
 ### Package Providers
 Write-Host "Installing Package Providers..." -ForegroundColor "Yellow"
 Get-PackageProvider NuGet -Force | Out-Null
@@ -24,12 +18,19 @@ Write-Host "Installing PowerShell Modules..." -ForegroundColor "Yellow"
 Install-Module Posh-Git -Scope CurrentUser -Force
 Install-Module PSWindowsUpdate -Scope CurrentUser -Force
 
+### Update Modules
+Write-Host "Updating Existing Powershell Modules..." -ForegroundColor "Yellow"
+Update-Module
+
+### Update Help for Modules
+Write-Host "Updating Help..." -ForegroundColor "Yellow"
+Update-Help -Force -ErrorAction SilentlyContinue
 
 # system and cli
 winget install Microsoft.WebPICmd                        --silent --accept-package-agreements
 winget install Git.Git                                   --silent --accept-package-agreements --override "/VerySilent /NoRestart /o:PathOption=CmdTools /Components=""icons,assoc,assoc_sh,gitlfs"""
 winget install OpenJS.NodeJS                             --silent --accept-package-agreements
-winget install Python.Python.3                           --silent --accept-package-agreements
+winget install Python.Python.3.12                        --silent --accept-package-agreements
 winget install RubyInstallerTeam.Ruby                    --silent --accept-package-agreements
 
 # browsers
