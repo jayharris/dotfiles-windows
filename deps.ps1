@@ -36,6 +36,7 @@ winget install Microsoft.Azure.StorageExplorer            --silent --accept-pack
 Refresh-Environment
 
 gem pristine --all --env-shebang
+Get-ChildItem 'C:\Program Files\Vim\' -Filter "vim*" -ErrorAction SilentlyContinue | Select-Object -First 1 | ForEach-Object {Append-EnvPath $_.FullName}
 
 ### Node Packages
 Write-Host "Installing Node Packages..." -ForegroundColor "Yellow"
